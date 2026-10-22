@@ -1,0 +1,22 @@
+{
+  "name": "kancler",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Сайт «Канцлер» — бухгалтерский и управленческий учёт для строительных компаний (Astro)",
+  "scripts": {
+    "dev": "astro dev --port 4340 --host 127.0.0.1",
+    "start": "astro dev --port 4340 --host 127.0.0.1",
+    "build": "astro build",
+    "preview": "astro preview --port 4340 --host 127.0.0.1",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource-variable/inter-tight": "^5.2.5",
+    "@fontsource-variable/lora": "^5.2.8",
+    "astro": "^5.6.1",
+    "typescript": "^5.9.3"
+  }
+}

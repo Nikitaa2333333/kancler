@@ -1,0 +1,63 @@
+---
+import { cost } from '../../data/home';
+import { typo } from '../../lib/typo';
+---
+
+<section class="sec" id="stoimost" aria-labelledby="cost-title">
+  <div class="wrap">
+    <h2 id="cost-title">{typo(cost.title)}</h2>
+
+    <!-- Табличный формат (решение пользователя 22.10.2026). Колонка «Управленческий
+         учёт» появится, когда клиент пришлёт текст («ДУМАЕМ»). -->
+    <table class="cost__table">
+      <caption>{typo(cost.accounting.title)}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Фактор</th>
+          <th scope="col">Почему влияет на стоимость</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cost.accounting.rows.map(([factor, why]) => (
+          <tr>
+            <th scope="row">{typo(factor)}</th>
+            <td>{typo(why)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  h2 { margin-bottom: var(--head-gap); }
+  .cost__table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  .cost__table caption {
+    text-align: left;
+    padding-bottom: 16px;
+    font-family: var(--ff-display);
+    font-size: var(--fs-h5);
+    line-height: var(--lh-h5);
+    letter-spacing: var(--tr-h5);
+  }
+  .cost__table th, .cost__table td {
+    vertical-align: top;
+    padding: clamp(14px, 1.6vw, 20px) 0;
+    border-top: 1px solid var(--c-ink);
+    font-weight: var(--w-regular);
+  }
+  .cost__table thead th { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 12px; padding-bottom: 12px; }
+  .cost__table tbody th { width: 38%; padding-right: 24px; font-family: var(--ff-display); font-size: var(--fs-h6); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
+  .cost__table td { max-width: var(--measure-text); }
+  .cost__table tbody tr:last-child th, .cost__table tbody tr:last-child td { border-bottom: 1px solid var(--c-ink); }
+  @media (max-width: 640px) {
+    .cost__table thead { display: none; }
+    .cost__table tr { display: grid; }
+    .cost__table tbody th { width: auto; padding-bottom: 4px; }
+    .cost__table td { border-top: 0; padding-top: 0; }
+  }
+</style>

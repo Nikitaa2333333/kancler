@@ -1,0 +1,51 @@
+---
+import { advantages } from '../../data/home';
+import { typo } from '../../lib/typo';
+---
+
+<section class="sec" id="preimushchestva" aria-labelledby="adv-title">
+  <div class="wrap">
+    <div class="adv__head">
+      <h2 id="adv-title">{typo(advantages.title)}</h2>
+      <p class="adv__lead">{typo(advantages.lead)}</p>
+    </div>
+
+    <!-- Швейцарская сетка: номер + заголовок, линия сверху у каждой ячейки -->
+    <ol class="adv__grid">
+      {advantages.items.map((t, i) => (
+        <li>
+          <span class="adv__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{typo(t)}</h3>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .adv__head {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: var(--head-gap);
+    align-items: end;
+    margin-bottom: var(--head-gap);
+  }
+  .adv__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: var(--lh-lead); }
+  .adv__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 var(--head-gap);
+  }
+  .adv__grid li {
+    display: grid;
+    gap: clamp(28px, 3.4vw, 48px);
+    align-content: start;
+    padding: 20px 0 clamp(28px, 3.4vw, 44px);
+    border-top: 1px solid var(--c-ink);
+  }
+  .adv__num { font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  .adv__grid h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); max-width: 18ch; }
+  @media (max-width: 980px) { .adv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 860px) { .adv__head { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .adv__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

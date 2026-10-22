@@ -1,0 +1,71 @@
+---
+import { company, nav } from '../data/company';
+import { typo } from '../lib/typo';
+import { u } from '../lib/url';
+const year = 2026;
+---
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <a class="ftr__logo" href={u('/')}>{company.name}</a>
+        <p>{typo('Бухгалтерский и управленческий учёт для строительных компаний')}</p>
+      </div>
+
+      <ul class="ftr__nav">
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+
+      <div class="ftr__contacts">
+        {company.phone && <a class="ftr__phone" href={`tel:${company.phoneHref}`}>{company.phone}</a>}
+        {company.telegram && <a href={company.telegram} rel="noopener">Telegram</a>}
+        {company.whatsapp && <a href={company.whatsapp} rel="noopener">WhatsApp</a>}
+        <p>{typo(`${company.hours}, ${company.region}`)}</p>
+        <p>{typo(company.remote)}</p>
+      </div>
+    </div>
+
+    <div class="ftr__bottom">
+      <p>© {year} {company.name}{company.legalName && ` · ${company.legalName}`}{company.inn && ` · ИНН ${company.inn}`}{company.ogrn && ` · ОГРН ${company.ogrn}`}</p>
+      <a href={u('/politika/')}>Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* верхний отступ даёт низ секции заявки — свой не добавляем (иначе дыра ×2) */
+  .ftr { padding-bottom: 24px; }
+  .ftr__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);
+    gap: var(--head-gap);
+    padding: var(--head-gap) 0;
+    border-top: 1px solid var(--c-ink);
+  }
+  .ftr__brand { display: grid; gap: 12px; align-content: start; justify-items: start; }
+  .ftr__brand p { max-width: 32ch; }
+  .ftr__logo {
+    font-family: var(--ff-display);
+    font-size: var(--fs-h4);
+    line-height: 1;
+    letter-spacing: var(--tr-h4);
+    text-decoration: none;
+  }
+  .ftr__nav { display: grid; gap: 8px; align-content: start; }
+  .ftr__nav a, .ftr__contacts a { text-decoration: none; font-weight: var(--w-medium); }
+  .ftr__nav a:hover, .ftr__contacts a:hover, .ftr__bottom a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .ftr__contacts { display: grid; gap: 8px; align-content: start; justify-items: start; }
+  .ftr__phone { font-family: var(--ff-display); font-size: var(--fs-h5); letter-spacing: var(--tr-h5); }
+  .ftr__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--c-ink);
+    font-size: var(--fs-small);
+  }
+  .ftr__bottom a { color: inherit; }
+  @media (max-width: 860px) { .ftr__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

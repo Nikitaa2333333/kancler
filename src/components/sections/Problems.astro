@@ -1,0 +1,57 @@
+---
+import { problems } from '../../data/home';
+import { typo } from '../../lib/typo';
+---
+
+<section class="sec probs" id="problemy" aria-labelledby="probs-title">
+  <div class="wrap probs__grid">
+    <div class="probs__side">
+      <h2 id="probs-title">{typo(problems.title)}</h2>
+      <a class="btn" href="#zayavka">{typo(problems.cta)}</a>
+    </div>
+
+    <!-- Швейцарская таблица: номер + фраза, строки разделены линиями
+         (решение пользователя 22.10.2026 — здесь линии используем) -->
+    <ol class="probs__rows">
+      {problems.items.map((t, i) => (
+        <li>
+          <span class="probs__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <p>{typo(t)}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .probs__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--head-gap);
+    align-items: start;
+  }
+  .probs__side { position: sticky; top: 104px; display: grid; gap: 28px; justify-items: start; }
+  .probs__side h2 { max-width: 20ch; }
+
+  .probs__rows { border-top: 1px solid var(--c-ink); }
+  .probs__rows li {
+    display: grid;
+    grid-template-columns: 4ch minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    padding: clamp(18px, 2vw, 26px) 0;
+    border-bottom: 1px solid var(--c-ink);
+  }
+  .probs__num { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 0.45em; }
+  .probs__rows p {
+    font-family: var(--ff-display);
+    font-size: var(--fs-h5);
+    line-height: var(--lh-h5);
+    letter-spacing: var(--tr-h5);
+    max-width: 34ch;
+  }
+  @media (max-width: 860px) {
+    .probs__grid { grid-template-columns: minmax(0, 1fr); }
+    .probs__side { position: static; }
+  }
+</style>

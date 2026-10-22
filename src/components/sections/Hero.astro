@@ -1,0 +1,71 @@
+---
+import { hero } from '../../data/home';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+---
+
+<section class="hero on-dark" aria-labelledby="hero-title">
+  <div class="hero__frame">
+    <!-- Фото первого экрана: вид сверху на рабочий стол (public/images/hero.jpg) -->
+    <img class="hero__img" src={u('/images/hero.jpg')} alt="" width="1920" height="1071" fetchpriority="high" decoding="async" />
+    <div class="hero__shade" aria-hidden="true"></div>
+
+    <div class="hero__inner">
+      <h1 id="hero-title">{typo(hero.title)}</h1>
+      <p class="hero__lead">{typo(hero.lead)}</p>
+      <div class="hero__actions">
+        <a class="btn btn--light" href="#zayavka">{typo(hero.primary)}</a>
+        <a class="link" href="#keysy">{typo(hero.secondary)}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding: var(--hero-frame); }
+  .hero__frame {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: clamp(520px, 66vh, 640px);
+    display: flex;
+    align-items: center;
+    border-radius: var(--r-lg);
+    background: var(--c-ink);
+    color: var(--c-white);
+  }
+  .hero__img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 50%;
+  }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgb(8 35 47 / 0.84) 0%, rgb(8 35 47 / 0.6) 40%, rgb(8 35 47 / 0.15) 72%, rgb(8 35 47 / 0.05) 100%);
+  }
+  .hero__inner {
+    display: grid;
+    gap: clamp(16px, 1.8vw, 24px);
+    justify-items: start;
+    max-width: 680px;
+    padding: clamp(96px, 10vw, 120px) clamp(20px, 2.6vw, 40px) clamp(40px, 5vw, 64px);
+  }
+  h1 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--tr-h2);
+    color: var(--c-white);
+    max-width: 24ch;
+  }
+  .hero__lead { color: var(--c-white); max-width: 54ch; }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 8px; }
+  @media (max-width: 760px) {
+    .hero__shade { background: linear-gradient(0deg, rgb(8 35 47 / 0.9) 0%, rgb(8 35 47 / 0.6) 60%, rgb(8 35 47 / 0.35) 100%); }
+  }
+</style>

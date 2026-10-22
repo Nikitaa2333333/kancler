@@ -1,0 +1,74 @@
+---
+import { about } from '../../data/home';
+import { company } from '../../data/company';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+---
+
+<section class="sec about on-dark" id="o-kompanii" aria-labelledby="about-title">
+  <div class="wrap about__grid">
+    <!-- Фото основателя клиент не прислала — пока сгенерированный кадр рабочего места
+         (public/images/about.jpg). Появится портрет — заменить файл и alt. -->
+    <figure class="about__photo">
+      <img src={u('/images/about.jpg')} alt="" width="1400" height="1045" loading="lazy" decoding="async" />
+    </figure>
+
+    <div class="about__body">
+      <h2 id="about-title">{typo(about.title)}</h2>
+      <dl class="about__facts">
+        <div>
+          <dt>Основатель</dt>
+          <dd>{typo(company.founder.name)}</dd>
+        </div>
+        <div>
+          <dt>На рынке</dt>
+          <dd>{typo(`с ${company.since} года`)}</dd>
+        </div>
+        <div>
+          <dt>Регион</dt>
+          <dd>{typo(`${company.region}, ${company.remote.toLowerCase()}`)}</dd>
+        </div>
+        <div>
+          <dt>Режим работы</dt>
+          <dd>{typo(company.hours)}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { background: var(--c-ink); color: var(--c-white); }
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    gap: var(--head-gap);
+    align-items: center;
+  }
+  .about__photo {
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--r-lg);
+    background: rgb(255 255 255 / 0.06);
+  }
+  .about__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .about__body { display: grid; gap: clamp(24px, 3vw, 40px); align-content: center; }
+  .about h2 { color: var(--c-white); }
+  .about__facts { display: grid; border-top: 1px solid var(--glass-line); }
+  .about__facts div {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--glass-line);
+  }
+  .about__facts dt { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 0.2em; }
+  .about__facts dd {
+    margin: 0;
+    font-family: var(--ff-display);
+    font-size: var(--fs-h6);
+    line-height: var(--lh-h6);
+    letter-spacing: var(--tr-h6);
+  }
+  @media (max-width: 860px) { .about__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

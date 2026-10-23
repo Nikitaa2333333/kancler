@@ -29,7 +29,9 @@
      покажется лёгкой, — Source Serif 4 Bold. */
   --ff-display: 'Lora Variable', 'Lora', Georgia, serif;
   --w-display: 600;
-  --ff-body: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+  /* Текст — Manrope Medium 500 (решение 23.10.2026: Inter слабый, нужен плотнее) */
+  --ff-body: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
+  --w-body: 500;
   --w-regular: 400;
   --w-medium: 500;
   --w-semibold: 600;

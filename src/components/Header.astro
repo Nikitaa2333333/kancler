@@ -4,15 +4,15 @@ import { typo } from '../lib/typo';
 import { u } from '../lib/url';
 ---
 
-<!-- Узкая шапка на всю ширину, всегда закреплена (решение пользователя 23.10.2026).
-     Линия снизу — структурная граница липкой шапки (разрешена правилами). -->
+<!-- Узкая шапка на всю ширину, всегда закреплена, на белом градиенте без обводки
+     (решения пользователя 23.10.2026). -->
 <header class="hdr">
   <div class="wrap hdr__bar">
     <a class="hdr__logo" href={u('/')} aria-label={`${company.name} — на главную`}>{company.name}</a>
 
     <nav class="hdr__nav" aria-label="Основное меню">
       <ul class="hdr__links">
-        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        {nav.map((n) => <li><a class="pill" href={n.href}>{n.label}</a></li>)}
       </ul>
     </nav>
 
@@ -48,9 +48,9 @@ import { u } from '../lib/url';
     top: 0;
     left: 0;
     right: 0;
-    background: rgb(247 246 245 / 0.94);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line-faint);
+    /* без обводки, на белом градиенте (решение пользователя 23.10.2026) */
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.9) 25%, rgb(255 255 255 / 0.78) 45%, rgb(255 255 255 / 0.6) 62%, rgb(255 255 255 / 0.4) 76%, rgb(255 255 255 / 0.2) 88%, rgb(255 255 255 / 0) 100%);
+    padding-bottom: 28px;
   }
   .hdr__bar {
     display: flex;
@@ -69,7 +69,6 @@ import { u } from '../lib/url';
   .hdr__nav { margin-right: auto; }
   .hdr__links { display: flex; gap: 24px; }
   .hdr__links a, .hdr__phone { text-decoration: none; font-weight: var(--w-medium); font-size: 15px; }
-  .hdr__links a:hover { color: var(--c-ink-deep); text-decoration: underline; text-underline-offset: 4px; }
 
   .hdr__right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .hdr__phone { margin-right: 6px; white-space: nowrap; }

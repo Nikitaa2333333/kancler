@@ -4,72 +4,60 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 ---
 
+<!-- Эксперимент 23.10.2026: фото во всю ширину, текст ниже — на градиенте, в который
+     фото растворяется. Видео снято (пользователю не понравилось качество). -->
 <section class="hero" aria-labelledby="hero-title">
-  <div class="wrap hero__grid">
-    <div class="hero__copy">
-      <h1 id="hero-title">{typo(hero.title)}</h1>
+  <figure class="hero__media">
+    <img src={u('/images/hero-wide.jpg')} alt="" width="2560" height="1086" fetchpriority="high" decoding="async" />
+  </figure>
+
+  <div class="wrap hero__copy">
+    <h1 id="hero-title">{typo(hero.title)}</h1>
+    <div class="hero__side">
       <p class="hero__lead">{typo(hero.lead)}</p>
       <div class="hero__actions">
         <a class="btn" href="#zayavka">{typo(hero.primary)}</a>
         <a class="btn btn--soft" href="#keysy">{typo(hero.secondary)}</a>
       </div>
     </div>
-
-    <!-- Видео первого экрана: один кадр без звука (public/video/hero.mp4), по кругу.
-         Ролик склеен «туда-обратно» (5 с вперёд + 5 с назад), чтобы цикл шёл без рывка.
-         Постер — первый кадр (public/images/hero-window.jpg): при отключённом движении
-         видео не запускается, остаётся постер. -->
-    <figure class="hero__media">
-      <video
-        class="hero__video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster={u('/images/hero-window.jpg')}
-        width="1280"
-        height="720"
-      >
-        <source src={u('/video/hero.mp4')} type="video/mp4" />
-      </video>
-    </figure>
   </div>
 </section>
 
 <style>
-  .hero { padding-top: calc(var(--hdr-h) + clamp(24px, 3vw, 48px)); padding-bottom: 0; }
-  .hero__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(24px, 3.4vw, 48px);
-    align-items: center;
+  /* фото уходит под прозрачную шапку — без верхнего отступа */
+  .hero { position: relative; }
+  .hero__media {
+    position: relative;
+    height: clamp(340px, 48vw, 620px);
+    overflow: hidden;
   }
-  .hero__copy { display: grid; gap: clamp(16px, 1.8vw, 24px); justify-items: start; }
+  .hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+  /* фото растворяется в фон страницы — на этом градиенте стоит текст */
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* плавное растворение по кривой (много точек — без видимой границы) */
+    background: linear-gradient(180deg, rgb(247 246 245 / 0) 30%, rgb(247 246 245 / 0.03) 40%, rgb(247 246 245 / 0.08) 48%, rgb(247 246 245 / 0.16) 56%, rgb(247 246 245 / 0.28) 64%, rgb(247 246 245 / 0.43) 72%, rgb(247 246 245 / 0.6) 80%, rgb(247 246 245 / 0.78) 88%, rgb(247 246 245 / 0.92) 95%, rgb(247 246 245 / 1) 100%);
+  }
+  .hero__copy {
+    position: relative;
+    margin-top: clamp(-120px, -8vw, -64px);
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(24px, 3vw, 48px);
+    align-items: end;
+  }
   h1 {
     font-size: var(--fs-h2);
     line-height: var(--lh-h2);
     letter-spacing: var(--tr-h2);
     max-width: 22ch;
   }
-  .hero__lead { max-width: 50ch; }
-  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 8px; }
-
-  .hero__media {
-    overflow: hidden;
-    aspect-ratio: 16 / 10;
-    border-radius: var(--r-lg);
-    background: var(--c-depth);
-  }
-  .hero__video { width: 100%; height: 100%; object-fit: cover; display: block; }
-
+  .hero__side { display: grid; gap: 24px; justify-items: start; }
+  .hero__lead { max-width: 48ch; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
   @media (max-width: 860px) {
-    .hero__grid { grid-template-columns: minmax(0, 1fr); }
+    .hero__copy { grid-template-columns: minmax(0, 1fr); margin-top: -64px; }
   }
 </style>
-
-<script>
-  // Движение отключено в системе — не крутим видео, показываем постер
-  const v = document.querySelector<HTMLVideoElement>('.hero__video');
-  if (v && matchMedia('(prefers-reduced-motion: reduce)').matches) v.removeAttribute('autoplay'), v.pause();
-</script>

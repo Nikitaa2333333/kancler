@@ -14,7 +14,7 @@ const year = 2026;
       </div>
 
       <ul class="ftr__nav">
-        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        {nav.map((n) => <li><a class="pill" href={n.href}>{n.label}</a></li>)}
       </ul>
 
       <div class="ftr__contacts">
@@ -28,7 +28,7 @@ const year = 2026;
 
     <div class="ftr__bottom">
       <p>© {year} {company.name}{company.legalName && ` · ${company.legalName}`}{company.inn && ` · ИНН ${company.inn}`}{company.ogrn && ` · ОГРН ${company.ogrn}`}</p>
-      <a href={u('/politika/')}>Политика конфиденциальности</a>
+      <a class="pill" href={u('/politika/')}>Политика конфиденциальности</a>
     </div>
   </div>
 </footer>
@@ -55,7 +55,6 @@ const year = 2026;
   }
   .ftr__nav { display: grid; gap: 8px; align-content: start; }
   .ftr__nav a, .ftr__contacts a { text-decoration: none; font-weight: var(--w-medium); }
-  .ftr__nav a:hover, .ftr__contacts a:hover, .ftr__bottom a:hover { text-decoration: underline; text-underline-offset: 4px; }
   .ftr__contacts { display: grid; gap: 8px; align-content: start; justify-items: start; }
   .ftr__phone { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); letter-spacing: var(--tr-h5); }
   .ftr__bottom {

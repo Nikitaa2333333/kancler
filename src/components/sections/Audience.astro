@@ -16,7 +16,7 @@ import { typo } from '../../lib/typo';
       </p>
 
       <details class="aud__more">
-        <summary>{audience.more}</summary>
+        <summary class="pill">{audience.more}</summary>
         <p>{typo(audience.lead)}</p>
       </details>
     </div>
@@ -98,7 +98,6 @@ import { typo } from '../../lib/typo';
     list-style: none;
     font-weight: var(--w-semibold);
   }
-  .aud__more summary:hover { text-decoration: underline; text-underline-offset: 5px; }
   .aud__more summary::-webkit-details-marker { display: none; }
   .aud__more p { margin-top: 16px; text-align: left; font-size: var(--fs-lead); line-height: var(--lh-lead); }
 

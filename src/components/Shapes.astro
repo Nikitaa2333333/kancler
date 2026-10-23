@@ -1,54 +1,60 @@
 ---
-/* Геометрические композиции для карточек «Для кого» (решение пользователя 23.10.2026:
-   «SVG-формы», временно вместо иллюстраций). Палитра сайта: тёмно-синий, приглушённый
-   зелёный, голубо-серый. Каждая форма — свой образ:
-   tower — генподряд: башня из блоков; grid — субподряд: сетка участков, один выделен;
-   arch — отделка: арка-проём и плоскости стен; gear — инжиниринг: кольца и оси. */
+/* Тонкие линейные «чертежи» для карточек «Для кого» (23.10.2026, вторая попытка:
+   жирные геометрические формы пользователь забраковал как стоковые). Тушь 1.25px,
+   почти без заливок, один приглушённый зелёный акцент.
+   tower — генподряд: аксонометрия дома с этажами; grid — субподряд: фрагмент плана,
+   выделено одно помещение; arch — отделка: развёртка стены с проёмом и раскладкой
+   плитки; gear — инжиниринг: схема трубопроводов с узлами. */
 interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' }
 const { kind } = Astro.props;
 const ink = '#0b2e3c';
-const sage = '#7f9f8a';
-const blue = '#b8cdd4';
-const pale = '#c9d8cc';
+const sage = '#c9d8cc';
+const floors = [0, 1, 2, 3, 4, 5];
 ---
 
-<svg class="shape" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+<svg class="shape" viewBox="0 0 200 200" fill="none" stroke={ink} stroke-width="1.25" stroke-linejoin="round" aria-hidden="true" focusable="false">
   {kind === 'tower' && (
     <g>
-      <rect x="40" y="150" width="120" height="30" rx="4" fill={ink} />
-      <rect x="55" y="118" width="90" height="30" rx="4" fill={sage} />
-      <rect x="68" y="86" width="64" height="30" rx="4" fill={blue} />
-      <rect x="80" y="54" width="40" height="30" rx="4" fill={ink} />
-      <rect x="92" y="22" width="16" height="30" rx="3" fill={pale} />
+      <path d="M60 60 L100 40 L150 62 L110 82 Z" fill={sage} />
+      <path d="M60 60 V160 L110 182 V82" />
+      <path d="M110 182 L150 162 V62" />
+      {floors.map((f) => <path d={`M60 ${76 + f * 16} L110 ${98 + f * 16} L150 ${78 + f * 16}`} stroke-width="0.75" />)}
+      {[0, 1, 2].map((c) => <path d={`M${72 + c * 13} ${66 + c * 6} V${166 + c * 6}`} stroke-width="0.5" stroke-dasharray="2 3" />)}
     </g>
   )}
   {kind === 'grid' && (
     <g>
-      {[0, 1, 2].map((r) => [0, 1, 2].map((c) => (
-        <rect x={30 + c * 50} y={30 + r * 50} width="40" height="40" rx="6"
-          fill={r === 1 && c === 2 ? ink : (r + c) % 2 ? blue : pale} />
-      )))}
-      <circle cx="150" cy="80" r="9" fill={sage} />
+      <rect x="30" y="30" width="140" height="140" />
+      <rect x="100" y="30" width="70" height="60" fill={sage} />
+      <path d="M100 30 V170 M30 90 H170 M30 130 H100 M140 90 V170" />
+      <path d="M100 52 a14 14 0 0 1 14 -14" stroke-width="0.75" />
+      <path d="M60 90 v-12 M60 130 v12" stroke-width="0.75" />
+      <path d="M20 30 V170 M16 30 H24 M16 170 H24" stroke-width="0.5" />
     </g>
   )}
   {kind === 'arch' && (
     <g>
-      <rect x="24" y="40" width="152" height="140" rx="6" fill={pale} />
-      <path d="M70 180 V110 a30 30 0 0 1 60 0 V180 Z" fill={ink} />
-      <rect x="24" y="40" width="152" height="22" rx="6" fill={sage} />
-      <rect x="140" y="96" width="24" height="56" rx="3" fill={blue} />
+      <rect x="30" y="40" width="140" height="130" />
+      <path d="M78 170 V112 a22 22 0 0 1 44 0 V170" fill={sage} />
+      {[0, 1, 2, 3, 4, 5].map((r) => <path d={`M30 ${62 + r * 18} H78 M122 ${62 + r * 18} H170`} stroke-width="0.5" />)}
+      {[0, 1, 2].map((c) => <path d={`M${46 + c * 16} 40 V170 M${138 + c * 16} 40 V170`} stroke-width="0.5" />)}
+      <path d="M30 40 H170" stroke-width="2" />
     </g>
   )}
   {kind === 'gear' && (
-    <g fill="none">
-      <circle cx="100" cy="100" r="72" stroke={blue} stroke-width="14" />
-      <circle cx="100" cy="100" r="44" stroke={sage} stroke-width="14" />
-      <circle cx="100" cy="100" r="16" fill={ink} />
-      <path d="M100 18 V60 M100 140 V182 M18 100 H60 M140 100 H182" stroke={ink} stroke-width="8" stroke-linecap="round" />
+    <g>
+      <path d="M30 60 H120 V140 H170" />
+      <path d="M30 100 H80 V170" />
+      <path d="M120 30 V60 M150 140 V110 H170" stroke-width="0.75" />
+      <circle cx="120" cy="60" r="7" fill={sage} />
+      <circle cx="80" cy="100" r="7" fill={sage} />
+      <circle cx="120" cy="140" r="7" fill="#f7f6f5" />
+      <path d="M44 54 l6 6 l-6 6 M98 134 l6 6 l-6 6" stroke-width="0.75" />
+      <rect x="140" y="128" width="22" height="24" stroke-width="0.75" />
     </g>
   )}
 </svg>
 
 <style>
-  .shape { width: 100%; max-width: 180px; height: auto; display: block; }
+  .shape { width: 100%; max-width: 168px; height: auto; display: block; }
 </style>

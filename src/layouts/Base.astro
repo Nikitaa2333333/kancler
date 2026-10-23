@@ -41,5 +41,16 @@ const metrika = import.meta.env.PUBLIC_METRIKA_ID;
   </head>
   <body>
     <slot />
+    <script>
+      // Блоки-папки: высокий блок прилипает, только когда показан до конца
+      const blocks = [...document.querySelectorAll<HTMLElement>('.sec--block')];
+      const setTops = () => {
+        const hdr = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hdr-h')) || 60;
+        for (const b of blocks) b.style.setProperty('--stick-top', `${Math.min(hdr + 12, innerHeight - b.offsetHeight)}px`);
+      };
+      setTops();
+      addEventListener('resize', setTops);
+      addEventListener('load', setTops);
+    </script>
   </body>
 </html>

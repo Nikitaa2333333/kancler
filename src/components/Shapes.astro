@@ -1,27 +1,39 @@
 ---
 /* Тонкие линейные «чертежи» для карточек «Для кого» (утверждено пользователем
-   23.10.2026: «вот это то, что нужно», акцент на линиях).
-   Анимация: при появлении карточки линии прорисовываются по очереди (.dr, pathLength=1),
-   потом проявляется заливка (.fl); пунктиры (.flow) тихо «бегут» постоянно.
+   23.10.2026, акцент на линиях). ТОЛЬКО тонкие линии: 0.75 / 0.5px, без жирных
+   контуров и без обводок у кругов-узлов (решение пользователя).
+   Анимация: при появлении линии прорисовываются по очереди (.dr), затем проявляются
+   заливки и чертёжные отметки с цифрами (.fl); по чертежу ползёт маленький квадрат
+   (.mover, CSS offset-path); пунктиры (.flow) тихо бегут.
    tower — генподряд: аксонометрия дома; grid — субподряд: план, выделено помещение;
-   arch — отделка: развёртка стены с проёмом и плиткой; gear — инжиниринг: трубы и узлы. */
+   arch — отделка: развёртка стены с проёмом и плиткой; gear — инжиниринг: трубы и узлы.
+   Цифры — условные чертёжные отметки (уровни, размеры), не данные клиента. */
 interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' }
 const { kind } = Astro.props;
 const ink = '#0b2e3c';
 const sage = '#c9d8cc';
+const green = '#7f9f8a';
 const floors = [0, 1, 2, 3, 4, 5];
 const d = (i: number) => `--d:${(i * 0.12).toFixed(2)}s`;
+const mv = (path: string, dur = 7) => `offset-path: path('${path}'); --dur:${dur}s`;
 ---
 
-<svg class="shape" data-shape viewBox="0 0 200 200" fill="none" stroke={ink} stroke-width="1.25" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+<svg class="shape" data-shape viewBox="0 0 200 200" fill="none" stroke={ink} stroke-width="0.75" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
   {kind === 'tower' && (
     <g>
       <path class="fl" d="M60 60 L100 40 L150 62 L110 82 Z" fill={sage} stroke="none" />
       <path class="dr" pathLength="1" style={d(0)} d="M60 60 L100 40 L150 62 L110 82 Z" />
       <path class="dr" pathLength="1" style={d(1)} d="M60 60 V160 L110 182 V82" />
       <path class="dr" pathLength="1" style={d(2)} d="M110 182 L150 162 V62" />
-      {floors.map((f) => <path class="dr" pathLength="1" style={d(3 + f)} d={`M60 ${76 + f * 16} L110 ${98 + f * 16} L150 ${78 + f * 16}`} stroke-width="0.75" />)}
-      {[0, 1, 2].map((c) => <path class="flow" d={`M${72 + c * 13} ${66 + c * 6} V${166 + c * 6}`} stroke-width="0.6" />)}
+      {floors.map((f) => <path class="dr" pathLength="1" style={d(3 + f)} d={`M60 ${76 + f * 16} L110 ${98 + f * 16} L150 ${78 + f * 16}`} stroke-width="0.5" />)}
+      {[0, 1, 2].map((c) => <path class="flow" d={`M${72 + c * 13} ${66 + c * 6} V${166 + c * 6}`} stroke-width="0.5" />)}
+      <g class="fl" font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">
+        <text x="156" y="82">+15.000</text>
+        <text x="156" y="130">+6.000</text>
+        <text x="156" y="162">±0.000</text>
+      </g>
+      <path class="dr" pathLength="1" style={d(9)} d="M152 78 h3 M152 126 h3 M152 158 h3" stroke-width="0.5" />
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={green} stroke="none" style={mv('M110 178 V86', 6)} />
     </g>
   )}
   {kind === 'grid' && (
@@ -32,9 +44,14 @@ const d = (i: number) => `--d:${(i * 0.12).toFixed(2)}s`;
       <path class="dr" pathLength="1" style={d(3)} d="M30 90 H170" />
       <path class="dr" pathLength="1" style={d(4)} d="M30 130 H100" />
       <path class="dr" pathLength="1" style={d(5)} d="M140 90 V170" />
-      <path class="dr" pathLength="1" style={d(6)} d="M100 52 a14 14 0 0 1 14 -14" stroke-width="0.75" />
-      <path class="flow" d="M20 30 V170" stroke-width="0.6" />
-      <path class="flow" d="M30 182 H170" stroke-width="0.6" />
+      <path class="dr" pathLength="1" style={d(6)} d="M100 52 a14 14 0 0 1 14 -14" stroke-width="0.5" />
+      <path class="dr" pathLength="1" style={d(7)} d="M30 184 H170 M30 180 v8 M100 180 v8 M170 180 v8" stroke-width="0.5" />
+      <g class="fl" font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif" text-anchor="middle">
+        <text x="65" y="196">3600</text>
+        <text x="135" y="196">3600</text>
+      </g>
+      <path class="flow" d="M20 30 V170" stroke-width="0.5" />
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={green} stroke="none" style={mv('M30 184 H170', 5)} />
     </g>
   )}
   {kind === 'arch' && (
@@ -44,20 +61,29 @@ const d = (i: number) => `--d:${(i * 0.12).toFixed(2)}s`;
       <path class="dr" pathLength="1" style={d(2)} d="M78 170 V112 a22 22 0 0 1 44 0 V170" />
       {[0, 1, 2, 3, 4, 5].map((r) => <path class="dr" pathLength="1" style={d(3 + r)} d={`M30 ${62 + r * 18} H78 M122 ${62 + r * 18} H170`} stroke-width="0.5" />)}
       {[0, 1, 2].map((c) => <path class="dr" pathLength="1" style={d(5 + c)} d={`M${46 + c * 16} 40 V170 M${138 + c * 16} 40 V170`} stroke-width="0.5" />)}
-      <path class="flow" d="M30 30 H170" stroke-width="0.6" />
+      <path class="dr" pathLength="1" style={d(9)} d="M78 30 H122 M78 26 v8 M122 26 v8" stroke-width="0.5" />
+      <g class="fl" font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif" text-anchor="middle">
+        <text x="100" y="22">900</text>
+      </g>
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={green} stroke="none" style={mv('M30 62 H78 V170 H30 Z', 9)} />
     </g>
   )}
   {kind === 'gear' && (
     <g>
       <path class="dr" pathLength="1" style={d(0)} d="M30 60 H120 V140 H170" />
       <path class="dr" pathLength="1" style={d(2)} d="M30 100 H80 V170" />
-      <path class="dr" pathLength="1" style={d(4)} d="M120 30 V60 M150 140 V110 H170" stroke-width="0.75" />
-      <path class="flow flow--fast" d="M30 60 H120 V140 H170" stroke-width="2.5" stroke={sage} />
-      <path class="flow flow--fast" d="M30 100 H80 V170" stroke-width="2.5" stroke={sage} />
-      <circle class="fl" cx="120" cy="60" r="7" fill={sage} />
-      <circle class="fl" cx="80" cy="100" r="7" fill={sage} />
-      <circle class="fl" cx="120" cy="140" r="7" fill="#ffffff" />
-      <rect class="dr" pathLength="1" style={d(6)} x="140" y="128" width="22" height="24" stroke-width="0.75" />
+      <path class="dr" pathLength="1" style={d(4)} d="M120 30 V60 M150 140 V110 H170" stroke-width="0.5" />
+      <path class="flow" d="M30 60 H120 V140 H170" stroke-width="0.5" stroke={green} />
+      <path class="flow" d="M30 100 H80 V170" stroke-width="0.5" stroke={green} />
+      <circle class="fl" cx="120" cy="60" r="5" fill={green} stroke="none" />
+      <circle class="fl" cx="80" cy="100" r="5" fill={green} stroke="none" />
+      <circle class="fl" cx="120" cy="140" r="5" fill={sage} stroke="none" />
+      <rect class="dr" pathLength="1" style={d(6)} x="140" y="128" width="22" height="24" stroke-width="0.5" />
+      <g class="fl" font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">
+        <text x="34" y="54">Ø32</text>
+        <text x="34" y="94">Ø25</text>
+      </g>
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M30 60 H120 V140 H170', 6)} />
     </g>
   )}
 </svg>
@@ -68,17 +94,23 @@ const d = (i: number) => `--d:${(i * 0.12).toFixed(2)}s`;
   /* прорисовка: до появления линии «пустые», по .is-on — рисуются по очереди */
   .dr { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1) var(--d, 0s); }
   .fl { opacity: 0; transition: opacity .8s ease 1s; }
+  .mover { opacity: 0; }
   :global(.is-on) .dr { stroke-dashoffset: 0; }
   :global(.is-on) .fl { opacity: 1; }
+  :global(.is-on) .mover { opacity: 1; transition: opacity .4s ease 1.4s; animation: crawl var(--dur, 7s) ease-in-out 1.4s infinite alternate; }
+
+  /* квадрат ползёт по линии чертежа */
+  .mover { offset-rotate: 0deg; offset-distance: 0%; }
+  @keyframes crawl { to { offset-distance: 100%; } }
 
   /* постоянное тихое движение пунктиров */
-  .flow { stroke-dasharray: 3 5; animation: flow 6s linear infinite; }
-  .flow--fast { stroke-dasharray: 6 10; animation-duration: 3s; }
-  @keyframes flow { to { stroke-dashoffset: -64; } }
+  .flow { stroke-dasharray: 2 4; animation: flow 6s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset: -48; } }
 
   @media (prefers-reduced-motion: reduce) {
     .dr { stroke-dashoffset: 0; transition: none; }
-    .fl { opacity: 1; transition: none; }
+    .fl, .mover { opacity: 1; transition: none; }
+    :global(.is-on) .mover { animation: none; }
     .flow { animation: none; }
   }
 </style>

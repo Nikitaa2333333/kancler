@@ -75,6 +75,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
 </script>
 
 <style>
+  /* поверх последнего прилипшего блока — свой непрозрачный фон */
+  .req { position: relative; z-index: 1; background: var(--c-paper); margin-top: var(--block-gap); }
   .req__band {
     position: relative;
     isolation: isolate;

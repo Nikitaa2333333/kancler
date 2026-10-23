@@ -35,7 +35,7 @@ const year = 2026;
 
 <style>
   /* верхний отступ даёт низ секции заявки — свой не добавляем (иначе дыра ×2) */
-  .ftr { padding-bottom: 24px; }
+  .ftr { position: relative; z-index: 1; background: var(--c-paper); padding-bottom: 24px; }
   .ftr__grid {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);

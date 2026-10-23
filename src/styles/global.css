@@ -45,8 +45,8 @@ dd b, dd strong, td b, td strong {
   font-style: normal;
 }
 /* Фирменный маркер: прямоугольная подложка цвета ::selection, без скруглений */
-mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em; border-radius: 0; }
-::selection { background: var(--c-purple-soft); color: var(--c-ink); }
+mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border-radius: 0; }
+::selection { background: var(--c-tint); color: var(--c-ink); }
 
 /* — Каркас: контейнер и секции читают только переменные — */
 .wrap {
@@ -142,7 +142,7 @@ mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em;
 .btn:hover { background: var(--c-primary-deep); color: var(--c-white); }
 .btn--light { background: var(--c-white-card); color: var(--c-ink); }
 .btn--light:hover, .btn--soft:hover { background: var(--c-primary); color: var(--c-white); }
-.btn--soft { background: var(--c-purple-soft); color: var(--c-ink); }
+.btn--soft { background: var(--c-tint); color: var(--c-ink); }
 .btn--sm { min-height: 40px; padding: 8px 18px; font-size: 15px; border-radius: var(--r-sm); }
 
 /* Ссылки без подчёркивания нигде (решение пользователя 23.10.2026). Наведение —

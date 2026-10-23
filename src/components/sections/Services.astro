@@ -56,8 +56,8 @@ const kinds = ['ledger', 'chart'] as const;
   .svc__card .btn { margin-top: 8px; }
   .svc__art { position: absolute; right: clamp(-8px, 0vw, 0px); bottom: clamp(-12px, -0.5vw, -4px); width: clamp(200px, 22vw, 300px); pointer-events: none; }
 
-  /* вторая карточка — фиолетовая (фиолетовый в палитре — фоновый цвет) */
-  .svc__card--dark { background: linear-gradient(180deg, var(--c-purple-soft) 40%, var(--c-purple) 100%); }
+  /* вторая карточка — светло-зелёная подложка */
+  .svc__card--dark { background: var(--c-tint); }
 
   @media (max-width: 560px) { .svc__card { padding-right: clamp(24px, 3vw, 40px); padding-bottom: 190px; } .svc__art { width: 190px; } }
   @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } }

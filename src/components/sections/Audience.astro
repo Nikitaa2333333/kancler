@@ -3,7 +3,7 @@ import { audience } from '../../data/home';
 import { typo } from '../../lib/typo';
 ---
 
-<section class="sec aud" id="dlya-kogo" aria-labelledby="aud-title">
+<section class="sec sec--block aud" id="dlya-kogo" aria-labelledby="aud-title">
   <div class="wrap">
     <div class="aud__head">
       <h2 id="aud-title">{typo(audience.title)}</h2>
@@ -112,7 +112,7 @@ import { typo } from '../../lib/typo';
     align-content: start;
     padding: clamp(22px, 2.4vw, 32px);
     border-radius: var(--r-lg);
-    background: var(--c-white-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .aud__grid h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
   @media (max-width: 1100px) { .aud__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

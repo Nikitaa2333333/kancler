@@ -6,7 +6,7 @@ import { u } from '../../lib/url';
 ---
 
 <!-- Светлый блок вместо тёмного «депрессивного» (решение 23.10.2026) -->
-<section class="sec about" id="o-kompanii" aria-labelledby="about-title">
+<section class="sec sec--block about" id="o-kompanii" aria-labelledby="about-title">
   <div class="wrap about__grid">
     <!-- Фото основателя клиент не прислала — пока сгенерированный кадр рабочего места
          (public/images/about.jpg). Появится портрет — заменить файл и alt. -->
@@ -31,7 +31,6 @@ import { u } from '../../lib/url';
 </section>
 
 <style>
-  .about { background: var(--c-band); }
   .about__grid {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -50,7 +49,7 @@ import { u } from '../../lib/url';
     gap: clamp(20px, 2.4vw, 32px);
     padding: clamp(24px, 3vw, 40px);
     border-radius: var(--r-lg);
-    background: var(--c-white-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .about__name {
     font-family: var(--ff-display);

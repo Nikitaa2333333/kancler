@@ -3,7 +3,7 @@ import { process as proc } from '../../data/home';
 import { typo } from '../../lib/typo';
 ---
 
-<section class="sec" id="kak-rabotaem" aria-labelledby="proc-title">
+<section class="sec sec--block sec--white" id="kak-rabotaem" aria-labelledby="proc-title">
   <div class="wrap">
     <div class="proc__head">
       <h2 id="proc-title">{typo(proc.title)}</h2>
@@ -44,7 +44,7 @@ import { typo } from '../../lib/typo';
     align-content: start;
     padding: clamp(20px, 2vw, 28px);
     border-radius: var(--r-lg);
-    background: var(--c-white-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .proc__step {
     justify-self: start;

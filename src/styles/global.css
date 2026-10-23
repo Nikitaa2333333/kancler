@@ -61,6 +61,17 @@ mark { background: var(--c-blue); color: var(--c-ink); padding: 0 0.12em; border
 .sec--flush-top { padding-top: 0; }
 .sec--flush-bottom { padding-bottom: 0; }
 
+/* Секции-блоки: отдельные скруглённые плашки с полем по краям, а не фон во всю
+   ширину (решение пользователя 23.10.2026). Цвет блоков чередуется; карточки внутри
+   берут контрастный цвет через --card-bg. */
+.sec--block {
+  margin: var(--block-gap) var(--hero-frame) 0;
+  border-radius: var(--r-lg);
+  background: var(--c-band);
+  --card-bg: var(--c-white-card);
+}
+.sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
+
 /* — Метка секции: мелкий кегль + semibold, без капса и разрядки — */
 .label {
   font-family: var(--ff-body);

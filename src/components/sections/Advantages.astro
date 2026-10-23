@@ -3,7 +3,7 @@ import { advantages } from '../../data/home';
 import { typo } from '../../lib/typo';
 ---
 
-<section class="sec adv" id="preimushchestva" aria-labelledby="adv-title">
+<section class="sec sec--block sec--white adv" id="preimushchestva" aria-labelledby="adv-title">
   <div class="wrap">
     <div class="adv__head">
       <h2 id="adv-title">{typo(advantages.title)}</h2>
@@ -22,7 +22,6 @@ import { typo } from '../../lib/typo';
 </section>
 
 <style>
-  .adv { background: var(--c-band); }
   .adv__head {
     display: grid;
     grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
@@ -42,7 +41,7 @@ import { typo } from '../../lib/typo';
     align-content: start;
     padding: clamp(22px, 2.4vw, 32px);
     border-radius: var(--r-lg);
-    background: var(--c-white-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .adv__grid h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); max-width: 20ch; }
   .adv__grid p { max-width: 36ch; }

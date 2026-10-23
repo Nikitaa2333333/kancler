@@ -49,6 +49,7 @@ import { typo } from '../../lib/typo';
     background: linear-gradient(180deg, var(--card-bg, var(--c-white-card)) 40%, rgb(201 216 204 / 0.45) 100%);
   }
   .adv__mark { width: 8px; height: 8px; background: var(--c-sage); }
+  .adv__grid li:nth-child(even) .adv__mark { background: var(--c-purple); }
   .adv__grid h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
   .adv__grid p { margin-top: auto; font-size: var(--fs-small); line-height: 1.35; }
   @media (max-width: 1100px) { .adv__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

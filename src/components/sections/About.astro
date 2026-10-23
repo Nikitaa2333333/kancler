@@ -31,11 +31,11 @@ import { u } from '../../lib/url';
 </section>
 
 <style>
+  /* Приём «Архимеда» (23.10.2026): карточка с текстом заезжает на фотографию */
   .about__grid {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: var(--card-gap);
-    align-items: stretch;
+    align-items: center;
   }
   .about__photo {
     overflow: hidden;
@@ -44,6 +44,10 @@ import { u } from '../../lib/url';
   }
   .about__photo img { width: 100%; height: 100%; object-fit: cover; }
   .about__card {
+    position: relative;
+    z-index: 1;
+    margin-left: calc(-1 * clamp(56px, 7vw, 112px));
+    box-shadow: 0 20px 48px rgb(11 46 60 / 0.1);
     display: flex;
     flex-direction: column;
     gap: clamp(20px, 2.4vw, 32px);
@@ -70,5 +74,8 @@ import { u } from '../../lib/url';
   .about__facts span { font-size: var(--fs-small); }
   /* <b> здесь не внутри фразы, а значение в служебной плашке — вес задаём явно */
   .about__facts b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); }
-  @media (max-width: 860px) { .about__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 860px) {
+    .about__grid { grid-template-columns: minmax(0, 1fr); }
+    .about__card { margin: -70px 12px 0; }
+  }
 </style>

@@ -45,8 +45,8 @@ dd b, dd strong, td b, td strong {
   font-style: normal;
 }
 /* Фирменный маркер: прямоугольная подложка цвета ::selection, без скруглений */
-mark { background: var(--c-blue); color: var(--c-ink); padding: 0 0.12em; border-radius: 0; }
-::selection { background: var(--c-blue); color: var(--c-ink); }
+mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em; border-radius: 0; }
+::selection { background: var(--c-purple-soft); color: var(--c-ink); }
 
 /* — Каркас: контейнер и секции читают только переменные — */
 .wrap {

@@ -108,7 +108,8 @@ const kinds = ['tower', 'grid', 'arch', 'gear'] as const;
     /* лёгкий градиент: сверху цвет карточки, книзу едва зеленоватый */
     background: linear-gradient(180deg, var(--card-bg, var(--c-white-card)) 35%, #eef3ef 100%);
   }
-  .aud__text { display: grid; gap: 8px; }
+  .aud__text { display: grid; gap: 14px; }
+  .aud__text p { line-height: 1.35; }
   /* чертёж крупно, на всю ширину карточки, прижат к низу */
   .aud__art { flex: 1; display: grid; align-items: end; justify-items: center; padding-top: 12px; }
   .aud__art :global(.shape) { max-width: 250px; }  /* крупно; карточки той же высоты */

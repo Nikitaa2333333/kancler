@@ -3,17 +3,22 @@ import { advantages } from '../../data/home';
 import { typo } from '../../lib/typo';
 ---
 
-<!-- Новая концепция (23.10.2026): шесть вертикальных карточек в ряд — заголовок сверху,
-     описание прижато к низу, лёгкий зелёный градиент книзу, маленький квадрат-метка
-     как у чертежей. Плотный межстрочный в описании. -->
+<!-- Горизонтальная прокрутка (решение 23.10.2026): карточки не вываливаются все сразу,
+     листаются стрелками, колесом/свайпом; snap по карточкам. -->
 <section class="sec sec--block sec--white adv" id="preimushchestva" aria-labelledby="adv-title">
   <div class="wrap">
     <div class="adv__head">
-      <h2 id="adv-title">{typo(advantages.title)}</h2>
-      <p class="adv__lead">{typo(advantages.lead)}</p>
+      <div class="adv__title">
+        <h2 id="adv-title">{typo(advantages.title)}</h2>
+        <p class="adv__lead">{typo(advantages.lead)}</p>
+      </div>
+      <div class="adv__nav">
+        <button class="adv__arrow" type="button" data-dir="-1" aria-label="Назад">←</button>
+        <button class="adv__arrow" type="button" data-dir="1" aria-label="Вперёд">→</button>
+      </div>
     </div>
 
-    <ul class="adv__grid">
+    <ul class="adv__track" data-track>
       {advantages.items.map((it) => (
         <li>
           <span class="adv__mark" aria-hidden="true"></span>
@@ -25,33 +30,64 @@ import { typo } from '../../lib/typo';
   </div>
 </section>
 
+<script>
+  const track = document.querySelector<HTMLElement>('[data-track]');
+  document.querySelectorAll<HTMLButtonElement>('.adv__arrow').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (!track) return;
+      const card = track.firstElementChild as HTMLElement | null;
+      const step = card ? card.offsetWidth + 16 : 300;
+      track.scrollBy({ left: step * Number(b.dataset.dir), behavior: 'smooth' });
+    }),
+  );
+</script>
+
 <style>
   .adv__head {
-    display: grid;
-    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
     gap: var(--head-gap);
-    align-items: end;
     margin-bottom: var(--head-gap);
   }
+  .adv__title { display: grid; gap: 16px; }
   .adv__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: 1.45; }
-  .adv__grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--card-gap);
+  .adv__nav { display: flex; gap: 8px; flex: none; }
+  .adv__arrow {
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--c-purple-soft);
+    color: var(--c-ink);
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
   }
-  .adv__grid li {
+  .adv__arrow:hover { background: var(--c-ink); color: var(--c-white); }
+
+  .adv__track {
+    display: flex;
+    gap: var(--card-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .adv__track::-webkit-scrollbar { display: none; }
+  .adv__track li {
+    flex: 0 0 clamp(240px, 24vw, 300px);
+    scroll-snap-align: start;
     display: flex;
     flex-direction: column;
     gap: 14px;
-    min-height: clamp(260px, 22vw, 320px);
-    padding: clamp(18px, 1.8vw, 24px);
+    min-height: clamp(260px, 22vw, 300px);
+    padding: clamp(20px, 2vw, 28px);
     border-radius: var(--r-lg);
-    background: var(--card-bg, var(--c-white-card));
+    background: var(--grad-card);
   }
-  .adv__mark { width: 8px; height: 8px; background: var(--c-purple); }
-  .adv__grid h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
-  .adv__grid p { margin-top: auto; font-size: var(--fs-small); line-height: 1.35; }
-  @media (max-width: 1100px) { .adv__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 860px) { .adv__head { grid-template-columns: minmax(0, 1fr); } }
-  @media (max-width: 560px) { .adv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .adv__grid li { min-height: 220px; } }
+  .adv__mark { width: 8px; height: 8px; background: var(--c-sage); }
+  .adv__track h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  .adv__track p { margin-top: auto; line-height: 1.35; }
+  @media (max-width: 760px) { .adv__nav { display: none; } .adv__head { display: block; } }
 </style>

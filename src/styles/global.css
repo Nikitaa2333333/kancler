@@ -77,10 +77,12 @@ mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em;
    друга с мягкой тенью. Прилипание «следующий наезжает» — только у .sec--stack
    (короткие блоки: услуги, кейсы); --stick-top считает скрипт в Base.astro. */
 .sec--block { position: relative; }
-.sec--block + .sec--block {
+/* Наложение — только у блока «Как начинаем работу» (.sec--over), остальные просто
+   идут стопкой с зазором (решение пользователя 23.10.2026) */
+.sec--over {
   margin-top: calc(-1 * var(--block-overlap));
   padding-top: calc(var(--section-gap) + var(--block-overlap));
-  box-shadow: 0 -14px 32px rgb(11 46 60 / 0.07);
+  box-shadow: 0 -14px 32px rgb(43 40 51 / 0.08);
 }
 .sec--stack { position: sticky; top: var(--stick-top, var(--hdr-h)); }
 @media (prefers-reduced-motion: reduce) { .sec--stack { position: relative; top: auto; } }

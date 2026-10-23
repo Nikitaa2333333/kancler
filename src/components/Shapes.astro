@@ -11,9 +11,9 @@
    Цифры — условные чертёжные отметки (уровни, размеры), не данные клиента. */
 interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' | 'ledger' | 'chart' }
 const { kind } = Astro.props;
-const ink = '#0b2e3c';
-const sage = '#c9d8cc';
-const green = '#7f9f8a';
+const ink = '#2b2833';   /* палитра Lavender Reed: графит */
+const sage = '#d5ddcf';  /* светлый шалфей — заливки */
+const green = '#9dae94'; /* Sage Whisper */
 const floors = [0, 1, 2, 3, 4, 5];
 const d = (i: number) => `--d:${(i * 0.12).toFixed(2)}s`;
 const mv = (path: string, dur = 7) => `offset-path: path('${path}'); --dur:${dur}s`;

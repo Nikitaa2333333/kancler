@@ -9,7 +9,7 @@ const kinds = ['ledger', 'chart'] as const;
 
 <!-- Главный блок (23.10.2026): две крупные карточки, у каждой свой тонкий чертёж в стиле
      «Для кого». Первая — светлая, вторая — тёмно-синяя: две услуги читаются как пара. -->
-<section class="sec sec--block sec--stack svc" id="uslugi" aria-labelledby="svc-title">
+<section class="sec sec--block svc" id="uslugi" aria-labelledby="svc-title">
   <div class="wrap">
     <h2 id="svc-title">{typo(services.title)}</h2>
 
@@ -22,7 +22,7 @@ const kinds = ['ledger', 'chart'] as const;
             <ul class="list svc__list">
               {c.items.map((it) => <li>{typo(it)}</li>)}
             </ul>
-            <a class={`btn ${i === 1 ? 'btn--light' : ''}`} href={u(c.href)}>{services.more}</a>
+            <a class="btn" href={u(c.href)}>{services.more}</a>
           </div>
           <div class="svc__art"><Shapes kind={kinds[i]} /></div>
         </article>
@@ -46,21 +46,18 @@ const kinds = ['ledger', 'chart'] as const;
     padding: clamp(24px, 3vw, 40px);
     padding-right: clamp(190px, 21vw, 290px);
     border-radius: var(--r-lg);
-    background: var(--card-bg, var(--c-white-card));
+    background: var(--grad-card);
   }
   .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
   .svc__card h3 { margin-bottom: 4px; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
   .svc__text { max-width: 34ch; font-size: var(--fs-lead); line-height: 1.4; }
   .svc__list { margin-bottom: 8px; }
-  .svc__list li::before { background: var(--c-purple); }
+  .svc__list li::before { background: var(--c-ink); }
   .svc__card .btn { margin-top: 8px; }
   .svc__art { position: absolute; right: clamp(-8px, 0vw, 0px); bottom: clamp(-12px, -0.5vw, -4px); width: clamp(200px, 22vw, 300px); pointer-events: none; }
 
-  .svc__card--dark { background: var(--c-primary); color: var(--c-white); }
-  .svc__card--dark h3, .svc__card--dark .svc__text, .svc__card--dark .svc__list { color: var(--c-white); }
-  .svc__card--dark .svc__list li::before { background: var(--c-white); }
-  /* на тёмной карточке основные линии чертежа — белые */
-  .svc__card--dark .svc__art :global(.shape) { stroke: var(--c-white); }
+  /* вторая карточка — фиолетовая (фиолетовый в палитре — фоновый цвет) */
+  .svc__card--dark { background: linear-gradient(180deg, var(--c-purple-soft) 40%, var(--c-purple) 100%); }
 
   @media (max-width: 560px) { .svc__card { padding-right: clamp(24px, 3vw, 40px); padding-bottom: 190px; } .svc__art { width: 190px; } }
   @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } }

@@ -1,7 +1,11 @@
 ---
 /* Второй вариант главной — «коллажный» (задача docs/ЗАДАЧА-коллаж-вариант.md).
    Закрыт от индексации, в меню не ссылается. Тексты и порядок блоков — как на главной;
-   пока в коллажной подаче только первый экран, остальные блоки согласуем по ходу. */
+   Подача — тема «брут» (Onest, зелёный, рамки, прямые углы): src/styles/theme-brut.css,
+   подключается только здесь. Блоки ниже первого экрана — общие с главной, их
+   перекрашивает тема; коллажные иллюстрации к ним согласуем по ходу. */
+import '@fontsource-variable/onest';
+import '../styles/theme-brut.css';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -21,6 +25,7 @@ import Request from '../components/sections/Request.astro';
   title="Канцлер — коллажный вариант главной"
   description="Черновой вариант главной страницы в коллажной подаче."
   noindex
+  theme="brut"
 >
   <Header />
   <main>

@@ -10,8 +10,10 @@ interface Props {
   description: string;
   /* черновые страницы-варианты закрыты от индексации всегда, даже после запуска */
   noindex?: boolean;
+  /* класс темы на <body>: страница-вариант подключает свой файл темы и ставит его класс */
+  theme?: string;
 }
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, theme } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const metrika = import.meta.env.PUBLIC_METRIKA_ID;
 ---
@@ -41,7 +43,7 @@ const metrika = import.meta.env.PUBLIC_METRIKA_ID;
       </script>
     )}
   </head>
-  <body>
+  <body class={theme}>
     <slot />
     <script>
       // .sec--stack: блок прилипает, только когда показан до конца (высокий не прячется)

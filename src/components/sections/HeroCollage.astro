@@ -2,20 +2,31 @@
 import { hero } from '../../data/home';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
+
+/* узлы линии графика — те же точки, что в polyline */
+const chart = [[30, 700], [150, 610], [235, 668], [345, 535], [430, 575], [530, 445], [610, 468], [705, 345], [790, 372], [880, 215], [975, 95]];
+const points = chart.map((p) => p.join(',')).join(' ');
 ---
 
-<!-- Коллажный вариант первого экрана (страница /variant-collage/, задача
+<!-- Коллажный вариант первого экрана, тема «брут» (страница /variant-collage/, задача
      docs/ЗАДАЧА-коллаж-вариант.md). Сцена 1000×800: графика — SVG в тех же единицах,
-     фото-вырезки (PNG/WebP с прозрачностью) стоят в процентах той же сцены, поэтому
-     совпадают с графикой на любой ширине. Порядок слоёв: сетка и поля → стройка,
-     чертёж → линия графика → руки с листом и калькулятором. -->
+     фото-вырезки (WebP с прозрачностью) стоят в процентах той же сцены, поэтому
+     совпадают с графикой на любой ширине. Слои: сетка и поля → стройка, чертёж →
+     линия графика → руки с листом и калькулятором. Рамки «UI-разметки» вокруг
+     заголовка и кнопки — приём из референса Medium, чисто декоративные. -->
 <section class="hc" aria-labelledby="hero-title">
   <div class="hc__frame">
     <div class="hc__copy">
-      <h1 id="hero-title">{typo(hero.title)}</h1>
+      <div class="anno anno--head">
+        <span class="anno__tag" aria-hidden="true">заголовок · h1</span>
+        <h1 id="hero-title">{typo(hero.title)}</h1>
+      </div>
       <p class="hc__lead">{typo(hero.lead)}</p>
       <div class="hc__actions">
-        <a class="btn" href="#zayavka">{typo(hero.primary)}</a>
+        <div class="anno">
+          <span class="anno__tag" aria-hidden="true">кнопка · заявка</span>
+          <a class="btn" href="#zayavka">{typo(hero.primary)}</a>
+        </div>
         <a class="btn btn--light" href="#keysy">{typo(hero.secondary)}</a>
       </div>
     </div>
@@ -23,30 +34,28 @@ import { u } from '../../lib/url';
     <div class="hc__stage" aria-hidden="true">
       <svg class="hc__svg" viewBox="0 0 1000 800">
         <defs>
-          <pattern id="hc-grid" width="28" height="28" patternUnits="userSpaceOnUse">
-            <path d="M28 0H0V28" fill="none" stroke="#b8cdd4" stroke-width="1.2" />
+          <pattern id="hc-grid" width="25" height="25" patternUnits="userSpaceOnUse">
+            <path d="M25 0H0V25" fill="none" class="hc__gridline" />
           </pattern>
         </defs>
-        <rect class="hc__grid" x="0" y="30" width="560" height="640" fill="url(#hc-grid)" />
-        <rect class="hc__field" x="170" y="110" width="650" height="470" fill="#0b2e3c" />
-        <circle class="hc__pop" style="--d: 1.1s" cx="880" cy="610" r="84" fill="#b8cdd4" />
-        <rect class="hc__pop" style="--d: 0.9s" x="905" y="150" width="52" height="52" fill="#7f9f8a" />
-        <rect class="hc__pop" style="--d: 1.25s" x="860" y="110" width="18" height="18" fill="#7f9f8a" />
-        <rect class="hc__pop" style="--d: 1s" x="96" y="560" width="74" height="74" fill="#7f9f8a" />
-        <rect class="hc__pop" style="--d: 1.35s" x="70" y="660" width="20" height="20" fill="#c9d8cc" />
-        <rect class="hc__pop" style="--d: 1.45s" x="290" y="620" width="18" height="18" fill="#c9d8cc" />
+        <rect class="hc__grid" x="0" y="0" width="1000" height="800" fill="url(#hc-grid)" />
+        <rect class="hc__field" x="170" y="110" width="650" height="470" />
+        <circle class="hc__pop hc__soft" style="--d: 1.1s" cx="880" cy="610" r="84" />
+        <rect class="hc__pop hc__ink" style="--d: 0.9s" x="905" y="150" width="52" height="52" />
+        <rect class="hc__pop hc__green" style="--d: 1.25s" x="860" y="110" width="18" height="18" />
+        <rect class="hc__pop hc__soft" style="--d: 1s" x="96" y="560" width="74" height="74" />
+        <rect class="hc__pop hc__ink" style="--d: 1.35s" x="70" y="660" width="20" height="20" />
+        <rect class="hc__pop hc__green" style="--d: 1.45s" x="290" y="620" width="18" height="18" />
       </svg>
 
       <img class="cut cut--building" style="--d: 0.35s" src={u('/images/collage/building.webp')} alt="" width="710" height="1005" decoding="async" fetchpriority="high" />
       <img class="cut cut--blueprint" style="--d: 0.55s" src={u('/images/collage/blueprint.webp')} alt="" width="900" height="687" decoding="async" />
 
-      <svg class="hc__svg hc__svg--chart" viewBox="0 0 1000 800">
-        <polyline
-          class="hc__chart"
-          pathLength="1"
-          points="30,700 150,610 235,668 345,535 430,575 530,445 610,468 705,345 790,372 880,215 975,95"
-          fill="none" stroke="#7f9f8a" stroke-width="15" stroke-linejoin="miter" stroke-linecap="square"
-        />
+      <svg class="hc__svg" viewBox="0 0 1000 800">
+        <polyline class="hc__chart" pathLength="1" points={points} />
+        {chart.map(([x, y], i) => (
+          <circle class="hc__node" style={`--d: ${1.2 + i * 0.15}s`} cx={x} cy={y} r="9" />
+        ))}
       </svg>
 
       <img class="cut cut--sheet" style="--d: 0.75s" src={u('/images/collage/hand-sheet.webp')} alt="" width="900" height="1739" decoding="async" />
@@ -56,20 +65,21 @@ import { u } from '../../lib/url';
 </section>
 
 <style>
-  .hc { padding: calc(var(--hdr-h) + 4px) var(--hero-frame) 0; }
+  .hc { padding: calc(var(--hdr-h) + var(--hero-frame)) var(--hero-frame) 0; }
   .hc__frame {
     display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     align-items: center;
     gap: clamp(16px, 2vw, 32px);
     padding: clamp(28px, 3.6vw, 56px);
+    border: var(--line, 0);
     border-radius: var(--r-lg);
-    background: var(--c-band);
+    background: var(--c-white-card);
     overflow: hidden;
   }
   .hc__copy {
     display: grid;
-    gap: clamp(14px, 1.6vw, 20px);
+    gap: clamp(18px, 2vw, 28px);
     justify-items: start;
   }
   h1 {
@@ -78,12 +88,48 @@ import { u } from '../../lib/url';
     letter-spacing: var(--tr-h1);
     max-width: var(--measure-head-lg);
   }
-  .hc__lead { max-width: 46ch; }
-  .hc__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .hc__lead { max-width: 46ch; font-size: var(--fs-lead); line-height: var(--lh-lead); }
+  .hc__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 12px; }
 
-  /* Сцена: пропорция = viewBox SVG (1000×800), координаты вырезок — в % от неё */
+  /* ---------- Рамка «UI-разметки»: зелёный контур, квадратики-ручки по углам, ярлык
+     сверху. Декор: ярлык скрыт от скринридеров. ---------- */
+  .anno {
+    position: relative;
+    padding: 8px;
+    outline: 1.5px solid var(--c-green, var(--c-sage));
+    outline-offset: 0;
+    background:
+      linear-gradient(var(--c-green, var(--c-sage)) 0 0) left top / 7px 7px no-repeat,
+      linear-gradient(var(--c-green, var(--c-sage)) 0 0) right top / 7px 7px no-repeat,
+      linear-gradient(var(--c-green, var(--c-sage)) 0 0) left bottom / 7px 7px no-repeat,
+      linear-gradient(var(--c-green, var(--c-sage)) 0 0) right bottom / 7px 7px no-repeat;
+  }
+  .anno--head { padding: 10px 14px 14px; margin-top: 18px; }
+  .anno__tag {
+    position: absolute;
+    left: -1.5px;
+    bottom: 100%;
+    padding: 2px 8px;
+    background: var(--c-green, var(--c-sage));
+    color: var(--c-ink);
+    font-size: 12px;
+    font-weight: var(--w-semibold);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .anno .btn { box-shadow: none; }
+
+  /* ---------- Сцена: пропорция = viewBox SVG (1000×800), вырезки — в % от неё ---------- */
   .hc__stage { position: relative; aspect-ratio: 5 / 4; }
   .hc__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .hc__gridline { stroke: var(--c-ink); stroke-width: 1; opacity: 0.16; }
+  .hc__field { fill: var(--c-green, var(--c-sage)); }
+  .hc__soft { fill: var(--c-green-soft, var(--c-sage-soft)); }
+  .hc__green { fill: var(--c-green, var(--c-sage)); }
+  .hc__ink { fill: var(--c-ink); }
+  .hc__chart { fill: none; stroke: var(--c-ink); stroke-width: 6; stroke-linejoin: miter; }
+  .hc__node { fill: var(--c-white-card); stroke: var(--c-ink); stroke-width: 4; }
+
   .cut { position: absolute; height: auto; }
   .cut--building  { left: 23%; top: 1%;  width: 38%; }
   .cut--blueprint { left: 58%; top: 19%; width: 38%; }
@@ -91,27 +137,30 @@ import { u } from '../../lib/url';
   .cut--calc      { left: 75%; top: 49%; width: 23%; }
 
   /* ---------- Анимация: поле выезжает, квадраты всплывают, вырезки поднимаются и
-     покачиваются, линия графика прорисовывается. Подъём — свойство translate,
-     покачивание — rotate: так две анимации не перебивают друг друга. ---------- */
+     покачиваются, линия графика прорисовывается, узлы проявляются по очереди.
+     Подъём — свойство translate, покачивание — rotate: так две анимации не
+     перебивают друг друга. ---------- */
   .hc__field,
-  .hc__pop { transform-box: fill-box; }
-  .hc__field { transform-origin: left center; animation: hc-slide 0.9s cubic-bezier(.2,.7,.2,1) both; }
-  .hc__grid { animation: hc-fade 1.2s ease-out both; }
-  .hc__pop { transform-origin: center; animation: hc-pop 0.5s cubic-bezier(.3,1.5,.5,1) var(--d) both; }
+  .hc__pop,
+  .hc__node { transform-box: fill-box; transform-origin: center; }
+  .hc__field { transform-origin: left center; animation: hc-slide 0.8s cubic-bezier(.7,0,.2,1) both; }
+  .hc__grid { animation: hc-fade 1s ease-out both; }
+  .hc__pop { animation: hc-pop 0.35s steps(3, end) var(--d) both; }
+  .hc__node { animation: hc-pop 0.3s cubic-bezier(.3,1.6,.5,1) var(--d) both; }
   .hc__chart {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: hc-draw 1.8s cubic-bezier(.45,0,.2,1) 1.1s forwards;
+    animation: hc-draw 1.6s linear 1.1s forwards;
   }
   .cut {
     transform-origin: 50% 90%;
     animation:
-      hc-rise 0.9s cubic-bezier(.2,.8,.2,1) var(--d) both,
-      hc-sway 7s ease-in-out calc(var(--d) + 0.9s) infinite alternate;
+      hc-rise 0.7s cubic-bezier(.2,.8,.2,1) var(--d) both,
+      hc-sway 7s ease-in-out calc(var(--d) + 0.7s) infinite alternate;
   }
-  .cut--blueprint { animation-duration: 0.9s, 9s; }
-  .cut--sheet     { animation-duration: 0.9s, 6s; transform-origin: 50% 100%; }
-  .cut--calc      { animation-duration: 0.9s, 8s; animation-direction: normal, alternate-reverse; transform-origin: 60% 100%; }
+  .cut--blueprint { animation-duration: 0.7s, 9s; }
+  .cut--sheet     { animation-duration: 0.7s, 6s; transform-origin: 50% 100%; }
+  .cut--calc      { animation-duration: 0.7s, 8s; animation-direction: normal, alternate-reverse; transform-origin: 60% 100%; }
 
   @keyframes hc-slide { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @keyframes hc-fade  { from { opacity: 0; } to { opacity: 1; } }
@@ -121,7 +170,7 @@ import { u } from '../../lib/url';
   @keyframes hc-sway  { from { rotate: -0.8deg; } to { rotate: 0.8deg; } }
 
   @media (prefers-reduced-motion: reduce) {
-    .hc__field, .hc__grid, .hc__pop, .cut { animation: none; }
+    .hc__field, .hc__grid, .hc__pop, .hc__node, .cut { animation: none; }
     .hc__chart { animation: none; stroke-dashoffset: 0; }
   }
 

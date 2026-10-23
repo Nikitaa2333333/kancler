@@ -72,32 +72,18 @@ mark { background: var(--c-blue); color: var(--c-ink); padding: 0 0.12em; border
 }
 .sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
 
-/* Блоки-«папки» (решение пользователя 23.10.2026): блоки ложатся стопкой. Каждый
-   прилипает к верху, следующий наезжает на него; у каждого — язычок-вкладка, как у
-   папки. Высокий блок прилипает, только когда показан до конца: --stick-top
-   = min(шапка, высота окна − высота блока), считает скрипт в Base.astro. */
-.sec--block {
-  position: sticky;
-  top: var(--stick-top, var(--hdr-h));
-}
+/* Наложение блоков — простое (решение пользователя 23.10.2026: «папки» с язычками и
+   прилипание у всех блоков — перебор, мешало прокрутке). Блоки чуть заходят друг на
+   друга с мягкой тенью. Прилипание «следующий наезжает» — только у .sec--stack
+   (короткие блоки: услуги, кейсы); --stick-top считает скрипт в Base.astro. */
+.sec--block { position: relative; }
 .sec--block + .sec--block {
   margin-top: calc(-1 * var(--block-overlap));
   padding-top: calc(var(--section-gap) + var(--block-overlap));
-  box-shadow: 0 -18px 40px rgb(11 46 60 / 0.08);
+  box-shadow: 0 -14px 32px rgb(11 46 60 / 0.07);
 }
-/* язычок папки: продолжение фона блока над его верхним краем */
-.sec--block + .sec--block::before {
-  content: '';
-  position: absolute;
-  left: clamp(20px, 3vw, 48px);
-  bottom: 100%;
-  width: clamp(120px, 16vw, 220px);
-  height: var(--tab-h);
-  border-radius: var(--r-md) var(--r-md) 0 0;
-  background: inherit;
-  box-shadow: 0 -10px 20px rgb(11 46 60 / 0.05);
-}
-@media (prefers-reduced-motion: reduce) { .sec--block { position: relative; top: auto; } }
+.sec--stack { position: sticky; top: var(--stick-top, var(--hdr-h)); }
+@media (prefers-reduced-motion: reduce) { .sec--stack { position: relative; top: auto; } }
 
 /* — Метка секции: мелкий кегль + semibold, без капса и разрядки — */
 .label {

@@ -1,79 +1,122 @@
 ---
 import { audience } from '../../data/home';
 import { typo } from '../../lib/typo';
-import { u } from '../../lib/url';
 ---
 
 <section class="sec aud" id="dlya-kogo" aria-labelledby="aud-title">
   <div class="wrap">
     <div class="aud__head">
       <h2 id="aud-title">{typo(audience.title)}</h2>
-      <p class="aud__lead">{typo(audience.lead)}</p>
+
+      <!-- Печатная машинка без плашки (решение 23.10.2026): виды работ из текста
+           клиента печатаются и стираются, мигает курсор -->
+      <p class="aud__works" aria-label={`${audience.works.join(', ')} ${audience.worksSuffix}`}>
+        <span aria-hidden="true"><span data-type data-words={JSON.stringify(audience.works)}>{audience.works[0]}</span><span class="aud__caret"></span></span>
+        <span aria-hidden="true">{audience.worksSuffix}</span>
+      </p>
+
+      <details class="aud__more">
+        <summary>{audience.more}</summary>
+        <p>{typo(audience.lead)}</p>
+      </details>
     </div>
 
-    <div class="aud__body">
-      <!-- 3D-каска (public/images/hardhat.png) — визуал секции вместо иконок -->
-      <figure class="aud__visual">
-        <img src={u('/images/hardhat.png')} alt="" width="900" height="900" loading="lazy" decoding="async" />
-      </figure>
-
-      <ul class="aud__list">
-        {audience.cards.map((c) => (
-          <li>
-            <h3>{typo(c.title)}</h3>
-            <p>{typo(c.text)}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul class="aud__grid">
+      {audience.cards.map((c) => (
+        <li>
+          <h3>{typo(c.title)}</h3>
+          <p>{typo(c.text)}</p>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-type]');
+  if (el && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const words: string[] = JSON.parse(el.dataset.words || '[]');
+    let w = 0;
+    let n = words[0].length;
+    let deleting = true;
+    const tick = () => {
+      if (deleting) {
+        n--;
+        if (n <= 0) { deleting = false; w = (w + 1) % words.length; n = 0; }
+      } else {
+        n++;
+      }
+      el.textContent = words[w].slice(0, n);
+      let delay = deleting ? 35 : 70;
+      if (!deleting && n === words[w].length) { deleting = true; delay = 1800; }
+      if (deleting && n === 0) delay = 250;
+      setTimeout(tick, delay);
+    };
+    setTimeout(tick, 1800);
+  }
+</script>
 
 <style>
   .aud__head {
     display: grid;
     justify-items: center;
     text-align: center;
-    gap: clamp(20px, 2.4vw, 32px);
+    gap: clamp(16px, 2vw, 24px);
     margin-bottom: var(--head-gap);
   }
-  .aud__head h2 { max-width: 24ch; }
-  .aud__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: var(--lh-lead); }
+  .aud__head h2 { max-width: 22ch; }
 
-  .aud__body {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: var(--card-gap);
-    align-items: stretch;
+  .aud__works {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0 0.3em;
+    font-family: var(--ff-display);
+    font-weight: var(--w-display);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--tr-h3);
   }
-  .aud__visual {
-    display: grid;
-    place-items: center;
-    padding: clamp(24px, 3vw, 40px);
-    border-radius: var(--r-lg);
-    background: #e9e5dc; /* = фон рендера каски, чтобы картинка не «плавала» прямоугольником */
+  .aud__caret {
+    display: inline-block;
+    width: 0.06em;
+    height: 0.95em;
+    margin-left: 0.04em;
+    vertical-align: -0.1em;
+    background: currentColor;
+    animation: aud-blink 1s steps(1) infinite;
   }
-  .aud__visual img { width: min(100%, 420px); height: auto; mix-blend-mode: multiply; }
+  @keyframes aud-blink { 50% { opacity: 0; } }
 
-  .aud__list {
+  .aud__more { max-width: var(--measure-lead); }
+  .aud__more summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: var(--w-semibold);
+  }
+  .aud__more summary:hover { text-decoration: underline; text-underline-offset: 5px; }
+  .aud__more summary::-webkit-details-marker { display: none; }
+  .aud__more p { margin-top: 16px; text-align: left; font-size: var(--fs-lead); line-height: var(--lh-lead); }
+
+  .aud__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--card-gap);
   }
-  .aud__list li {
+  .aud__grid li {
     display: grid;
     gap: 10px;
     align-content: start;
-    padding: clamp(20px, 2.2vw, 28px);
+    padding: clamp(22px, 2.4vw, 32px);
     border-radius: var(--r-lg);
-    background: var(--fill-card);
+    background: var(--c-white-card);
   }
-  .aud__list h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
-  .aud__list p { max-width: 34ch; }
-
-  @media (max-width: 860px) {
-    .aud__body { grid-template-columns: minmax(0, 1fr); }
-    .aud__visual img { width: min(100%, 300px); }
-  }
-  @media (max-width: 520px) { .aud__list { grid-template-columns: minmax(0, 1fr); } }
+  .aud__grid h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
+  @media (max-width: 1100px) { .aud__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .aud__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (prefers-reduced-motion: reduce) { .aud__caret { animation: none; } }
 </style>

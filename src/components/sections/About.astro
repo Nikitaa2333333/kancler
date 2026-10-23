@@ -5,7 +5,8 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 ---
 
-<section class="sec about on-dark" id="o-kompanii" aria-labelledby="about-title">
+<!-- Светлый блок вместо тёмного «депрессивного» (решение 23.10.2026) -->
+<section class="sec about" id="o-kompanii" aria-labelledby="about-title">
   <div class="wrap about__grid">
     <!-- Фото основателя клиент не прислала — пока сгенерированный кадр рабочего места
          (public/images/about.jpg). Появится портрет — заменить файл и alt. -->
@@ -13,62 +14,62 @@ import { u } from '../../lib/url';
       <img src={u('/images/about.jpg')} alt="" width="1400" height="1045" loading="lazy" decoding="async" />
     </figure>
 
-    <div class="about__body">
+    <div class="about__card">
       <h2 id="about-title">{typo(about.title)}</h2>
-      <dl class="about__facts">
-        <div>
-          <dt>Основатель</dt>
-          <dd>{typo(company.founder.name)}</dd>
-        </div>
-        <div>
-          <dt>На рынке</dt>
-          <dd>{typo(`с ${company.since} года`)}</dd>
-        </div>
-        <div>
-          <dt>Регион</dt>
-          <dd>{typo(`${company.region}, ${company.remote.toLowerCase()}`)}</dd>
-        </div>
-        <div>
-          <dt>Режим работы</dt>
-          <dd>{typo(company.hours)}</dd>
-        </div>
-      </dl>
+      <div class="about__person">
+        <p class="about__name">{typo(company.founder.name)}</p>
+        <p class="about__role">{company.founder.role}</p>
+      </div>
+      <ul class="about__facts">
+        <li><span>На рынке</span><b>{typo(`с ${company.since} года`)}</b></li>
+        <li><span>Регион</span><b>{typo(company.region)}</b></li>
+        <li><span>Формат</span><b>{typo(company.remote)}</b></li>
+        <li><span>На связи</span><b>{typo(company.hours)}</b></li>
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
-  .about { background: var(--c-ink); color: var(--c-white); }
+  .about { background: var(--c-band); }
   .about__grid {
     display: grid;
-    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
-    gap: var(--head-gap);
-    align-items: center;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--card-gap);
+    align-items: stretch;
   }
   .about__photo {
     overflow: hidden;
-    aspect-ratio: 4 / 3;
+    min-height: clamp(320px, 34vw, 520px);
     border-radius: var(--r-lg);
-    background: rgb(255 255 255 / 0.06);
   }
   .about__photo img { width: 100%; height: 100%; object-fit: cover; }
-  .about__body { display: grid; gap: clamp(24px, 3vw, 40px); align-content: center; }
-  .about h2 { color: var(--c-white); }
-  .about__facts { display: grid; border-top: 1px solid var(--glass-line); }
-  .about__facts div {
-    display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    gap: 16px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--glass-line);
+  .about__card {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 2.4vw, 32px);
+    padding: clamp(24px, 3vw, 40px);
+    border-radius: var(--r-lg);
+    background: var(--c-white-card);
   }
-  .about__facts dt { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 0.2em; }
-  .about__facts dd {
-    margin: 0;
+  .about__name {
     font-family: var(--ff-display);
-    font-size: var(--fs-h6);
-    line-height: var(--lh-h6);
-    letter-spacing: var(--tr-h6);
+    font-weight: var(--w-display);
+    font-size: var(--fs-h4);
+    line-height: var(--lh-h4);
+    letter-spacing: var(--tr-h4);
   }
+  .about__role { margin-top: 4px; font-size: var(--fs-lead); }
+  .about__facts { margin-top: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .about__facts li {
+    display: grid;
+    gap: 4px;
+    padding: 14px 16px;
+    border-radius: var(--r-md);
+    background: var(--c-band);
+  }
+  .about__facts span { font-size: var(--fs-small); }
+  /* <b> здесь не внутри фразы, а значение в служебной плашке — вес задаём явно */
+  .about__facts b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); }
   @media (max-width: 860px) { .about__grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

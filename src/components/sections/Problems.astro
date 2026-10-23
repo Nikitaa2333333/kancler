@@ -10,18 +10,40 @@ import { typo } from '../../lib/typo';
       <a class="btn" href="#zayavka">{typo(problems.cta)}</a>
     </div>
 
-    <!-- Швейцарская таблица: номер + фраза, строки разделены линиями
-         (решение пользователя 22.10.2026 — здесь линии используем) -->
-    <ol class="probs__rows">
-      {problems.items.map((t, i) => (
-        <li>
-          <span class="probs__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-          <p>{typo(t)}</p>
-        </li>
-      ))}
-    </ol>
+    <!-- Приём КТМ (SloganScroll): пункты серые, пока до них не докрутили, и
+         проявляются в полный цвет по мере прокрутки. Решение пользователя 23.10.2026;
+         прозрачность текста здесь — эффект, а не приглушение. -->
+    <ul class="probs__lines" data-lines>
+      {problems.items.map((t) => <li>{typo(t)}</li>)}
+    </ul>
   </div>
 </section>
+
+<script>
+  const list = document.querySelector<HTMLElement>('[data-lines]');
+  if (list && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const lines = [...list.children] as HTMLElement[];
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const vh = innerHeight;
+      for (const li of lines) {
+        const top = li.getBoundingClientRect().top;
+        // строка начинает проявляться у нижней трети экрана и полностью видна к середине
+        const p = Math.min(1, Math.max(0, (vh * 0.8 - top) / (vh * 0.3)));
+        li.style.setProperty('--p', p.toFixed(3));
+      }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    let active = false;
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !active) { active = true; addEventListener('scroll', onScroll, { passive: true }); update(); }
+      else if (!e.isIntersecting && active) { active = false; removeEventListener('scroll', onScroll); }
+    }).observe(list);
+    list.classList.add('is-scroll');
+    update();
+  }
+</script>
 
 <style>
   .probs__grid {
@@ -30,25 +52,21 @@ import { typo } from '../../lib/typo';
     gap: var(--head-gap);
     align-items: start;
   }
-  .probs__side { position: sticky; top: 104px; display: grid; gap: 28px; justify-items: start; }
-  .probs__side h2 { max-width: 20ch; }
+  .probs__side { position: sticky; top: 112px; display: grid; gap: 28px; justify-items: start; }
+  .probs__side h2 { max-width: 18ch; }
 
-  .probs__rows { border-top: 1px solid var(--c-ink); }
-  .probs__rows li {
-    display: grid;
-    grid-template-columns: 4ch minmax(0, 1fr);
-    gap: 16px;
-    align-items: start;
-    padding: clamp(18px, 2vw, 26px) 0;
-    border-bottom: 1px solid var(--c-ink);
-  }
-  .probs__num { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 0.45em; }
-  .probs__rows p {
+  .probs__lines { display: grid; gap: clamp(20px, 2.4vw, 32px); }
+  .probs__lines li {
     font-family: var(--ff-display);
-    font-size: var(--fs-h5);
-    line-height: var(--lh-h5);
-    letter-spacing: var(--tr-h5);
-    max-width: 34ch;
+    font-weight: var(--w-display);
+    font-size: var(--fs-h4);
+    line-height: var(--lh-h4);
+    letter-spacing: var(--tr-h4);
+    max-width: 30ch;
+  }
+  .probs__lines.is-scroll li {
+    opacity: calc(0.2 + var(--p, 0) * 0.8);
+    transition: opacity .15s linear;
   }
   @media (max-width: 860px) {
     .probs__grid { grid-template-columns: minmax(0, 1fr); }

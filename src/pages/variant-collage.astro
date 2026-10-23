@@ -1,0 +1,39 @@
+---
+/* Второй вариант главной — «коллажный» (задача docs/ЗАДАЧА-коллаж-вариант.md).
+   Закрыт от индексации, в меню не ссылается. Тексты и порядок блоков — как на главной;
+   пока в коллажной подаче только первый экран, остальные блоки согласуем по ходу. */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import HeroCollage from '../components/sections/HeroCollage.astro';
+import Audience from '../components/sections/Audience.astro';
+import Problems from '../components/sections/Problems.astro';
+import Services from '../components/sections/Services.astro';
+import Advantages from '../components/sections/Advantages.astro';
+import Cases from '../components/sections/Cases.astro';
+import Process from '../components/sections/Process.astro';
+import About from '../components/sections/About.astro';
+import CostFactors from '../components/sections/CostFactors.astro';
+import Request from '../components/sections/Request.astro';
+---
+
+<Base
+  title="Канцлер — коллажный вариант главной"
+  description="Черновой вариант главной страницы в коллажной подаче."
+  noindex
+>
+  <Header />
+  <main>
+    <HeroCollage />
+    <Audience />
+    <Problems />
+    <Services />
+    <Advantages />
+    <Cases />
+    <Process />
+    <About />
+    <CostFactors />
+    <Request />
+  </main>
+  <Footer />
+</Base>

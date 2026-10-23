@@ -17,5 +17,6 @@ export default defineConfig({
   site: SITE,
   base: BASE,
   build: { format: 'directory' },
-  integrations: [sitemap()],
+  // черновые варианты главной в карту сайта не попадают
+  integrations: [sitemap({ filter: (page) => !page.includes('/variant-') })],
 });

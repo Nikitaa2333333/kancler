@@ -15,8 +15,8 @@ import { u } from '../../lib/url';
       </div>
     </div>
 
-    <!-- Видео первого экрана: один кадр, 5 с, без звука (public/video/hero.mp4),
-         проигрывается один раз и останавливается на последнем кадре (стройка в окне).
+    <!-- Видео первого экрана: один кадр без звука (public/video/hero.mp4), по кругу.
+         Ролик склеен «туда-обратно» (5 с вперёд + 5 с назад), чтобы цикл шёл без рывка.
          Постер — первый кадр (public/images/hero-window.jpg): при отключённом движении
          видео не запускается, остаётся постер. -->
     <figure class="hero__media">
@@ -24,6 +24,7 @@ import { u } from '../../lib/url';
         class="hero__video"
         autoplay
         muted
+        loop
         playsinline
         preload="metadata"
         poster={u('/images/hero-window.jpg')}

@@ -38,23 +38,23 @@ const kinds = ['ledger', 'chart'] as const;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--card-gap);
   }
+  /* Чертёж — в правом нижнем углу поверх карточки, высоту карточки задаёт текст
+     (решение 23.10.2026: «плашки не должны растягиваться») */
   .svc__card {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
-    gap: clamp(16px, 2vw, 28px);
-    min-height: clamp(380px, 32vw, 460px);
+    position: relative;
+    overflow: hidden;
     padding: clamp(24px, 3vw, 40px);
+    padding-right: clamp(150px, 16vw, 220px);
     border-radius: var(--r-lg);
     background: linear-gradient(180deg, var(--card-bg, var(--c-white-card)) 45%, rgb(201 216 204 / 0.35) 100%);
   }
-  .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-  .svc__card h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
+  .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+  .svc__card h3 { margin-bottom: 4px; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
   .svc__text { max-width: 34ch; font-size: var(--fs-lead); line-height: 1.4; }
   .svc__list { margin-bottom: 8px; }
   .svc__list li::before { background: var(--c-sage); }
-  .svc__card .btn { margin-top: auto; }
-  .svc__art { display: grid; align-items: end; justify-items: center; }
-  .svc__art :global(.shape) { max-width: 230px; }
+  .svc__card .btn { margin-top: 8px; }
+  .svc__art { position: absolute; right: clamp(-8px, 0vw, 0px); bottom: clamp(-12px, -0.5vw, -4px); width: clamp(150px, 16vw, 220px); pointer-events: none; }
 
   .svc__card--dark { background: linear-gradient(180deg, var(--c-ink) 45%, #143f4e 100%); color: var(--c-white); }
   .svc__card--dark h3, .svc__card--dark .svc__text, .svc__card--dark .svc__list { color: var(--c-white); }
@@ -62,6 +62,6 @@ const kinds = ['ledger', 'chart'] as const;
   /* на тёмной карточке основные линии чертежа — белые */
   .svc__card--dark .svc__art :global(.shape) { stroke: var(--c-white); }
 
-  @media (max-width: 1100px) { .svc__card { grid-template-columns: minmax(0, 1fr); } .svc__art :global(.shape) { max-width: 200px; } }
-  @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } .svc__card { min-height: 0; } }
+  @media (max-width: 560px) { .svc__card { padding-right: clamp(24px, 3vw, 40px); padding-bottom: 150px; } .svc__art { width: 140px; } }
+  @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

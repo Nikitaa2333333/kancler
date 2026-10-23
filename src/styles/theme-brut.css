@@ -76,8 +76,9 @@ body.brut :is(.svc__card, .aud__grid li, .adv__grid li, .proc__grid li, .case, .
 body.brut .svc__card { background-color: var(--card-bg); }
 body.brut .aud__grid li,
 body.brut .adv__grid li { background-color: var(--card-bg); }
-/* тёмная карточка услуги — главный зелёный, текст тёмный (белый на зелёном не читается) */
-body.brut .svc__card--dark { background-color: var(--c-green); color: var(--c-ink); }
+/* тёмная карточка услуги — светлый зелёный, текст тёмный. Насыщенный --c-green на
+   целой карточке «бьёт» (пользователь 23.10.2026): он только для мелких акцентов. */
+body.brut .svc__card--dark { background-color: var(--c-green-soft); color: var(--c-ink); }
 body.brut .svc__card--dark :is(h3, .svc__text, .svc__list) { color: var(--c-ink); }
 body.brut .svc__card--dark .svc__list li::before { background: var(--c-ink); }
 body.brut .svc__card--dark .svc__art .shape { stroke: var(--c-ink); }

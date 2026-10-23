@@ -4,60 +4,73 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 ---
 
-<!-- Эксперимент 23.10.2026: фото во всю ширину, текст ниже — на градиенте, в который
-     фото растворяется. Видео снято (пользователю не понравилось качество). -->
+<!-- Первый экран «плашкой», как в шаблоне Avenir (решение 23.10.2026): фото внутри
+     скруглённой рамки с полем по краям, текст на фото поверх светлой подложки слева.
+     Фото — черновик, пользователь ищет референс на замену. -->
 <section class="hero" aria-labelledby="hero-title">
-  <figure class="hero__media">
-    <img src={u('/images/hero-wide.jpg')} alt="" width="2560" height="1086" fetchpriority="high" decoding="async" />
-  </figure>
+  <div class="hero__frame">
+    <img class="hero__img" src={u('/images/hero-wide.jpg')} alt="" width="2560" height="1086" fetchpriority="high" decoding="async" />
+    <div class="hero__shade" aria-hidden="true"></div>
 
-  <div class="wrap hero__copy">
-    <h1 id="hero-title">{typo(hero.title)}</h1>
-    <div class="hero__side">
+    <div class="hero__copy">
+      <h1 id="hero-title">{typo(hero.title)}</h1>
       <p class="hero__lead">{typo(hero.lead)}</p>
       <div class="hero__actions">
         <a class="btn" href="#zayavka">{typo(hero.primary)}</a>
-        <a class="btn btn--soft" href="#keysy">{typo(hero.secondary)}</a>
+        <a class="btn btn--light" href="#keysy">{typo(hero.secondary)}</a>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* фото уходит под прозрачную шапку — без верхнего отступа */
-  .hero { position: relative; }
-  .hero__media {
+  .hero { padding: calc(var(--hdr-h) + 4px) var(--hero-frame) 0; }
+  .hero__frame {
     position: relative;
-    height: clamp(340px, 48vw, 620px);
+    isolation: isolate;
     overflow: hidden;
+    min-height: clamp(460px, 42vw, 600px);
+    display: flex;
+    align-items: center;
+    border-radius: var(--r-lg);
+    background: var(--c-depth);
   }
-  .hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
-  /* фото растворяется в фон страницы — на этом градиенте стоит текст */
-  .hero__media::after {
-    content: '';
+  .hero__img {
     position: absolute;
     inset: 0;
-    /* плавное растворение по кривой (много точек — без видимой границы) */
-    background: linear-gradient(180deg, rgb(247 246 245 / 0) 30%, rgb(247 246 245 / 0.03) 40%, rgb(247 246 245 / 0.08) 48%, rgb(247 246 245 / 0.16) 56%, rgb(247 246 245 / 0.28) 64%, rgb(247 246 245 / 0.43) 72%, rgb(247 246 245 / 0.6) 80%, rgb(247 246 245 / 0.78) 88%, rgb(247 246 245 / 0.92) 95%, rgb(247 246 245 / 1) 100%);
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 50%;
+  }
+  /* светлая подложка слева под текст — плавная, по кривой */
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg,
+      rgb(247 246 245 / 0.94) 0%, rgb(247 246 245 / 0.9) 22%, rgb(247 246 245 / 0.78) 34%,
+      rgb(247 246 245 / 0.58) 44%, rgb(247 246 245 / 0.34) 54%, rgb(247 246 245 / 0.14) 64%,
+      rgb(247 246 245 / 0) 74%);
   }
   .hero__copy {
-    position: relative;
-    margin-top: clamp(-120px, -8vw, -64px);
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: clamp(24px, 3vw, 48px);
-    align-items: end;
+    gap: clamp(14px, 1.6vw, 20px);
+    justify-items: start;
+    max-width: 600px;
+    padding: clamp(32px, 4vw, 56px);
   }
   h1 {
-    font-size: var(--fs-h2);
-    line-height: var(--lh-h2);
-    letter-spacing: var(--tr-h2);
-    max-width: 22ch;
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+    letter-spacing: var(--tr-h1);
+    max-width: 20ch;
   }
-  .hero__side { display: grid; gap: 24px; justify-items: start; }
-  .hero__lead { max-width: 48ch; }
-  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  @media (max-width: 860px) {
-    .hero__copy { grid-template-columns: minmax(0, 1fr); margin-top: -64px; }
+  .hero__lead { max-width: 46ch; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  @media (max-width: 760px) {
+    .hero__frame { align-items: flex-end; min-height: 560px; }
+    .hero__shade { background: linear-gradient(0deg, rgb(247 246 245 / 0.96) 0%, rgb(247 246 245 / 0.85) 45%, rgb(247 246 245 / 0.3) 75%, rgb(247 246 245 / 0) 100%); }
   }
 </style>

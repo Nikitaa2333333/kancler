@@ -99,8 +99,8 @@ mark { background: var(--c-blue); color: var(--c-ink); padding: 0 0.12em; border
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 56px;
-  padding: 14px 28px;
+  min-height: 50px;
+  padding: 12px 24px;
   border: 0;
   border-radius: 10px;
   background: var(--c-ink);

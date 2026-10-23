@@ -72,6 +72,29 @@ mark { background: var(--c-blue); color: var(--c-ink); padding: 0 0.12em; border
 }
 .sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
 
+/* Наложение блоков (решение 23.10.2026): каждый следующий блок заходит на предыдущий
+   (отрицательный отступ + мягкая тень сверху) и при прокрутке выезжает снизу. Блоки
+   идут в порядке DOM, поэтому следующий рисуется поверх предыдущего. */
+.sec--block { position: relative; }
+.sec--block + .sec--block {
+  margin-top: calc(-1 * var(--block-overlap));
+  padding-top: calc(var(--section-gap) + var(--block-overlap));
+  box-shadow: 0 -14px 32px rgb(11 46 60 / 0.07);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sec--block + .sec--block {
+      animation: block-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+    @keyframes block-in {
+      from { transform: translateY(72px) scale(0.975); }
+      to { transform: none; }
+    }
+  }
+}
+
 /* — Метка секции: мелкий кегль + semibold, без капса и разрядки — */
 .label {
   font-family: var(--ff-body);

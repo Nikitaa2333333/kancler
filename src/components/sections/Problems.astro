@@ -48,12 +48,13 @@ import { typo } from '../../lib/typo';
 <style>
   .probs__grid {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
     gap: var(--head-gap);
     align-items: start;
   }
   .probs__side { position: sticky; top: 112px; display: grid; gap: 28px; justify-items: start; }
-  .probs__side h2 { max-width: 18ch; }
+  /* заголовок вширь — в 2–3 строки (решение 23.10.2026) */
+  .probs__side h2 { max-width: 26ch; }
 
   .probs__lines { display: grid; gap: clamp(20px, 2.4vw, 32px); }
   .probs__lines li {

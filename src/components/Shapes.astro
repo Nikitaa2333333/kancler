@@ -1,0 +1,54 @@
+---
+/* Геометрические композиции для карточек «Для кого» (решение пользователя 23.10.2026:
+   «SVG-формы», временно вместо иллюстраций). Палитра сайта: тёмно-синий, приглушённый
+   зелёный, голубо-серый. Каждая форма — свой образ:
+   tower — генподряд: башня из блоков; grid — субподряд: сетка участков, один выделен;
+   arch — отделка: арка-проём и плоскости стен; gear — инжиниринг: кольца и оси. */
+interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' }
+const { kind } = Astro.props;
+const ink = '#0b2e3c';
+const sage = '#7f9f8a';
+const blue = '#b8cdd4';
+const pale = '#c9d8cc';
+---
+
+<svg class="shape" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+  {kind === 'tower' && (
+    <g>
+      <rect x="40" y="150" width="120" height="30" rx="4" fill={ink} />
+      <rect x="55" y="118" width="90" height="30" rx="4" fill={sage} />
+      <rect x="68" y="86" width="64" height="30" rx="4" fill={blue} />
+      <rect x="80" y="54" width="40" height="30" rx="4" fill={ink} />
+      <rect x="92" y="22" width="16" height="30" rx="3" fill={pale} />
+    </g>
+  )}
+  {kind === 'grid' && (
+    <g>
+      {[0, 1, 2].map((r) => [0, 1, 2].map((c) => (
+        <rect x={30 + c * 50} y={30 + r * 50} width="40" height="40" rx="6"
+          fill={r === 1 && c === 2 ? ink : (r + c) % 2 ? blue : pale} />
+      )))}
+      <circle cx="150" cy="80" r="9" fill={sage} />
+    </g>
+  )}
+  {kind === 'arch' && (
+    <g>
+      <rect x="24" y="40" width="152" height="140" rx="6" fill={pale} />
+      <path d="M70 180 V110 a30 30 0 0 1 60 0 V180 Z" fill={ink} />
+      <rect x="24" y="40" width="152" height="22" rx="6" fill={sage} />
+      <rect x="140" y="96" width="24" height="56" rx="3" fill={blue} />
+    </g>
+  )}
+  {kind === 'gear' && (
+    <g fill="none">
+      <circle cx="100" cy="100" r="72" stroke={blue} stroke-width="14" />
+      <circle cx="100" cy="100" r="44" stroke={sage} stroke-width="14" />
+      <circle cx="100" cy="100" r="16" fill={ink} />
+      <path d="M100 18 V60 M100 140 V182 M18 100 H60 M140 100 H182" stroke={ink} stroke-width="8" stroke-linecap="round" />
+    </g>
+  )}
+</svg>
+
+<style>
+  .shape { width: 100%; max-width: 180px; height: auto; display: block; }
+</style>

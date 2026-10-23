@@ -4,68 +4,72 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 ---
 
-<section class="hero on-dark" aria-labelledby="hero-title">
-  <div class="hero__frame">
-    <!-- Фото первого экрана: вид сверху на рабочий стол (public/images/hero.jpg) -->
-    <img class="hero__img" src={u('/images/hero.jpg')} alt="" width="1920" height="1071" fetchpriority="high" decoding="async" />
-    <div class="hero__shade" aria-hidden="true"></div>
-
-    <div class="hero__inner">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
       <h1 id="hero-title">{typo(hero.title)}</h1>
       <p class="hero__lead">{typo(hero.lead)}</p>
       <div class="hero__actions">
-        <a class="btn btn--light" href="#zayavka">{typo(hero.primary)}</a>
+        <a class="btn" href="#zayavka">{typo(hero.primary)}</a>
         <a class="link" href="#keysy">{typo(hero.secondary)}</a>
       </div>
     </div>
+
+    <!-- Видео первого экрана: один кадр, 5 с, без звука (public/video/hero.mp4),
+         проигрывается один раз и останавливается на последнем кадре (стройка в окне).
+         Постер — первый кадр (public/images/hero-window.jpg): при отключённом движении
+         видео не запускается, остаётся постер. -->
+    <figure class="hero__media">
+      <video
+        class="hero__video"
+        autoplay
+        muted
+        playsinline
+        preload="metadata"
+        poster={u('/images/hero-window.jpg')}
+        width="1280"
+        height="720"
+      >
+        <source src={u('/video/hero.mp4')} type="video/mp4" />
+      </video>
+    </figure>
   </div>
 </section>
 
 <style>
-  .hero { padding: var(--hero-frame); }
-  .hero__frame {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    min-height: clamp(520px, 66vh, 640px);
-    display: flex;
-    align-items: center;
-    border-radius: var(--r-lg);
-    background: var(--c-ink);
-    color: var(--c-white);
-  }
-  .hero__img {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 60% 50%;
-  }
-  .hero__shade {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(90deg, rgb(8 35 47 / 0.84) 0%, rgb(8 35 47 / 0.6) 40%, rgb(8 35 47 / 0.15) 72%, rgb(8 35 47 / 0.05) 100%);
-  }
-  .hero__inner {
+  .hero { padding-top: clamp(104px, 11vw, 136px); padding-bottom: 0; }
+  .hero__grid {
     display: grid;
-    gap: clamp(16px, 1.8vw, 24px);
-    justify-items: start;
-    max-width: 680px;
-    padding: clamp(96px, 10vw, 120px) clamp(20px, 2.6vw, 40px) clamp(40px, 5vw, 64px);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(24px, 3.4vw, 48px);
+    align-items: center;
   }
+  .hero__copy { display: grid; gap: clamp(16px, 1.8vw, 24px); justify-items: start; }
   h1 {
     font-size: var(--fs-h2);
     line-height: var(--lh-h2);
     letter-spacing: var(--tr-h2);
-    color: var(--c-white);
-    max-width: 24ch;
+    max-width: 22ch;
   }
-  .hero__lead { color: var(--c-white); max-width: 54ch; }
+  .hero__lead { max-width: 50ch; }
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 8px; }
-  @media (max-width: 760px) {
-    .hero__shade { background: linear-gradient(0deg, rgb(8 35 47 / 0.9) 0%, rgb(8 35 47 / 0.6) 60%, rgb(8 35 47 / 0.35) 100%); }
+
+  .hero__media {
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--r-lg);
+    background: var(--c-depth);
+  }
+  .hero__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  @media (max-width: 860px) {
+    .hero { padding-top: 96px; }
+    .hero__grid { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
+
+<script>
+  // Движение отключено в системе — не крутим видео, показываем постер
+  const v = document.querySelector<HTMLVideoElement>('.hero__video');
+  if (v && matchMedia('(prefers-reduced-motion: reduce)').matches) v.removeAttribute('autoplay'), v.pause();
+</script>

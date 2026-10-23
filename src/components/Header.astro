@@ -71,10 +71,8 @@ import { u } from '../lib/url';
     box-shadow: 0 8px 24px rgb(11 46 60 / 0.1);
     transition: background-color .25s, box-shadow .25s, color .25s;
   }
-  .hdr.is-top .hdr__plate { background: transparent; box-shadow: none; color: var(--c-white); }
-  .hdr.is-top .hdr__cta { background: var(--c-paper); border-color: var(--c-paper); color: var(--c-ink); }
-  .hdr.is-top .hdr__chip { border-color: var(--glass-line); }
-  .hdr.is-top .hdr__burger summary span { background: var(--c-white); }
+  /* Первый экран светлый: вверху плашка просто прозрачная, цвета те же */
+  .hdr.is-top .hdr__plate { background: transparent; box-shadow: none; }
 
   .hdr__links { display: flex; gap: 24px; }
   .hdr__links a, .hdr__phone { text-decoration: none; font-weight: var(--w-medium); }

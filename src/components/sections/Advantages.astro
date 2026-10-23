@@ -3,6 +3,9 @@ import { advantages } from '../../data/home';
 import { typo } from '../../lib/typo';
 ---
 
+<!-- Новая концепция (23.10.2026): шесть вертикальных карточек в ряд — заголовок сверху,
+     описание прижато к низу, лёгкий зелёный градиент книзу, маленький квадрат-метка
+     как у чертежей. Плотный межстрочный в описании. -->
 <section class="sec sec--block sec--white adv" id="preimushchestva" aria-labelledby="adv-title">
   <div class="wrap">
     <div class="adv__head">
@@ -13,6 +16,7 @@ import { typo } from '../../lib/typo';
     <ul class="adv__grid">
       {advantages.items.map((it) => (
         <li>
+          <span class="adv__mark" aria-hidden="true"></span>
           <h3>{typo(it.title)}</h3>
           <p>{typo(it.text)}</p>
         </li>
@@ -29,23 +33,25 @@ import { typo } from '../../lib/typo';
     align-items: end;
     margin-bottom: var(--head-gap);
   }
-  .adv__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: var(--lh-lead); }
+  .adv__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: 1.45; }
   .adv__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: var(--card-gap);
   }
   .adv__grid li {
-    display: grid;
-    gap: 12px;
-    align-content: start;
-    padding: clamp(22px, 2.4vw, 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: clamp(260px, 22vw, 320px);
+    padding: clamp(18px, 1.8vw, 24px);
     border-radius: var(--r-lg);
-    background: var(--card-bg, var(--c-white-card));
+    background: linear-gradient(180deg, var(--card-bg, var(--c-white-card)) 40%, rgb(201 216 204 / 0.45) 100%);
   }
-  .adv__grid h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); max-width: 20ch; }
-  .adv__grid p { max-width: 36ch; }
-  @media (max-width: 980px) { .adv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .adv__mark { width: 8px; height: 8px; background: var(--c-sage); }
+  .adv__grid h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
+  .adv__grid p { margin-top: auto; font-size: var(--fs-small); line-height: 1.35; }
+  @media (max-width: 1100px) { .adv__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 860px) { .adv__head { grid-template-columns: minmax(0, 1fr); } }
-  @media (max-width: 560px) { .adv__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .adv__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .adv__grid li { min-height: 220px; } }
 </style>

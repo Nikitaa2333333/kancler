@@ -5,9 +5,11 @@
    Чертёж стоит готовым (классы .dr/.fl остались от прорисовки — сейчас без эффекта);
    по чертежу ползёт маленький квадрат (.mover, CSS offset-path), пунктиры (.flow) бегут.
    tower — генподряд: аксонометрия дома; grid — субподряд: план, выделено помещение;
-   arch — отделка: развёртка стены с проёмом и плиткой; gear — инжиниринг: трубы и узлы.
+   arch — отделка: развёртка стены с проёмом и плиткой; gear — инжиниринг: трубы и узлы;
+   ledger — бухучёт: лист акта со строками, графой и печатью; chart — управленческий:
+   оси, столбцы по объектам и растущая линия.
    Цифры — условные чертёжные отметки (уровни, размеры), не данные клиента. */
-interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' }
+interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' | 'ledger' | 'chart' }
 const { kind } = Astro.props;
 const ink = '#0b2e3c';
 const sage = '#c9d8cc';
@@ -83,6 +85,31 @@ const mv = (path: string, dur = 7) => `offset-path: path('${path}'); --dur:${dur
         <text x="34" y="94">Ø25</text>
       </g>
       <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M30 60 H120 V140 H170', 6)} />
+    </g>
+  )}
+  {kind === 'ledger' && (
+    <g>
+      <rect x="50" y="20" width="110" height="150" fill="#ffffff" stroke="none" />
+      <rect x="40" y="30" width="110" height="150" fill={sage} stroke="none" />
+      <rect x="40" y="30" width="110" height="150" />
+      <path d="M52 48 H110" stroke-width="0.75" />
+      {[0, 1, 2, 3, 4, 5, 6].map((r) => <path d={`M52 ${68 + r * 12} H138`} stroke-width="0.5" />)}
+      <path d="M98 64 V148 M120 64 V148" stroke-width="0.5" />
+      <path d="M52 160 H96" stroke-width="0.75" />
+      <circle cx="122" cy="160" r="12" stroke={green} stroke-width="0.75" />
+      <circle cx="122" cy="160" r="8" stroke={green} stroke-width="0.5" />
+      <path class="flow" d="M30 30 V180" stroke-width="0.5" />
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={green} stroke="none" style={mv('M52 68 H138 M52 80 H138', 5)} />
+    </g>
+  )}
+  {kind === 'chart' && (
+    <g>
+      <path d="M30 170 H180 M30 170 V30" />
+      {[0, 1, 2, 3, 4].map((r) => <path d={`M30 ${140 - r * 28} H180`} stroke-width="0.4" stroke-dasharray="2 4" />)}
+      {[[48, 60], [78, 90], [108, 72], [138, 110]].map(([x, h]) => <rect x={x} y={170 - h} width="18" height={h} fill={sage} stroke="none" />)}
+      <path d="M44 128 L84 104 L114 116 L150 64 L172 48" stroke={green} stroke-width="0.75" />
+      {[[44, 128], [84, 104], [114, 116], [150, 64], [172, 48]].map(([x, y]) => <circle cx={x} cy={y} r="2.5" fill={green} stroke="none" />)}
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M44 128 L84 104 L114 116 L150 64 L172 48', 6)} />
     </g>
   )}
 </svg>

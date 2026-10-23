@@ -137,8 +137,9 @@ mark { background: var(--c-blue); color: var(--c-ink); padding: 0 0.12em; border
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-.btn:hover { background: var(--c-blue); color: var(--c-ink); }
+.btn:hover { background: var(--c-ink-deep); color: var(--c-white); }
 .btn--light { background: var(--c-white-card); color: var(--c-ink); }
+.btn--light:hover, .btn--soft:hover { background: var(--c-ink); color: var(--c-white); }
 .btn--soft { background: var(--fill-card-strong); color: var(--c-ink); }
 .btn--sm { min-height: 40px; padding: 8px 18px; font-size: 15px; border-radius: var(--r-sm); }
 

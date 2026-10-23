@@ -127,7 +127,7 @@ mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em;
   padding: 12px 24px;
   border: 0;
   border-radius: 10px;
-  background: var(--c-ink);
+  background: var(--c-primary);
   color: var(--c-white);
   font-family: var(--ff-body);
   font-size: var(--fs-body);
@@ -137,10 +137,10 @@ mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em;
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-.btn:hover { background: var(--c-ink-deep); color: var(--c-white); }
+.btn:hover { background: var(--c-primary-deep); color: var(--c-white); }
 .btn--light { background: var(--c-white-card); color: var(--c-ink); }
-.btn--light:hover, .btn--soft:hover { background: var(--c-ink); color: var(--c-white); }
-.btn--soft { background: var(--fill-card-strong); color: var(--c-ink); }
+.btn--light:hover, .btn--soft:hover { background: var(--c-primary); color: var(--c-white); }
+.btn--soft { background: var(--c-purple-soft); color: var(--c-ink); }
 .btn--sm { min-height: 40px; padding: 8px 18px; font-size: 15px; border-radius: var(--r-sm); }
 
 /* Ссылки без подчёркивания нигде (решение пользователя 23.10.2026). Наведение —
@@ -156,7 +156,7 @@ mark { background: var(--c-purple-soft); color: var(--c-ink); padding: 0 0.12em;
 }
 .link:hover, .pill:hover, .pill:focus-visible { background: var(--fill-card-strong); }
 
-:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 3px; }
 .on-dark :focus-visible { outline-color: var(--c-white); }
 
 .sr-only {

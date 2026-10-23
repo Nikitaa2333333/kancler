@@ -44,24 +44,24 @@ const kinds = ['ledger', 'chart'] as const;
     position: relative;
     overflow: hidden;
     padding: clamp(24px, 3vw, 40px);
-    padding-right: clamp(150px, 16vw, 220px);
+    padding-right: clamp(190px, 21vw, 290px);
     border-radius: var(--r-lg);
-    background: linear-gradient(180deg, var(--card-bg, var(--c-white-card)) 45%, rgb(201 216 204 / 0.35) 100%);
+    background: var(--card-bg, var(--c-white-card));
   }
   .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
   .svc__card h3 { margin-bottom: 4px; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
   .svc__text { max-width: 34ch; font-size: var(--fs-lead); line-height: 1.4; }
   .svc__list { margin-bottom: 8px; }
-  .svc__list li::before { background: var(--c-sage); }
+  .svc__list li::before { background: var(--c-purple); }
   .svc__card .btn { margin-top: 8px; }
-  .svc__art { position: absolute; right: clamp(-8px, 0vw, 0px); bottom: clamp(-12px, -0.5vw, -4px); width: clamp(150px, 16vw, 220px); pointer-events: none; }
+  .svc__art { position: absolute; right: clamp(-8px, 0vw, 0px); bottom: clamp(-12px, -0.5vw, -4px); width: clamp(200px, 22vw, 300px); pointer-events: none; }
 
-  .svc__card--dark { background: linear-gradient(180deg, var(--c-ink) 45%, #143f4e 100%); color: var(--c-white); }
+  .svc__card--dark { background: var(--c-primary); color: var(--c-white); }
   .svc__card--dark h3, .svc__card--dark .svc__text, .svc__card--dark .svc__list { color: var(--c-white); }
-  .svc__card--dark .svc__list li::before { background: var(--c-sage-soft); }
+  .svc__card--dark .svc__list li::before { background: var(--c-white); }
   /* на тёмной карточке основные линии чертежа — белые */
   .svc__card--dark .svc__art :global(.shape) { stroke: var(--c-white); }
 
-  @media (max-width: 560px) { .svc__card { padding-right: clamp(24px, 3vw, 40px); padding-bottom: 150px; } .svc__art { width: 140px; } }
+  @media (max-width: 560px) { .svc__card { padding-right: clamp(24px, 3vw, 40px); padding-bottom: 190px; } .svc__art { width: 190px; } }
   @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

@@ -46,7 +46,7 @@ const kinds = ['ledger', 'chart'] as const;
     padding: clamp(24px, 3vw, 40px);
     padding-right: clamp(190px, 21vw, 290px);
     border-radius: var(--r-lg);
-    background: var(--grad-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
   .svc__card h3 { margin-bottom: 4px; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }

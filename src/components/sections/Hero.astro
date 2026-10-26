@@ -9,7 +9,7 @@ import { u } from '../../lib/url';
      Фото — черновик, пользователь ищет референс на замену. -->
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__frame">
-    <img class="hero__img" src={u('/images/hero-wide.jpg')} alt="" width="2560" height="1086" fetchpriority="high" decoding="async" />
+    <img class="hero__img" src={u('/images/hero-office-top.jpg')} alt="" width="1376" height="768" fetchpriority="high" decoding="async" />
     <div class="hero__shade" aria-hidden="true"></div>
 
     <div class="hero__copy">
@@ -29,7 +29,8 @@ import { u } from '../../lib/url';
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    min-height: clamp(460px, 42vw, 600px);
+    /* рамка в пропорции фото (16:9), чтобы меловые расчёты по краям не срезались (23.10.2026) */
+    aspect-ratio: 16 / 9;
     display: flex;
     align-items: center;
     border-radius: var(--r-lg);
@@ -70,7 +71,6 @@ import { u } from '../../lib/url';
   .hero__lead { max-width: 46ch; }
   .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
   @media (max-width: 760px) {
-    .hero__frame { align-items: flex-end; min-height: 560px; }
-    .hero__shade { background: linear-gradient(0deg, rgb(248 249 247 / 0.96) 0%, rgb(248 249 247 / 0.85) 45%, rgb(248 249 247 / 0.3) 75%, rgb(248 249 247 / 0) 100%); }
+    .hero__frame { align-items: flex-end; aspect-ratio: auto; min-height: 560px; }    .hero__shade { background: linear-gradient(0deg, rgb(248 249 247 / 0.96) 0%, rgb(248 249 247 / 0.85) 45%, rgb(248 249 247 / 0.3) 75%, rgb(248 249 247 / 0) 100%); }
   }
 </style>

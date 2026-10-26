@@ -8,12 +8,18 @@
    arch — отделка: развёртка стены с проёмом и плиткой; gear — инжиниринг: трубы и узлы;
    ledger — бухучёт: лист акта с наклоном, без обводки — строки, графа, печать; chart — управленческий:
    оси, столбцы по объектам и растущая линия.
-   Цифры — условные чертёжные отметки (уровни, размеры), не данные клиента. */
-interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' | 'ledger' | 'chart' }
+   Цифры — условные чертёжные отметки (уровни, размеры), не данные клиента.
+   26.10.2026: клиент — чертежи стройки делают сайт похожим на стройкомпанию; в «Для кого»
+   теперь финансовые сюжеты в том же стиле: objects — генподряд: таблица объект/аванс/остаток;
+   ks2 — субподряд: листы КС-2 и КС-3 с печатью; margin — отделка: выручка и затраты по заказам,
+   маржа выделена; contracts — инжиниринг: расход по договорам против плана.
+   tower/grid/arch/gear больше не используются, оставлены про запас. */
+interface Props { kind: 'tower' | 'grid' | 'arch' | 'gear' | 'ledger' | 'chart' | 'objects' | 'ks2' | 'margin' | 'contracts' }
 const { kind } = Astro.props;
-const ink = '#2b2833';   /* палитра Lavender Reed: графит */
-const sage = '#d5ddcf';  /* светлый шалфей — заливки */
-const green = '#9dae94'; /* Sage Whisper */
+/* цвета из токенов — перекрашиваются вместе с палитрой (?palette=…) */
+const ink = 'var(--c-ink)';         /* графит */
+const sage = 'var(--c-sage-soft)';  /* заливки */
+const green = 'var(--c-sage)';      /* акцент иллюстраций */
 const floors = [0, 1, 2, 3, 4, 5];
 const d = (i: number) => `--d:${(i * 0.12).toFixed(2)}s`;
 const mv = (path: string, dur = 7) => `offset-path: path('${path}'); --dur:${dur}s`;
@@ -107,6 +113,84 @@ const mv = (path: string, dur = 7) => `offset-path: path('${path}'); --dur:${dur
       <path d="M44 128 L84 104 L114 116 L150 64 L172 48" stroke={green} stroke-width="0.75" />
       {[[44, 128], [84, 104], [114, 116], [150, 64], [172, 48]].map(([x, y]) => <circle cx={x} cy={y} r="2.5" fill={green} stroke="none" />)}
       <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M44 128 L84 104 L114 116 L150 64 L172 48', 6)} />
+    </g>
+  )}
+  {kind === 'objects' && (
+    <g>
+      <rect x="24" y="40" width="152" height="18" fill={sage} stroke="none" />
+      <path d="M24 40 H176 M24 58 H176 M24 166 H176" />
+      {[0, 1, 2, 3].map((r) => <path d={`M24 ${85 + r * 27} H176`} stroke-width="0.5" />)}
+      <path d="M76 40 V166 M126 40 V166" stroke-width="0.5" />
+      <g font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">
+        <text x="30" y="52">объект</text>
+        <text x="82" y="52">аванс</text>
+        <text x="132" y="52">остаток</text>
+        {[1, 2, 3, 4].map((n, r) => <text x="30" y={75 + r * 27}>№ {n}</text>)}
+        <text x="30" y="180">итого</text>
+      </g>
+      {[34, 22, 40, 16].map((w, r) => <rect x="82" y={68 + r * 27} width={w} height="8" fill={sage} stroke="none" />)}
+      {[18, 30, 10, 26].map((w, r) => <rect x="132" y={68 + r * 27} width={w} height="8" fill={green} stroke="none" />)}
+      <path class="flow" d="M82 176 H170" stroke-width="0.5" />
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M70 72 V153', 6)} />
+    </g>
+  )}
+  {kind === 'ks2' && (
+    <g>
+      <g transform="rotate(6 120 100)">
+        <rect x="76" y="30" width="96" height="136" rx="3" fill="var(--c-band)" stroke="none" />
+        <path d="M88 48 H128" />
+        {[0, 1, 2, 3, 4, 5].map((r) => <path d={`M88 ${66 + r * 12} H160`} stroke-width="0.5" />)}
+        <text x="136" y="50" font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">КС-3</text>
+      </g>
+      <g transform="rotate(-5 90 100)">
+        <rect x="32" y="40" width="100" height="140" rx="3" fill={sage} stroke="none" />
+        <path d="M44 58 H86" />
+        <text x="96" y="61" font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">КС-2</text>
+        {[0, 1, 2, 3, 4, 5, 6].map((r) => <path d={`M44 ${76 + r * 11} H120`} stroke-width="0.5" />)}
+        <path d="M74 72 V150 M98 72 V150" stroke-width="0.5" />
+        <path d="M44 166 H80" />
+        <circle cx="106" cy="164" r="11" fill={green} stroke="none" opacity="0.55" />
+        <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M44 76 V142', 5)} />
+      </g>
+    </g>
+  )}
+  {kind === 'margin' && (
+    <g>
+      <path d="M28 168 H180 M28 168 V30" />
+      {[0, 1, 2, 3].map((r) => <path d={`M28 ${138 - r * 30} H180`} stroke-width="0.4" stroke-dasharray="2 4" />)}
+      {[[40, 96, 70], [76, 118, 92], [112, 84, 70], [148, 126, 90]].map(([x, rev, cost]) => (
+        <g>
+          <rect x={x} y={168 - cost} width="22" height={cost} fill={sage} stroke="none" />
+          <rect x={x} y={168 - rev} width="22" height={rev - cost} fill={green} stroke="none" />
+          <path d={`M${x} ${168 - rev} H${x + 22}`} stroke-width="0.5" />
+        </g>
+      ))}
+      <g font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif" text-anchor="middle">
+        {[1, 2, 3, 4].map((n, i) => <text x={51 + i * 36} y="180">заказ {n}</text>)}
+      </g>
+      <g font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">
+        <rect x="34" y="26" width="6" height="6" fill={green} stroke="none" />
+        <text x="44" y="32">маржа</text>
+        <rect x="84" y="26" width="6" height="6" fill={sage} stroke="none" />
+        <text x="94" y="32">затраты</text>
+      </g>
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M51 72 L87 50 L123 84 L159 42', 6)} />
+    </g>
+  )}
+  {kind === 'contracts' && (
+    <g>
+      {[0, 1, 2, 3].map((r) => (
+        <g>
+          <rect x="60" y={52 + r * 34} width="110" height="12" stroke-width="0.5" />
+          <rect x="60" y={52 + r * 34} width={[78, 96, 52, 104][r]} height="12" fill={r === 3 ? green : sage} stroke="none" />
+        </g>
+      ))}
+      <path class="flow" d="M150 40 V180" stroke-width="0.5" stroke={green} />
+      <g font-size="7" fill={ink} stroke="none" font-family="Manrope, sans-serif">
+        {[1, 2, 3, 4].map((n, r) => <text x="26" y={61 + r * 34}>дог. {n}</text>)}
+        <text x="140" y="34">план</text>
+      </g>
+      <rect class="mover" x="-3" y="-3" width="6" height="6" fill={ink} stroke="none" style={mv('M60 46 H164', 5)} />
     </g>
   )}
 </svg>

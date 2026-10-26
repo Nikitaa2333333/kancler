@@ -84,10 +84,10 @@ import { typo } from '../../lib/typo';
     min-height: clamp(260px, 22vw, 300px);
     padding: clamp(20px, 2vw, 28px);
     border-radius: var(--r-lg);
-    background: var(--grad-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .adv__mark { width: 8px; height: 8px; background: var(--c-purple); }  /* фиолетовый — только мелкий акцент */
-  .adv__track h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  .adv__track h3 { font-size: var(--fs-h5); font-weight: var(--w-display-sm); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
   .adv__track p { margin-top: auto; line-height: 1.35; }
   @media (max-width: 760px) { .adv__nav { display: none; } .adv__head { display: block; } }
 </style>

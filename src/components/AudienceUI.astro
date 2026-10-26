@@ -1,0 +1,206 @@
+---
+/* Виджеты в карточках «Для кого» (26.10.2026, по референсам finance widgets): карточка сама
+   и есть виджет — крупная цифра, подпись, график прямо на карточке. Без вложенных окон,
+   подложек и теней («плашка в плашке» — отказ пользователя). Анимация один раз при появлении
+   (.is-in ставит скрипт): цифра отсчитывается, линии и столбцы растут, статусы меняются.
+   Названия и цифры условные, не данные клиентов.
+   objects — генподряд; ks2 — субподряд; margin — отделка; contracts — инжиниринг. */
+interface Props { kind: 'objects' | 'ks2' | 'margin' | 'contracts' }
+const { kind } = Astro.props;
+const objects = [['Объект 1', 86], ['Объект 2', 100], ['Объект 3', 54]] as const;
+const docs = ['КС-2', 'КС-3', 'Счёт-фактура'];
+const bars = [34, 52, 41, 60, 48, 66, 55, 72, 63, 80, 70, 92];
+---
+
+<div class={`aui aui--${kind}`} data-aui>
+  {kind === 'objects' && (
+    <>
+      <p class="aui__big"><span data-to="86">0</span>%</p>
+      <p class="aui__cap">авансов закрыто по объектам</p>
+      <div class="aui__rows">
+        {objects.map(([name, v], i) => (
+          <div class="aui__row" style={`--i:${i}; --v:${v}%`}>
+            <span>{name}</span>
+            <span class="aui__track"><i></i></span>
+            <span class="aui__num">{v}%</span>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+
+  {kind === 'ks2' && (
+    <>
+      <p class="aui__big"><span data-to="3">0</span> из 3</p>
+      <p class="aui__cap">закрывающих подписаны за октябрь</p>
+      <div class="aui__rows">
+        {docs.map((name, i) => (
+          <div class="aui__row aui__doc" style={`--i:${i}`}>
+            <span>{name}</span>
+            <span class="aui__status">
+              <span class="aui__chip">на подписи</span>
+              <span class="aui__chip aui__chip--ok">подписан</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </>
+  )}
+
+  {kind === 'margin' && (
+    <>
+      <p class="aui__big">+<span data-to="24">0</span>%</p>
+      <p class="aui__cap">маржа по последнему заказу</p>
+      <div class="aui__chart">
+        {bars.map((h, i) => <i style={`--i:${i}; --h:${h}%`} class={i === bars.length - 1 ? 'is-last' : ''}></i>)}
+      </div>
+    </>
+  )}
+
+  {kind === 'contracts' && (
+    <>
+      <p class="aui__big">−<span data-to="12">0</span>%</p>
+      <p class="aui__cap">расход по договору ниже плана</p>
+      <div class="aui__pf">
+        <span class="aui__pf-fact"></span>
+        <span class="aui__pf-plan"></span>
+      </div>
+      <div class="aui__pf-lbl"><span>факт</span><span>план</span></div>
+    </>
+  )}
+</div>
+
+<script>
+  // анимация — один раз, когда виджет показался на экране; цифра отсчитывается
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const count = (el: HTMLElement) => {
+    const to = Number(el.dataset.to);
+    if (reduce) { el.textContent = String(to); return; }
+    const t0 = performance.now();
+    const step = (t: number) => {
+      const p = Math.min((t - t0) / 1200, 1);
+      el.textContent = String(Math.round(to * (1 - Math.pow(1 - p, 4))));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const box = e.target as HTMLElement;
+      box.classList.add('is-in');
+      box.querySelectorAll<HTMLElement>('[data-to]').forEach(count);
+      io.unobserve(box);
+    }
+  }, { threshold: 0.4 });
+  document.querySelectorAll('[data-aui]').forEach((el) => io.observe(el));
+</script>
+
+<style>
+  .aui {
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 100%;
+    display: grid;
+    gap: 6px;
+    font-family: var(--ff-body);
+    font-size: 13px;
+    line-height: 1.3;
+    color: var(--c-ink);
+  }
+  /* крупная цифра — главный элемент виджета */
+  .aui__big {
+    font-size: clamp(40px, 3.6vw, 54px);
+    font-weight: var(--w-semibold);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .aui__cap { font-size: 13px; font-weight: var(--w-semibold); }
+
+  .aui__rows { display: grid; gap: 12px; margin-top: 18px; }
+  .aui__row {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr) 36px;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.5s var(--ease), transform 0.6s var(--ease);
+    transition-delay: calc(0.15s + var(--i) * 0.1s);
+  }
+  .is-in .aui__row { opacity: 1; transform: none; }
+  .aui__num { text-align: right; font-variant-numeric: tabular-nums; font-weight: var(--w-semibold); }
+
+  /* тонкая линия-шкала с бегунком на конце */
+  .aui__track { position: relative; height: 2px; background: var(--c-band); }
+  .aui__track i {
+    position: absolute; inset: 0 auto 0 0;
+    width: var(--v);
+    background: var(--c-ink);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s var(--ease);
+    transition-delay: calc(0.3s + var(--i) * 0.12s);
+  }
+  .aui__track i::after {
+    content: ''; position: absolute; right: -4px; top: -3px;
+    width: 8px; height: 8px; border-radius: 50%; background: var(--c-primary);
+  }
+  .is-in .aui__track i { transform: none; }
+
+  /* документы: контурный чип «на подписи» сменяется залитым «подписан» */
+  .aui__doc { grid-template-columns: minmax(0, 1fr) auto; }
+  .aui__status { display: grid; justify-items: end; }
+  .aui__chip {
+    grid-area: 1 / 1;
+    padding: 3px 10px;
+    border: 1px solid var(--c-ink);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: var(--w-semibold);
+    white-space: nowrap;
+    transition: opacity 0.3s var(--ease), transform 0.5s var(--spring);
+  }
+  .aui__chip--ok { border-color: var(--c-primary); background: var(--c-primary); color: var(--c-white); opacity: 0; transform: scale(0.8); }
+  .is-in .aui__chip:not(.aui__chip--ok) { opacity: 0; transition-delay: calc(0.9s + var(--i) * 0.45s); }
+  .is-in .aui__chip--ok { opacity: 1; transform: none; transition-delay: calc(0.9s + var(--i) * 0.45s); }
+
+  /* тонкие столбцы растут по очереди, последний — акцентный */
+  .aui__chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 110px;
+    margin-top: 18px;
+    border-bottom: 1px solid var(--c-ink);
+  }
+  .aui__chart i {
+    width: 3px;
+    height: var(--h);
+    background: var(--c-ink);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.9s var(--ease);
+    transition-delay: calc(0.15s + var(--i) * 0.06s);
+  }
+  .aui__chart i.is-last { width: 10px; background: var(--c-primary); }
+  .is-in .aui__chart i { transform: none; }
+
+  /* план/факт: два блока, факт короче плана */
+  .aui__pf { display: grid; grid-template-columns: 88fr 12fr; height: 52px; margin-top: 18px; }
+  .aui__pf-fact {
+    background: var(--c-ink);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s var(--ease) 0.25s;
+  }
+  .aui__pf-plan {
+    align-self: start; height: 26px; background: var(--c-tint);
+    opacity: 0; transition: opacity 0.6s var(--ease) 1.2s;
+  }
+  .is-in .aui__pf-fact { transform: none; }
+  .is-in .aui__pf-plan { opacity: 1; }
+  .aui__pf-lbl { display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid var(--c-ink); font-size: 12px; font-weight: var(--w-semibold); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aui *, .aui *::after { transition: none !important; }
+  }
+</style>

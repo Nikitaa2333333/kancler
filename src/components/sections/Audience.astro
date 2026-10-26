@@ -1,9 +1,10 @@
 ---
 import { audience } from '../../data/home';
 import { typo } from '../../lib/typo';
-import Shapes from '../Shapes.astro';
+import AudienceUI from '../AudienceUI.astro';
 
-const kinds = ['tower', 'grid', 'arch', 'gear'] as const;
+/* мини-интерфейсы вместо чертежей: финансы, не стройка (клиент + пользователь, 26.10.2026) */
+const kinds = ['objects', 'ks2', 'margin', 'contracts'] as const;
 ---
 
 <section class="sec sec--block aud" id="dlya-kogo" aria-labelledby="aud-title">
@@ -27,7 +28,7 @@ const kinds = ['tower', 'grid', 'arch', 'gear'] as const;
             <h3>{typo(c.title)}</h3>
             <p>{typo(c.text)}</p>
           </div>
-          <div class="aud__art"><Shapes kind={kinds[i]} /></div>
+          <div class="aud__art"><AudienceUI kind={kinds[i]} /></div>
         </li>
       ))}
     </ul>
@@ -106,14 +107,14 @@ const kinds = ['tower', 'grid', 'arch', 'gear'] as const;
     padding: clamp(22px, 2.4vw, 32px);
     border-radius: var(--r-lg);
     /* лёгкий градиент: сверху цвет карточки, книзу едва зеленоватый */
-    background: var(--grad-card);
+    background: var(--card-bg, var(--c-white-card));
   }
   .aud__text { display: grid; gap: 14px; }
   .aud__text p { line-height: 1.35; }
   /* чертёж крупно, на всю ширину карточки, прижат к низу */
-  .aud__art { flex: 1; display: grid; align-items: end; justify-items: center; padding-top: 12px; }
-  .aud__art :global(.shape) { max-width: 250px; }  /* крупно; карточки той же высоты */
-  .aud__grid h3 { font-size: var(--fs-h5); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
+  /* виджет на всю ширину карточки, прижат к низу, без своей подложки */
+  .aud__art { flex: 1; display: grid; align-items: end; padding-top: 24px; }
+  .aud__grid h3 { font-size: var(--fs-h5); font-weight: var(--w-display-sm); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
   @media (max-width: 1100px) { .aud__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 520px) { .aud__grid { grid-template-columns: minmax(0, 1fr); } }
   @media (prefers-reduced-motion: reduce) { .aud__caret { animation: none; } }

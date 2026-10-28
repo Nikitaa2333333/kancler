@@ -70,7 +70,18 @@ import { u } from '../../lib/url';
   }
   .hero__lead { max-width: 46ch; }
   .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  /* Телефон — как на сайте КТМ (правка №10, 28.10): сначала фото во всю ширину, низ фото
+     плавно уходит в фон страницы, текст ниже на фоне. Компьютер не трогаем (утверждён). */
   @media (max-width: 760px) {
-    .hero__frame { align-items: flex-end; aspect-ratio: auto; min-height: 560px; }    .hero__shade { background: linear-gradient(0deg, rgb(248 249 247 / 0.96) 0%, rgb(248 249 247 / 0.85) 45%, rgb(248 249 247 / 0.3) 75%, rgb(248 249 247 / 0) 100%); }
+    .hero { padding: var(--hdr-h) 0 0; }
+    .hero__frame { display: block; aspect-ratio: auto; border-radius: 0; background: var(--c-paper); overflow: visible; }
+    .hero__img { position: relative; inset: auto; z-index: auto; height: auto; aspect-ratio: 4 / 3.6; object-position: 62% 50%; }
+    .hero__shade {
+      inset: 0 0 auto; z-index: 0; aspect-ratio: 4 / 3.6;
+      background: linear-gradient(180deg, rgb(247 246 242 / 0) 52%, rgb(247 246 242 / 0.75) 80%, var(--c-paper) 100%);
+    }
+    .hero__copy { position: relative; z-index: 1; max-width: none; margin-top: -56px; padding: 0 var(--gutter) 8px; }
+    .hero__actions { width: 100%; }
+    .hero__actions .btn { flex: 1 1 100%; }
   }
 </style>

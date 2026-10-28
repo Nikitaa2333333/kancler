@@ -45,11 +45,11 @@
      рядом с Inter (решение пользователя 23.10.2026). Запасной вариант, если и 600
      покажется лёгкой, — Source Serif 4 Bold. */
   --ff-display: 'Lora Variable', 'Lora', Georgia, serif;
-  --w-display: 600;
-  --w-display-sm: 500;  /* мелкие заголовки карточек — тоньше крупных (просьба 23.10.2026) */
+  --w-display: 650;    /* правка №9 (28.10): заголовки увесистее — Lora variable до 700 */
+  --w-display-sm: 620;  /* заголовки карточек: было 500 — терялись рядом с текстом (правка №9, 28.10) */
   /* Текст — Manrope Medium 500 (решение 23.10.2026: Inter слабый, нужен плотнее) */
   --ff-body: 'Manrope Variable', 'Manrope', system-ui, sans-serif;
-  --w-body: 600;   /* SemiBold — пользователь дважды просил жирнее (23.10.2026) */
+  --w-body: 500;   /* Medium, как на сайте КТМ: 600 «жирноватый» (правка №3, 28.10.2026) */
   --w-regular: 400;
   --w-medium: 500;
   --w-semibold: 600;
@@ -62,8 +62,8 @@
   --fs-h2: clamp(28px, 3vw, 42px);
   --fs-h3: clamp(22px, 2.1vw, 30px);
   --fs-h4: clamp(20px, 1.75vw, 24px);
-  --fs-h5: clamp(18px, 1.5vw, 21px);
-  --fs-h6: clamp(17px, 1.35vw, 19px);
+  --fs-h5: clamp(20px, 1.7vw, 24px);
+  --fs-h6: clamp(19px, 1.5vw, 21px);
   --fs-lead: clamp(17px, 1.35vw, 19px);
   --fs-body: 16px;
   --fs-small: 14px;

@@ -24,21 +24,48 @@ import { u } from '../lib/url';
       {company.whatsapp && <a class="hdr__chip" href={company.whatsapp} rel="noopener" aria-label="WhatsApp">WA</a>}
       <a class="btn btn--sm hdr__cta" href="#zayavka">{typo('Оставить заявку')}</a>
 
-      <details class="hdr__burger">
-        <summary aria-label="Меню"><span></span><span></span><span></span></summary>
-        <ul class="hdr__drop">
-          {nav.map((n) => <li><a href={u(n.href)}>{n.label}</a></li>)}
-        </ul>
-      </details>
+      <button class="hdr__burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mmenu" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Меню телефона на весь экран, как на сайте КТМ, но без плашек у пунктов (правка №4,
+       28.10): крупные пункты, ниже кнопка заявки и контакты. -->
+  <div class="mmenu" id="mmenu" hidden>
+    <nav class="mmenu__nav" aria-label="Меню">
+      <a class="mmenu__home" href={u('/')}>Главная</a>
+      {nav.map((n) => <a href={u(n.href)}>{n.label}</a>)}
+    </nav>
+    <div class="mmenu__foot">
+      <a class="btn mmenu__cta" href="#zayavka">{typo('Оставить заявку')}</a>
+      {company.phone && <a class="mmenu__phone" href={`tel:${company.phoneHref}`}>{company.phone}</a>}
+      <a class="mmenu__mail" href={`mailto:${company.leadEmail}`}>{company.leadEmail}</a>
+      <p>{typo(`${company.hours}, ${company.region}`)}</p>
+      <p>{typo(company.remote)}</p>
+      <div class="mmenu__social">
+        {company.telegram && <a class="hdr__chip" href={company.telegram} rel="noopener">Telegram</a>}
+        {company.whatsapp && <a class="hdr__chip" href={company.whatsapp} rel="noopener">WhatsApp</a>}
+      </div>
     </div>
   </div>
 </header>
 
 <script>
   const h = document.querySelector<HTMLElement>('.hdr');
-  h?.querySelectorAll('a[href^="#"]').forEach((a) =>
-    a.addEventListener('click', () => h.querySelector('details')?.removeAttribute('open')),
-  );
+  const btn = h?.querySelector<HTMLButtonElement>('[data-burger]');
+  const menu = document.getElementById('mmenu');
+  const setOpen = (open: boolean) => {
+    if (!btn || !menu) return;
+    btn.setAttribute('aria-expanded', String(open));
+    menu.hidden = !open;
+    h?.classList.toggle('is-open', open);
+    document.documentElement.classList.toggle('no-scroll', open);
+  };
+  btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  addEventListener('resize', () => { if (innerWidth > 1080) setOpen(false); });
 </script>
 
 <style>
@@ -78,20 +105,41 @@ import { u } from '../lib/url';
     font-size: var(--fs-small); font-weight: var(--w-semibold); text-decoration: none;
   }
 
-  .hdr__burger { display: none; position: relative; }
-  .hdr__burger summary {
-    list-style: none; cursor: pointer; width: 40px; height: 40px; display: grid; align-content: center; gap: 5px; padding-inline: 9px;
+  .hdr__burger {
+    display: none; position: relative; width: 44px; height: 44px; padding: 0 10px; border: 0; background: none; cursor: pointer;
   }
-  .hdr__burger summary::-webkit-details-marker { display: none; }
-  .hdr__burger summary span { display: block; height: 2px; background: var(--c-ink); border-radius: 2px; }
-  .hdr__drop {
-    position: absolute; right: 0; top: calc(100% + 10px); min-width: 220px; padding: 12px;
-    background: var(--c-white-card); color: var(--c-ink); border-radius: var(--r-md); box-shadow: 0 8px 24px rgb(43 40 51 / 0.14);
-    display: grid; gap: 4px;
-  }
-  .hdr__drop a { display: block; padding: 10px 12px; text-decoration: none; font-weight: var(--w-semibold); border-radius: var(--r-sm); }
-  .hdr__drop a:hover { background: var(--fill-card-strong); }
+  .hdr__burger span { position: absolute; left: 10px; right: 10px; height: 2px; border-radius: 2px; background: var(--c-ink); transition: transform .25s, opacity .2s; }
+  .hdr__burger span:nth-child(1) { top: 14px; }
+  .hdr__burger span:nth-child(2) { top: 21px; }
+  .hdr__burger span:nth-child(3) { top: 28px; }
+  .is-open .hdr__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .is-open .hdr__burger span:nth-child(2) { opacity: 0; }
+  .is-open .hdr__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .is-open { background: var(--c-paper); }
 
+  .mmenu {
+    position: fixed; inset: var(--hdr-h) 0 0; z-index: 49; overflow-y: auto;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 40px;
+    padding: 16px var(--gutter) calc(24px + env(safe-area-inset-bottom));
+    background: var(--c-paper);
+    animation: mm-in .25s ease;
+  }
+  .mmenu[hidden] { display: none; }
+  @keyframes mm-in { from { opacity: 0; transform: translateY(-8px); } }
+  .mmenu__nav { display: grid; }
+  .mmenu__nav a {
+    padding: 12px 0;
+    font-family: var(--ff-display); font-weight: var(--w-display);
+    font-size: clamp(28px, 8vw, 36px); line-height: 1.15; letter-spacing: var(--tr-h3);
+  }
+  .mmenu__home { opacity: 0.55; font-size: clamp(22px, 6vw, 26px) !important; }
+  .mmenu__foot { display: grid; gap: 10px; justify-items: start; font-size: var(--fs-lead); }
+  .mmenu__cta { width: 100%; min-height: 56px; margin-bottom: 10px; border-radius: 999px; font-size: 18px; }
+  .mmenu__phone, .mmenu__mail { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); color: var(--c-primary); }
+  .mmenu__social { display: flex; gap: 8px; }
+  :global(html.no-scroll) { overflow: hidden; }
+
+  @media (min-width: 1081px) { .mmenu { display: none !important; } }
   @media (max-width: 1080px) {
     .hdr__nav { display: none; }
     .hdr__right { margin-left: auto; }

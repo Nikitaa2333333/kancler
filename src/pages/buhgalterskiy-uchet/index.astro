@@ -121,8 +121,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 </Base>
 
 <style>
-  .factors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--card-gap); }
-  .factors li { display: grid; align-content: start; gap: 10px; padding: clamp(18px, 2vw, 26px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .factors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+  .factors li { display: grid; align-content: start; gap: 10px; padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
   .factors__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); color: var(--c-primary); }
   .factors h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
   .factors p { font-size: var(--fs-small); }
@@ -133,10 +133,10 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .scope__item h4 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
 
   .note { margin-top: 24px; max-width: var(--measure-text); padding: 16px 20px; border-radius: var(--r-sm); background: var(--c-tint); }
-  .note--plain { background: var(--card-bg); }
+  .note--plain { background: none; padding: 0; }
 
-  .checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--card-gap); }
-  .checks li { position: relative; padding: clamp(18px, 2vw, 26px); padding-top: 56px; border-radius: var(--r-lg); background: var(--card-bg); }
+  .checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+  .checks li { position: relative; padding: 56px 0 0; border-top: 1px solid var(--line-subtle); }
   .checks li::before {
     content: ''; position: absolute; top: 22px; left: clamp(18px, 2vw, 26px);
     width: 18px; height: 10px; border-left: 2px solid var(--c-primary); border-bottom: 2px solid var(--c-primary);
@@ -147,13 +147,13 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .notes--one { display: block; }
   .tables { display: grid; gap: clamp(40px, 5vw, 64px); margin-top: clamp(48px, 6vw, 80px); }
 
-  .example { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--card-gap); align-items: start; }
-  .example__card { display: grid; gap: 16px; padding: clamp(20px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .example { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+  .example__card { display: grid; gap: 16px; padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
   .example__subj { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); }
-  .example__calc { padding: clamp(20px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .example__calc { padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
 
-  .more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--card-gap); }
-  .more li { display: flex; flex-direction: column; gap: 10px; padding: clamp(18px, 2vw, 26px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+  .more li { display: flex; flex-direction: column; gap: 10px; padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
   .more h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
   .more__unit { font-size: var(--fs-small); }
   .more__price { margin-top: auto; padding-top: 8px; font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); }

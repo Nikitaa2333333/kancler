@@ -21,7 +21,7 @@ const { c } = Astro.props;
 </article>
 
 <style>
-  .chart { display: grid; gap: clamp(18px, 2vw, 24px); align-content: start; padding: clamp(22px, 2.6vw, 36px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .chart { display: grid; gap: clamp(18px, 2vw, 24px); align-content: start; padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
   .chart h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); max-width: 30ch; }
   .chart__note { max-width: var(--measure-text); font-size: var(--fs-small); }
 </style>

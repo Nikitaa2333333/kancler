@@ -66,11 +66,18 @@ import { typo } from '../../lib/typo';
   }
   .adv__arrow:hover { background: var(--c-ink); color: var(--c-white); }
 
+  /* лента уходит за край экрана, а не обрезается полями блока (правка №8, 28.10):
+     растягиваем на всю ширину окна, а отступ слева/справа возвращаем паддингом */
   .adv__track {
     display: flex;
     gap: var(--card-gap);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    /* --edge — расстояние от края окна до текста блока (поле блока + отступ .wrap) */
+    --edge: calc(var(--hero-frame) + max(var(--gutter), (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2));
+    margin-inline: calc(-1 * var(--edge));
+    padding-inline: var(--edge);
+    scroll-padding-inline: var(--edge);
     padding-bottom: 8px;
     scrollbar-width: none;
   }

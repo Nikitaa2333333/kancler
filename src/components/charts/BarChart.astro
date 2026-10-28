@@ -1,0 +1,61 @@
+---
+import { num } from '../../lib/num';
+
+/* Столбцы с нулевой линией (поддерживают минус). hi — подсвеченные столбцы: минус —
+   кирпичным, плюс — жёлтым маркером над значением. Растут от нуля при появлении. */
+interface Props { unit: string; labels: string[]; values: number[]; hi?: number[] }
+const { unit, labels, values, hi = [] } = Astro.props;
+const max = Math.max(...values, 0);
+const min = Math.min(...values, 0);
+const span = max - min || 1;
+const zero = (max / span) * 100; // положение нуля от верха, %
+---
+
+<div class="bc" data-reveal>
+  <p class="bc__unit">{unit}</p>
+  <div class="bc__plot" style={`--zero:${zero}%;--pb:${min < 0 ? 26 : 0}px`} role="img" aria-label={labels.map((l, i) => `${l}: ${num(values[i])} ${unit}`).join('; ')}>
+    <div class="bc__in">
+    <span class="bc__axis" aria-hidden="true"></span>
+    {values.map((v, i) => {
+      const h = (Math.abs(v) / span) * 100;
+      return (
+        <div class={`bc__col ${v < 0 ? 'bc__col--neg' : ''} ${hi.includes(i) ? 'bc__col--hi' : ''}`} style={`--h:${h}%;--i:${i}`} aria-hidden="true">
+          <span class="bc__bar"></span>
+          <span class="bc__val">{num(v)}</span>
+        </div>
+      );
+    })}
+    </div>
+  </div>
+  <ul class="bc__x" aria-hidden="true">
+    {labels.map((l) => <li>{l}</li>)}
+  </ul>
+</div>
+
+<style>
+  .bc { display: grid; gap: 8px; }
+  .bc__unit { font-size: var(--fs-small); opacity: 0.7; }
+  .bc__plot { height: clamp(220px, 24vw, 300px); padding: 28px 0 var(--pb, 0px); box-sizing: content-box; }
+  .bc__in { position: relative; display: flex; gap: clamp(8px, 1.6vw, 20px); height: 100%; }
+  .bc__axis { position: absolute; left: 0; right: 0; top: var(--zero); border-top: 1px solid var(--c-ink); }
+  .bc__col { position: relative; flex: 1; }
+  .bc__bar {
+    position: absolute; left: 0; right: 0; bottom: calc(100% - var(--zero)); height: var(--h);
+    border-radius: 6px 6px 0 0; background: var(--c-primary);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform .9s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i) * 0.12s);
+  }
+  .bc__col--neg .bc__bar { bottom: auto; top: var(--zero); border-radius: 0 0 6px 6px; transform-origin: top; background: var(--c-warn); }
+  .is-in .bc__bar { transform: scaleY(1); }
+  .bc__val {
+    position: absolute; left: 50%; bottom: calc(100% - var(--zero) + var(--h) + 6px); transform: translateX(-50%);
+    font-size: var(--fs-small); font-weight: var(--w-semibold); white-space: nowrap;
+    opacity: 0; transition: opacity .4s; transition-delay: calc(var(--i) * 0.12s + 0.7s);
+  }
+  .bc__col--neg .bc__val { bottom: auto; top: calc(var(--zero) + var(--h) + 6px); color: var(--c-warn); }
+  .is-in .bc__val { opacity: 1; }
+  .bc__col--hi:not(.bc__col--neg) .bc__val { padding: 0 4px; background: var(--c-accent); }
+  .bc__x { display: flex; gap: clamp(8px, 1.6vw, 20px); font-size: var(--fs-small); }
+  .bc__x li { flex: 1; text-align: center; }
+  @media (max-width: 560px) { .bc__val, .bc__x { font-size: 10.5px; } }
+</style>

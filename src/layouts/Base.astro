@@ -55,6 +55,17 @@ const metrika = import.meta.env.PUBLIC_METRIKA_ID;
       setTops();
       addEventListener('resize', setTops);
       addEventListener('load', setTops);
+
+      // [data-reveal]: графики и маркеры кейсов запускают анимацию, когда видны
+      const rv = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        rv.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver((es) => es.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        }), { threshold: 0.35 });
+        rv.forEach((el) => io.observe(el));
+      }
     </script>
   </body>
 </html>

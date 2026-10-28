@@ -1,0 +1,73 @@
+---
+import { typo } from '../../lib/typo';
+import { num } from '../../lib/num';
+
+/* Одна сумма, разложенная на части: горизонтальная полоса, подписи частей под ней,
+   необязательная опорная отметка (ref) — вертикальная черта с подписью. */
+interface Props {
+  unit: string;
+  total: { label: string; value: number };
+  parts: { label: string; value: number }[];
+  ref?: { value: number; label: string };
+}
+const { unit, total, parts, ref } = Astro.props;
+const pct = (v: number) => (v / total.value) * 100;
+let acc = 0;
+const segs = parts.map((p, i) => { const s = { ...p, left: acc, w: pct(p.value), i }; acc += s.w; return s; });
+---
+
+<div class="st" data-reveal>
+  <div class="st__head">
+    <p class="st__label">{typo(total.label)}</p>
+    <p class="st__total">{num(total.value)} <span>{unit}</span></p>
+  </div>
+  <div class={`st__track ${ref ? 'st__track--ref' : ''}`}>
+    <div class="st__bar" role="img" aria-label={`${total.label} ${num(total.value)} ${unit}: ${parts.map((p) => `${p.label} ${num(p.value)}`).join(', ')}`}>
+      {segs.map((s) => (
+        <span class={`st__seg st__seg--${s.i} ${s.w < 25 ? 'st__seg--narrow' : ''}`} style={`--l:${s.left}%;--w:${s.w}%;--i:${s.i}`}>
+          <span class="st__n">{num(s.value)}</span>
+        </span>
+      ))}
+    </div>
+    {ref && (
+      <div class="st__ref" style={`--x:${pct(ref.value)}%`}>
+        <span>{typo(ref.label)}</span>
+      </div>
+    )}
+  </div>
+  <ul class="st__keys">
+    {segs.map((s) => <li class={`st__key st__key--${s.i}`}>{typo(s.label)} — {num(s.value)} {unit}</li>)}
+  </ul>
+</div>
+
+<style>
+  .st { display: grid; gap: 14px; }
+  .st__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; }
+  .st__label { font-weight: var(--w-semibold); }
+  .st__total { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); letter-spacing: var(--tr-h3); }
+  .st__total span { font-size: var(--fs-h6); }
+  .st__track { position: relative; }
+  .st__track--ref { padding-bottom: 44px; }
+  .st__bar { position: relative; height: 64px; overflow: hidden; border-radius: 10px; background: var(--c-white-card); }
+  .st__seg {
+    position: absolute; top: 0; bottom: 0; left: var(--l); width: 0;
+    display: flex; align-items: center; padding-left: 14px; overflow: hidden;
+    color: var(--c-white); white-space: nowrap;
+    transition: width 1s cubic-bezier(.2, .7, .2, 1);
+    transition-delay: calc(var(--i) * 0.8s);
+  }
+  .is-in .st__seg { width: var(--w); }
+  .st__seg .st__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); opacity: 0; transition: opacity .4s; transition-delay: calc(var(--i) * 0.8s + 0.7s); }
+  .is-in .st__seg .st__n { opacity: 1; }
+  .st__seg--0 { background: var(--c-primary); }
+  .st__seg--1 { background: var(--c-tint); color: var(--c-ink); box-shadow: inset 2px 0 0 var(--c-white-card); }
+  .st__ref { position: absolute; top: 52px; bottom: 0; left: var(--x); width: 0; border-left: 2px dashed var(--c-warn); opacity: 0; transition: opacity .5s 1.8s; }
+  .is-in .st__ref { opacity: 1; }
+  .st__ref span { position: absolute; bottom: 0; left: 8px; width: max-content; max-width: min(46ch, 70vw); font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--c-warn); }
+  @media (max-width: 640px) { .st__seg--narrow .st__n { display: none; } }
+  .st__keys { display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: var(--fs-small); }
+  .st__key { display: flex; align-items: center; gap: 8px; }
+  .st__key::before { content: ''; flex: none; width: 14px; height: 14px; border-radius: 3px; }
+  .st__key--0::before { background: var(--c-primary); }
+  .st__key--1::before { background: var(--c-tint); }
+</style>

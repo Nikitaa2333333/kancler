@@ -1,0 +1,109 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import Sec from '../../components/page/Sec.astro';
+import PriceTable from '../../components/page/PriceTable.astro';
+import CaseCards from '../../components/page/CaseCards.astro';
+import Request from '../../components/sections/Request.astro';
+import Shapes from '../../components/Shapes.astro';
+import { upr } from '../../data/upr';
+import { cases } from '../../data/cases';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
+const arts = ['chart', 'margin', 'gear'] as const;
+---
+
+<Base title={upr.seo.title} description={upr.seo.description}>
+  <Header />
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Управленческий учёт' }]}
+      title={upr.hero.title}
+      lead={upr.hero.lead}
+      actions={[{ label: upr.hero.primary, href: '#zayavka' }, { label: upr.hero.secondary, href: '#stoimost', light: true }]}
+      art="chart"
+    />
+
+    <Sec id="napravleniya" title={upr.blocks.title} white>
+      <div class="blocks">
+        {upr.blocks.items.map((b, i) => (
+          <article class="blk">
+            <div class="blk__art" aria-hidden="true"><Shapes kind={arts[i]} /></div>
+            <h3>{typo(b.title)}</h3>
+            {b.tagline && <p class="blk__tag">{typo(b.tagline)}</p>}
+            {b.text.map((t) => <p>{typo(t)}</p>)}
+          </article>
+        ))}
+      </div>
+    </Sec>
+
+    <Sec id="kak-rabotaem" title={upr.sequences.title}>
+      <div class="seqs">
+        {upr.sequences.items.map((s) => (
+          <div class="seq">
+            <h3>{typo(s.title)}</h3>
+            <ol>
+              {s.steps.map((st, i) => (
+                <li>
+                  <span class="seq__n" aria-hidden="true">{i + 1}</span>
+                  <div>
+                    <h4>{typo(st.title)}</h4>
+                    {st.text && <p>{typo(st.text)}</p>}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </Sec>
+
+    <Sec id="stoimost" title={upr.prices.title} white>
+      <PriceTable head={upr.prices.head} rows={upr.prices.rows} />
+    </Sec>
+
+    <Sec id="podhod">
+      <div class="about">
+        <h2>{typo(upr.about.title)}</h2>
+        <div class="about__text">
+          {upr.about.text.map((t) => <p class="lead">{typo(t)}</p>)}
+        </div>
+      </div>
+    </Sec>
+
+    <Sec id="keysy" title="Кейсы по теме" white action={{ label: 'Все кейсы', href: u('/keysy/') }}>
+      <CaseCards items={related} />
+    </Sec>
+
+    <Request topic={upr.topic} />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .blk { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: clamp(22px, 2.4vw, 32px); padding-top: 150px; border-radius: var(--r-lg); background: var(--card-bg); }
+  .blk__art { position: absolute; top: -18px; right: -12px; width: 180px; pointer-events: none; }
+  .blk h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  .blk__tag { padding: 10px 14px; border-radius: var(--r-sm); background: var(--c-white-card); font-weight: var(--w-semibold); }
+
+  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: start; }
+  .seq { padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .seq h3 { margin-bottom: 20px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  .seq ol { display: grid; }
+  .seq li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-top: 1px solid var(--line-subtle); }
+  .seq__n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-sm); background: var(--c-tint); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  .seq h4 { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--w-semibold); letter-spacing: 0; line-height: var(--lh-body); }
+  .seq p { font-size: var(--fs-small); margin-top: 4px; }
+
+  .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+  .about__text { display: grid; gap: 16px; }
+
+  @media (max-width: 1100px) { .blocks, .seqs { grid-template-columns: minmax(0, 1fr); } .blk { padding-top: clamp(22px, 2.4vw, 32px); padding-right: 180px; } }
+  @media (max-width: 860px) { .about { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .blk { padding-right: clamp(22px, 2.4vw, 32px); padding-top: 150px; } }
+</style>

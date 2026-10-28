@@ -1,0 +1,44 @@
+---
+import { typo } from '../../lib/typo';
+
+/* Секция внутренней страницы — та же плашка-блок, что на главной (.sec--block),
+   белые чередуются через white. Заголовок, лид и необязательная кнопка справа. */
+interface Props {
+  id?: string;
+  title?: string;
+  lead?: string;
+  white?: boolean;
+  action?: { label: string; href: string };
+}
+const { id, title, lead, white = false, action } = Astro.props;
+const hid = id ? `${id}-title` : undefined;
+---
+
+<section class={`sec sec--block ${white ? 'sec--white' : ''}`} id={id} aria-labelledby={hid}>
+  <div class="wrap">
+    {(title || lead || action) && (
+      <div class="sx__head">
+        <div class="sx__titles">
+          {title && <h2 id={hid}>{typo(title)}</h2>}
+          {lead && <p class="lead sx__lead">{typo(lead)}</p>}
+        </div>
+        {action && <a class="btn" href={action.href}>{typo(action.label)}</a>}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .sx__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: var(--head-gap);
+  }
+  .sx__titles { display: grid; gap: 16px; }
+  .sx__titles h2 { max-width: 30ch; }
+  .sx__lead { max-width: var(--measure-text); font-size: var(--fs-lead); }
+</style>

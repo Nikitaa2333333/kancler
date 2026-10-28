@@ -1,0 +1,75 @@
+---
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+import Shapes from '../Shapes.astro';
+
+/* Первый экран внутренних страниц: светлая плашка как блоки главной, крошки, надзаголовок,
+   H1, лид, кнопки; справа — тонкий чертёж из Shapes (как в карточках услуг). */
+interface Action { label: string; href: string; light?: boolean }
+interface Props {
+  title: string;
+  kicker?: string;
+  lead?: string;
+  actions?: Action[];
+  crumbs?: { label: string; href?: string }[];
+  art?: 'tower' | 'grid' | 'arch' | 'gear' | 'ledger' | 'chart' | 'objects' | 'ks2' | 'margin' | 'contracts';
+}
+const { title, kicker, lead, actions = [], crumbs = [], art } = Astro.props;
+const href = (h: string) => (h.startsWith('#') ? h : u(h));
+---
+
+<section class="ph" aria-labelledby="ph-title">
+  <div class="ph__frame">
+    <div class="ph__copy">
+      {crumbs.length > 0 && (
+        <nav class="ph__crumbs" aria-label="Навигационная цепочка">
+          <ol>
+            <li><a class="pill" href={u('/')}>Главная</a></li>
+            {crumbs.map((c) => (
+              <li>{c.href ? <a class="pill" href={u(c.href)}>{typo(c.label)}</a> : <span aria-current="page">{typo(c.label)}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      {kicker && <p class="ph__kicker">{typo(kicker)}</p>}
+      <h1 id="ph-title">{typo(title)}</h1>
+      {lead && <p class="ph__lead">{typo(lead)}</p>}
+      {actions.length > 0 && (
+        <div class="ph__actions">
+          {actions.map((a) => <a class={`btn ${a.light ? 'btn--light' : ''}`} href={href(a.href)}>{typo(a.label)}</a>)}
+        </div>
+      )}
+      <slot />
+    </div>
+    {art && <div class="ph__art" aria-hidden="true"><Shapes kind={art} /></div>}
+  </div>
+</section>
+
+<style>
+  .ph { padding: calc(var(--hdr-h) + 4px) var(--hero-frame) 0; }
+  .ph__frame {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 24px;
+    padding: clamp(32px, 5vw, 72px) clamp(20px, 4vw, 56px);
+    border-radius: var(--r-lg);
+    background: var(--c-band);
+  }
+  .ph__copy { display: grid; gap: clamp(14px, 1.6vw, 20px); justify-items: start; max-width: 860px; }
+  .ph__crumbs ol { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: var(--fs-small); }
+  .ph__crumbs li { display: flex; align-items: center; gap: 20px; }
+  .ph__crumbs li + li::before { content: '/'; opacity: 0.5; margin-left: -12px; }
+  .ph__crumbs .pill { font-weight: var(--w-medium); }
+  .ph__kicker { font-size: var(--fs-lead); font-weight: var(--w-semibold); max-width: 46ch; }
+  h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); max-width: 22ch; }
+  .ph__lead { max-width: 58ch; font-size: var(--fs-lead); line-height: var(--lh-lead); }
+  .ph__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+  .ph__art { width: clamp(200px, 22vw, 300px); margin-bottom: clamp(-56px, -3vw, -24px); margin-right: clamp(-40px, -2vw, -12px); }
+  @media (max-width: 860px) {
+    .ph__frame { grid-template-columns: minmax(0, 1fr); }
+    .ph__art { display: none; }
+  }
+</style>

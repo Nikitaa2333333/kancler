@@ -21,6 +21,11 @@ import { typo } from '../../lib/typo';
     </ol>
 
     <p class="proc__note">{typo(proc.footnote)}</p>
+
+    <div class="proc__guarantee">
+      <h3>{typo(proc.guarantee.title)}</h3>
+      <p>{typo(proc.guarantee.text)}</p>
+    </div>
   </div>
 </section>
 
@@ -56,6 +61,16 @@ import { typo } from '../../lib/typo';
     font-weight: var(--w-semibold);
   }
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
+  .proc__guarantee {
+    display: grid;
+    gap: 10px;
+    margin-top: var(--card-gap);
+    padding: clamp(20px, 2vw, 28px);
+    border-radius: var(--r-lg);
+    background: var(--c-tint);
+  }
+  .proc__guarantee h3 { font-size: var(--fs-h5); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
+  .proc__guarantee p { max-width: var(--measure-text); }
   .proc__note { margin-top: 16px; max-width: var(--measure-text); font-size: var(--fs-small); }
   @media (max-width: 1100px) { .proc__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .proc__grid { grid-template-columns: minmax(0, 1fr); } }

@@ -1,0 +1,27 @@
+---
+import type { Chart } from '../../data/cases';
+import { typo } from '../../lib/typo';
+import AreaChart from './AreaChart.astro';
+import BarChart from './BarChart.astro';
+import ShareBars from './ShareBars.astro';
+import StackBar from './StackBar.astro';
+
+/* Карточка графика кейса: заголовок-вывод, сам график, пояснение. */
+interface Props { c: Chart }
+const { c } = Astro.props;
+---
+
+<article class="chart">
+  <h3>{typo(c.title)}</h3>
+  {c.kind === 'area' && <AreaChart unit={c.unit} labels={c.labels} values={c.values} ref={c.ref} hi={c.hi} />}
+  {c.kind === 'bars' && <BarChart unit={c.unit} labels={c.labels} values={c.values} hi={c.hi} />}
+  {c.kind === 'share' && <ShareBars series={c.series} rows={c.rows} hi={c.hi} />}
+  {c.kind === 'stack' && <StackBar unit={c.unit} total={c.total} parts={c.parts} ref={c.ref} />}
+  {c.note && <p class="chart__note">{typo(c.note)}</p>}
+</article>
+
+<style>
+  .chart { display: grid; gap: clamp(18px, 2vw, 24px); align-content: start; padding: clamp(22px, 2.6vw, 36px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .chart h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); max-width: 30ch; }
+  .chart__note { max-width: var(--measure-text); font-size: var(--fs-small); }
+</style>

@@ -4,7 +4,7 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 import Shapes from '../Shapes.astro';
 
-const kinds = ['ledger', 'chart'] as const;
+const kinds = ['ledger', 'chart', 'contracts'] as const;
 ---
 
 <!-- Главный блок (23.10.2026): две крупные карточки, у каждой свой тонкий чертёж в стиле
@@ -15,7 +15,7 @@ const kinds = ['ledger', 'chart'] as const;
 
     <div class="svc__grid">
       {services.cards.map((c, i) => (
-        <article class={`svc__card ${i === 1 ? 'svc__card--dark' : ''}`}>
+        <article class={`svc__card ${i === 1 ? 'svc__card--dark' : ''} ${i === 2 ? 'svc__card--wide' : ''}`}>
           <div class="svc__body">
             <h3>{typo(c.title)}</h3>
             <p class="svc__text">{typo(c.text)}</p>
@@ -58,6 +58,10 @@ const kinds = ['ledger', 'chart'] as const;
 
   /* вторая карточка — светло-зелёная подложка */
   .svc__card--dark { background: var(--c-tint); }
+  /* третья карточка (казначейство) — во всю ширину под парой, пункты в две колонки */
+  .svc__card--wide { grid-column: 1 / -1; }
+  .svc__card--wide .svc__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+  @media (max-width: 760px) { .svc__card--wide .svc__list { grid-template-columns: minmax(0, 1fr); } }
 
   @media (max-width: 560px) { .svc__card { padding-right: clamp(24px, 3vw, 40px); padding-bottom: 190px; } .svc__art { width: 190px; } }
   @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } }

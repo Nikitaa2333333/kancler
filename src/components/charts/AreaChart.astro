@@ -1,0 +1,75 @@
+---
+import { typo } from '../../lib/typo';
+import { num } from '../../lib/num';
+
+/* Площадной график по точкам: SVG растягивается по контейнеру (preserveAspectRatio=none,
+   линии без масштабирования толщины), подписи — HTML поверх в процентах, поэтому текст
+   не мельчает на телефоне. hi — точки, которые подсвечиваем (ниже нормы). */
+interface Props {
+  unit: string;
+  labels: string[];
+  values: number[];
+  ref?: { value: number; label: string };
+  hi?: number[];
+}
+const { unit, labels, values, ref, hi = [] } = Astro.props;
+const top = Math.max(...values, ref?.value ?? 0) * 1.12;
+const n = values.length;
+const X = (i: number) => 4 + (i / (n - 1)) * 92;
+const Y = (v: number) => 100 - (v / top) * 100;
+const line = values.map((v, i) => `${i ? 'L' : 'M'}${X(i)},${Y(v)}`).join(' ');
+const area = `${line} L${X(n - 1)},100 L${X(0)},100 Z`;
+---
+
+<div class="ac" data-reveal>
+  <div class="ac__plot" role="img" aria-label={`${labels.map((l, i) => `${l}: ${num(values[i])} ${unit}`).join('; ')}${ref ? `; ${ref.label}` : ''}`}>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="ac__area" d={area} />
+      <path class="ac__line" d={line} vector-effect="non-scaling-stroke" />
+      {ref && <line class="ac__ref" x1="0" x2="100" y1={Y(ref.value)} y2={Y(ref.value)} vector-effect="non-scaling-stroke" />}
+    </svg>
+    {ref && <p class="ac__refl" style={`top:${Y(ref.value)}%`}>{typo(ref.label)}</p>}
+    {values.map((v, i) => (
+      <span class={`ac__pt ${hi.includes(i) ? 'ac__pt--hi' : ''}`} style={`left:${X(i)}%;top:${Y(v)}%;--i:${i}`}>
+        <span class="ac__val">{num(v)}</span>
+      </span>
+    ))}
+  </div>
+  <ul class="ac__x" aria-hidden="true">
+    {labels.map((l, i) => <li style={`left:${X(i)}%`}>{l}</li>)}
+  </ul>
+  <p class="ac__unit">{unit}</p>
+</div>
+
+<style>
+  .ac { position: relative; padding-top: 28px; }
+  .ac__plot { position: relative; height: clamp(220px, 26vw, 320px); }
+  .ac svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ac__area { fill: var(--c-tint); opacity: 0; transition: opacity 1s .9s; }
+  /* линия «рисуется» слева направо — через clip-path, а не dasharray (с non-scaling-stroke даёт разрывы) */
+  .ac svg { clip-path: inset(0 100% 0 0); transition: clip-path 1.6s cubic-bezier(.4, .1, .2, 1); }
+  .is-in svg { clip-path: inset(-10% -1% -10% 0); }
+  .ac__line { fill: none; stroke: var(--c-primary); stroke-width: 2.5; }
+  .ac__ref { stroke: var(--c-warn); stroke-width: 2; stroke-dasharray: 6 5; }
+  .is-in .ac__area { opacity: 1; }
+  .ac__refl { position: absolute; right: 0; transform: translateY(4px); font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--c-warn); }
+  .ac__pt { position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--c-primary); box-shadow: 0 0 0 3px var(--card-bg, #fff); opacity: 0; transition: opacity .3s; transition-delay: calc(var(--i) * 0.22s + 0.2s); }
+  .is-in .ac__pt { opacity: 1; }
+  .ac__val { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); font-size: var(--fs-small); font-weight: var(--w-semibold); white-space: nowrap; }
+  .ac__pt--hi { background: var(--c-warn); }
+  .ac__pt--hi::after {
+    content: ''; position: absolute; inset: -14px; border: 2px solid var(--c-warn); border-radius: 50%;
+    transform: scale(.3); opacity: 0; transition: transform .6s cubic-bezier(.2, .9, .3, 1.3), opacity .4s; transition-delay: 1.8s;
+  }
+  .is-in .ac__pt--hi::after { transform: scale(1); opacity: 1; }
+  .ac__pt--hi .ac__val { color: var(--c-warn); background: var(--c-accent); padding: 0 4px; bottom: 18px; }
+  .ac__x { position: relative; height: 28px; margin-top: 10px; border-top: 1px solid var(--line-subtle); font-size: var(--fs-small); }
+  .ac__x li { position: absolute; top: 6px; transform: translateX(-50%); white-space: nowrap; }
+  .ac__unit { position: absolute; top: 0; left: 0; font-size: var(--fs-small); opacity: 0.7; }
+  @media (max-width: 560px) {
+    .ac { padding-bottom: 28px; }
+    .ac__refl { top: auto !important; bottom: -66px; left: 0; right: auto; transform: none; }
+    .ac__val { font-size: 11px; }
+    .ac__x { font-size: 11px; }
+  }
+</style>

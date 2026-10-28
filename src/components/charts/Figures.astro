@@ -1,0 +1,32 @@
+---
+import type { Figure } from '../../data/cases';
+import { typo } from '../../lib/typo';
+
+/* Крупные цифры кейса: значение антиквой, подпись под ним; при появлении под первым
+   значением проходит жёлтый маркер. */
+interface Props { items: Figure[] }
+const { items } = Astro.props;
+---
+
+<ul class="fig" data-reveal>
+  {items.map((f, i) => (
+    <li style={`--i:${i}`}>
+      <p class="fig__v"><span>{f.value}</span></p>
+      <p class="fig__l">{typo(f.label)}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .fig { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--card-gap); }
+  .fig li { display: grid; gap: 10px; align-content: start; padding: clamp(20px, 2.2vw, 28px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .fig__v { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1.1; letter-spacing: var(--tr-h3); }
+  .fig__v span {
+    background: linear-gradient(var(--c-accent), var(--c-accent)) no-repeat 0 88% / 0% 38%;
+    transition: background-size .9s cubic-bezier(.2, .7, .2, 1);
+    transition-delay: calc(var(--i) * 0.15s + 0.2s);
+  }
+  .is-in .fig__v span { background-size: 100% 38%; }
+  .fig__l { font-size: var(--fs-small); max-width: 26ch; }
+
+</style>

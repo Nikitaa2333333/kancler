@@ -1,10 +1,10 @@
 ---
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
-import Shapes from '../Shapes.astro';
 
 /* Первый экран внутренних страниц: светлая плашка как блоки главной, крошки, надзаголовок,
-   H1, лид, кнопки; справа — тонкий чертёж из Shapes (как в карточках услуг). */
+   H1, лид, кнопки. Справа — крупная цифра (stat) из текстов клиента: акцент на цифры
+   вместо тонких чертежей (правка №13, 28.10.2026). */
 interface Action { label: string; href: string; light?: boolean }
 interface Props {
   title: string;
@@ -12,9 +12,9 @@ interface Props {
   lead?: string;
   actions?: Action[];
   crumbs?: { label: string; href?: string }[];
-  art?: 'tower' | 'grid' | 'arch' | 'gear' | 'ledger' | 'chart' | 'objects' | 'ks2' | 'margin' | 'contracts';
+  stat?: { value: string; label: string };
 }
-const { title, kicker, lead, actions = [], crumbs = [], art } = Astro.props;
+const { title, kicker, lead, actions = [], crumbs = [], stat } = Astro.props;
 const href = (h: string) => (h.startsWith('#') ? h : u(h));
 ---
 
@@ -41,7 +41,12 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
       )}
       <slot />
     </div>
-    {art && <div class="ph__art" aria-hidden="true"><Shapes kind={art} /></div>}
+    {stat && (
+      <div class="ph__stat">
+        <p class="ph__stat-v">{stat.value}</p>
+        <p class="ph__stat-l">{typo(stat.label)}</p>
+      </div>
+    )}
   </div>
 </section>
 
@@ -67,9 +72,14 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
   h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); max-width: 22ch; }
   .ph__lead { max-width: 58ch; font-size: var(--fs-lead); line-height: var(--lh-lead); }
   .ph__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-  .ph__art { width: clamp(200px, 22vw, 300px); margin-bottom: clamp(-56px, -3vw, -24px); margin-right: clamp(-40px, -2vw, -12px); }
+  .ph__stat { display: grid; gap: 8px; width: clamp(200px, 20vw, 280px); padding-left: clamp(20px, 2.4vw, 32px); border-left: 2px solid var(--c-primary); }
+  .ph__stat-v { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h2); line-height: 1.05; letter-spacing: var(--tr-h2); color: var(--c-primary); }
+  .ph__stat-l { font-size: var(--fs-small); }
   @media (max-width: 860px) {
     .ph__frame { grid-template-columns: minmax(0, 1fr); }
-    .ph__art { display: none; }
+    .ph__stat { width: auto; padding-left: 16px; }
+    .ph__stat-v { font-size: var(--fs-h2); }
   }
+  /* кнопки на телефоне — во всю ширину (правка №14) */
+  @media (max-width: 560px) { .ph__actions, .ph__actions .btn { width: 100%; } }
 </style>

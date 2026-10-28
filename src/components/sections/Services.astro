@@ -2,9 +2,7 @@
 import { services } from '../../data/home';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
-import Shapes from '../Shapes.astro';
 
-const kinds = ['ledger', 'chart', 'contracts'] as const;
 ---
 
 <!-- Главный блок (23.10.2026): две крупные карточки, у каждой свой тонкий чертёж в стиле
@@ -24,7 +22,6 @@ const kinds = ['ledger', 'chart', 'contracts'] as const;
             </ul>
             <a class="btn" href={u(c.href)}>{services.more}</a>
           </div>
-          <div class="svc__art"><Shapes kind={kinds[i]} /></div>
         </article>
       ))}
     </div>
@@ -39,10 +36,10 @@ const kinds = ['ledger', 'chart', 'contracts'] as const;
     gap: 0 clamp(24px, 4vw, 64px);
   }
   /* Без «плашки в плашке» (правка №7, 28.10): услуги прямо на фоне блока, разделены
-     линией сверху; чертёж — справа от текста, высоту задаёт текст. */
+     линией сверху. Тонкие чертежи сняты (правка №13). */
   .svc__card {
     position: relative;
-    padding: clamp(24px, 2.6vw, 36px) clamp(180px, 20vw, 280px) clamp(8px, 1vw, 16px) 0;
+    padding: clamp(24px, 2.6vw, 36px) 0 clamp(8px, 1vw, 16px);
     border-top: 1px solid var(--line-subtle);
   }
   .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
@@ -51,13 +48,11 @@ const kinds = ['ledger', 'chart', 'contracts'] as const;
   .svc__list { margin-bottom: 8px; }
   .svc__list li::before { background: var(--c-ink); }
   .svc__card .btn { margin-top: 8px; }
-  .svc__art { position: absolute; right: 0; top: clamp(24px, 2.6vw, 36px); width: clamp(170px, 19vw, 260px); pointer-events: none; }
 
   /* третья услуга (казначейство) — во всю ширину под парой, пункты в две колонки */
   .svc__card--wide { grid-column: 1 / -1; }
   .svc__card--wide .svc__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
   @media (max-width: 760px) { .svc__card--wide .svc__list { grid-template-columns: minmax(0, 1fr); } }
 
-  @media (max-width: 560px) { .svc__card { padding-right: 0; } .svc__art { position: static; width: 130px; margin: -8px 0 0 auto; } }
   @media (max-width: 860px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

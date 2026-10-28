@@ -3,69 +3,109 @@ import { company, nav } from '../data/company';
 import { typo } from '../lib/typo';
 import { u } from '../lib/url';
 const year = 2026;
+const services = nav.filter((n) => /uchet|soprovozhdenie/.test(n.href));
+const more = nav.filter((n) => !services.includes(n));
 ---
 
+<!-- Подвал по образцу КТМ (правка №12, 28.10.2026): тёмная плашка, слева девиз и крупные
+     контакты с кнопкой заявки, справа меню колонками, внизу реквизиты и большая вордмарка.
+     Пустые поля company.ts (телефон, мессенджеры, реквизиты) не выводятся. -->
 <footer class="ftr">
-  <div class="wrap">
-    <div class="ftr__grid">
-      <div class="ftr__brand">
-        <a class="ftr__logo" href={u('/')}>{company.name}</a>
-        <p>{typo('Бухгалтерский и управленческий учёт для строительных компаний')}</p>
+  <div class="ftr__panel">
+    <div class="wrap">
+      <div class="ftr__top">
+        <div class="ftr__lead">
+          <p class="ftr__motto">{typo('Бухгалтерский и управленческий учёт для строительных компаний')}</p>
+          <div class="ftr__contacts">
+            {company.phone && <a class="ftr__big" href={`tel:${company.phoneHref}`}>{company.phone}</a>}
+            <a class="ftr__big" href={`mailto:${company.leadEmail}`}>{company.leadEmail}</a>
+          </div>
+          <dl class="ftr__facts">
+            <div><dt>{company.hours.replace(/^с /, '').replace(' до ', '–')}</dt><dd>часы работы</dd></div>
+            <div><dt>{company.region}</dt><dd>{typo(company.remote.toLowerCase())}</dd></div>
+            <div><dt>{`с ${company.since}`}</dt><dd>года на рынке</dd></div>
+          </dl>
+          <div class="ftr__actions">
+            <a class="btn ftr__cta" href="#zayavka">{typo('Оставить заявку')}</a>
+            {company.telegram && <a class="ftr__chip" href={company.telegram} rel="noopener">Telegram</a>}
+            {company.whatsapp && <a class="ftr__chip" href={company.whatsapp} rel="noopener">WhatsApp</a>}
+          </div>
+        </div>
+
+        <nav class="ftr__nav" aria-label="Меню в подвале">
+          <div>
+            <p class="ftr__h">Услуги</p>
+            <ul>{services.map((n) => <li><a href={u(n.href)}>{n.label}</a></li>)}</ul>
+          </div>
+          <div>
+            <p class="ftr__h">Компания</p>
+            <ul>
+              <li><a href={u('/')}>Главная</a></li>
+              {more.map((n) => <li><a href={u(n.href)}>{n.label}</a></li>)}
+            </ul>
+          </div>
+        </nav>
       </div>
 
-      <ul class="ftr__nav">
-        {nav.map((n) => <li><a class="pill" href={u(n.href)}>{n.label}</a></li>)}
-      </ul>
-
-      <div class="ftr__contacts">
-        {company.phone && <a class="ftr__phone" href={`tel:${company.phoneHref}`}>{company.phone}</a>}
-        {company.telegram && <a href={company.telegram} rel="noopener">Telegram</a>}
-        {company.whatsapp && <a href={company.whatsapp} rel="noopener">WhatsApp</a>}
-        <p>{typo(`${company.hours}, ${company.region}`)}</p>
-        <p>{typo(company.remote)}</p>
+      <div class="ftr__bottom">
+        <p>
+          © {year} {company.name}
+          {company.legalName && <span> · {company.legalName}</span>}
+          {company.inn && <span> · ИНН {company.inn}</span>}
+          {company.ogrn && <span> · ОГРН {company.ogrn}</span>}
+        </p>
+        <a href={u('/politika/')}>Политика конфиденциальности</a>
       </div>
     </div>
-
-    <div class="ftr__bottom">
-      <p>© {year} {company.name}{company.legalName && ` · ${company.legalName}`}{company.inn && ` · ИНН ${company.inn}`}{company.ogrn && ` · ОГРН ${company.ogrn}`}</p>
-      <a class="pill" href={u('/politika/')}>Политика конфиденциальности</a>
-    </div>
+    <p class="ftr__word" aria-hidden="true">{company.name}</p>
   </div>
 </footer>
 
 <style>
-  /* верхний отступ даёт низ секции заявки — свой не добавляем (иначе дыра ×2) */
-  .ftr { position: relative; z-index: 1; background: var(--c-paper); padding-bottom: 24px; }
-  .ftr__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);
-    gap: var(--head-gap);
-    padding: var(--head-gap) 0;
-    border-top: 1px solid var(--c-ink);
+  .ftr { position: relative; z-index: 1; background: var(--c-paper); padding: var(--block-gap) var(--hero-frame) var(--hero-frame); }
+  .ftr__panel {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(40px, 6vw, 88px);
+    border-radius: var(--r-lg);
+    background: var(--c-primary-deep);
+    color: var(--c-white);
   }
-  .ftr__brand { display: grid; gap: 12px; align-content: start; justify-items: start; }
-  .ftr__brand p { max-width: 32ch; }
-  .ftr__logo {
-    font-family: var(--ff-display);
-    font-weight: var(--w-display);
-    font-size: var(--fs-h4);
-    line-height: 1;
-    letter-spacing: var(--tr-h4);
-    text-decoration: none;
-  }
-  .ftr__nav { display: grid; gap: 8px; align-content: start; }
-  .ftr__nav a, .ftr__contacts a { text-decoration: none; font-weight: var(--w-medium); }
-  .ftr__contacts { display: grid; gap: 8px; align-content: start; justify-items: start; }
-  .ftr__phone { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); letter-spacing: var(--tr-h5); }
+  .ftr a { color: inherit; }
+  .ftr__top { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(36px, 6vw, 96px); }
+  .ftr__lead { display: grid; gap: clamp(20px, 2.6vw, 32px); align-content: start; }
+  .ftr__motto { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); max-width: 22ch; }
+  .ftr__contacts { display: grid; gap: 4px; justify-items: start; }
+  .ftr__big { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h2); line-height: 1.1; letter-spacing: var(--tr-h2); word-break: break-word; transition: opacity .2s; }
+  .ftr__big:hover { opacity: 0.8; }
+  .ftr__facts { display: flex; flex-wrap: wrap; gap: 16px clamp(28px, 4vw, 56px); margin: 0; }
+  .ftr__facts dt { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); }
+  .ftr__facts dd { margin: 2px 0 0; font-size: var(--fs-small); opacity: 0.75; }
+  .ftr__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .ftr .ftr__cta { min-height: 56px; padding-inline: 32px; border-radius: 999px; background: var(--c-white); color: var(--c-ink); font-size: 17px; }
+  .ftr .ftr__cta:hover { background: var(--c-accent); color: var(--c-ink); }
+  .ftr__chip { display: inline-flex; align-items: center; min-height: 56px; padding: 0 22px; border-radius: 999px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4); font-weight: var(--w-semibold); }
+  .ftr__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-content: start; }
+  .ftr__h { margin-bottom: 14px; font-size: var(--fs-small); opacity: 0.6; }
+  .ftr__nav ul { display: grid; gap: 10px; }
+  .ftr__nav a { font-size: var(--fs-lead); font-weight: var(--w-medium); transition: opacity .2s; }
+  .ftr__nav a:hover { opacity: 0.7; }
   .ftr__bottom {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--c-ink);
-    font-size: var(--fs-small);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
+    margin-top: clamp(40px, 6vw, 80px); padding-top: 20px;
+    border-top: 1px solid rgb(255 255 255 / 0.2);
+    font-size: var(--fs-small); opacity: 0.8;
   }
-  .ftr__bottom a { color: inherit; }
-  @media (max-width: 860px) { .ftr__grid { grid-template-columns: minmax(0, 1fr); } }
+  .ftr__word {
+    margin: clamp(8px, 2vw, 24px) 0 clamp(-24px, -2.4vw, -8px);
+    font-family: var(--ff-display); font-weight: var(--w-display);
+    font-size: clamp(88px, 22vw, 340px); line-height: 0.8; letter-spacing: -0.05em;
+    text-align: center; white-space: nowrap;
+    color: rgb(255 255 255 / 0.08);
+    user-select: none;
+  }
+  @media (max-width: 860px) {
+    .ftr__top { grid-template-columns: minmax(0, 1fr); }
+    .ftr__big { font-size: var(--fs-h3); }
+  }
 </style>

@@ -7,14 +7,12 @@ import Sec from '../../components/page/Sec.astro';
 import PriceTable from '../../components/page/PriceTable.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
 import Request from '../../components/sections/Request.astro';
-import Shapes from '../../components/Shapes.astro';
 import { upr } from '../../data/upr';
 import { cases } from '../../data/cases';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 
 const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
-const arts = ['chart', 'margin', 'gear'] as const;
 ---
 
 <Base title={upr.seo.title} description={upr.seo.description}>
@@ -25,14 +23,13 @@ const arts = ['chart', 'margin', 'gear'] as const;
       title={upr.hero.title}
       lead={upr.hero.lead}
       actions={[{ label: upr.hero.primary, href: '#zayavka' }, { label: upr.hero.secondary, href: '#stoimost', light: true }]}
-      art="chart"
+      stat={{ value: 'от 30 000 ₽', label: 'отчёт о движении денежных средств (ОДДС)' }}
     />
 
     <Sec id="napravleniya" title={upr.blocks.title} white>
       <div class="blocks">
         {upr.blocks.items.map((b, i) => (
           <article class="blk">
-            <div class="blk__art" aria-hidden="true"><Shapes kind={arts[i]} /></div>
             <h3>{typo(b.title)}</h3>
             {b.tagline && <p class="blk__tag">{typo(b.tagline)}</p>}
             {b.text.map((t) => <p>{typo(t)}</p>)}
@@ -86,10 +83,9 @@ const arts = ['chart', 'margin', 'gear'] as const;
 
 <style>
   .blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
-  .blk { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 150px 0 0; border-top: 1px solid var(--line-subtle); }
-  .blk__art { position: absolute; top: -18px; right: -12px; width: 180px; pointer-events: none; }
+  .blk { display: flex; flex-direction: column; gap: 12px; padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
   .blk h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .blk__tag { padding: 10px 14px; border-radius: var(--r-sm); background: var(--c-white-card); font-weight: var(--w-semibold); }
+  .blk__tag { font-weight: var(--w-semibold); color: var(--c-primary); }
 
   .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
   .seq { padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
@@ -103,7 +99,6 @@ const arts = ['chart', 'margin', 'gear'] as const;
   .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
   .about__text { display: grid; gap: 16px; }
 
-  @media (max-width: 1100px) { .blocks, .seqs { grid-template-columns: minmax(0, 1fr); } .blk { padding-top: clamp(22px, 2.4vw, 32px); padding-right: 180px; } }
+  @media (max-width: 1100px) { .blocks, .seqs { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 860px) { .about { grid-template-columns: minmax(0, 1fr); } }
-  @media (max-width: 560px) { .blk { padding-right: clamp(22px, 2.4vw, 32px); padding-top: 150px; } }
 </style>

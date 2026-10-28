@@ -1,0 +1,171 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import Sec from '../../components/page/Sec.astro';
+import PriceTable from '../../components/page/PriceTable.astro';
+import Faq from '../../components/page/Faq.astro';
+import CaseCards from '../../components/page/CaseCards.astro';
+import Process from '../../components/sections/Process.astro';
+import Request from '../../components/sections/Request.astro';
+import { buh } from '../../data/buh';
+import { cases } from '../../data/cases';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+/* Порядок блоков — как в файле клиента (8 блоков + форма). Блок 4 «Как начинаем работу» —
+   «дублируем квадратиками с первой страницы»: тот же компонент, что на главной. */
+const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
+---
+
+<Base title={buh.seo.title} description={buh.seo.description}>
+  <Header />
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Бухгалтерский учёт' }]}
+      kicker={buh.hero.kicker}
+      title={buh.hero.title}
+      lead={buh.hero.lead}
+      actions={[{ label: buh.hero.cta, href: '#zayavka' }, { label: 'Смотреть тарифы', href: '#tarify', light: true }]}
+      art="ledger"
+    />
+
+    <Sec id="cena" title={buh.price.title} white>
+      <ol class="factors">
+        {buh.price.factors.map((f, i) => (
+          <li>
+            <span class="factors__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{typo(f.title)}</h3>
+            <p>{typo(f.text)}</p>
+          </li>
+        ))}
+      </ol>
+
+      <h3 class="subhead">{typo(buh.scope.title)}</h3>
+      <div class="scope">
+        {buh.scope.items.map((it) => (
+          <div class="scope__item">
+            <h4>{typo(it.title)}</h4>
+            <p>{typo(it.text)}</p>
+          </div>
+        ))}
+      </div>
+      <p class="note">{typo(buh.scope.note)}</p>
+    </Sec>
+
+    <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead}>
+      <ul class="checks">
+        {buh.result.items.map((it) => <li>{typo(it)}</li>)}
+      </ul>
+      <p class="note note--plain">
+        {typo(buh.result.note)} <a class="link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)} →</a>
+      </p>
+    </Sec>
+
+    <Process />
+
+    <Sec id="tarify" title={buh.tariffs.title} white>
+      <PriceTable head={buh.tariffs.head} rows={buh.tariffs.rows} />
+      <ul class="notes">
+        {buh.tariffs.notes.map((n) => <li>{typo(n)}</li>)}
+      </ul>
+
+      <div class="tables">
+        <PriceTable caption={buh.extra.title} head={buh.extra.head} rows={buh.extra.rows} />
+        <div>
+          <PriceTable caption={buh.payroll.title} head={buh.payroll.head} rows={buh.payroll.rows} />
+          <p class="notes notes--one">{typo(buh.payroll.note)}</p>
+        </div>
+        <PriceTable caption={buh.control.title} head={buh.control.head} rows={buh.control.rows} />
+      </div>
+    </Sec>
+
+    <Sec id="primer" title={buh.example.title}>
+      <div class="example">
+        <div class="example__card">
+          <p class="example__subj">{typo(buh.example.subject)}</p>
+          <ul class="list">
+            {buh.example.params.map((p) => <li>{typo(p)}</li>)}
+          </ul>
+        </div>
+        <div class="example__calc">
+          <PriceTable head={buh.example.head} rows={buh.example.rows} foot={[buh.example.total, ...buh.example.after]} />
+        </div>
+      </div>
+    </Sec>
+
+    <Sec id="dop" title={buh.more.title} white>
+      <ul class="more">
+        {buh.more.items.map((it) => (
+          <li>
+            <h3>{typo(it.title)}</h3>
+            {it.unit && <p class="more__unit">{typo(it.unit)}</p>}
+            {it.price && <p class="more__price">{typo(it.price)}</p>}
+          </li>
+        ))}
+      </ul>
+    </Sec>
+
+    <Sec id="voprosy" title={buh.faq.title}>
+      <Faq items={buh.faq.items} />
+    </Sec>
+
+    <Sec id="keys" title="Кейс по теме" white action={{ label: 'Все кейсы', href: u('/keysy/') }}>
+      <CaseCards items={related} />
+    </Sec>
+
+    <Request topic={buh.topic} />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .factors { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--card-gap); }
+  .factors li { display: grid; align-content: start; gap: 10px; padding: clamp(18px, 2vw, 26px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .factors__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); color: var(--c-primary); }
+  .factors h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
+  .factors p { font-size: var(--fs-small); }
+
+  .subhead { margin: clamp(40px, 5vw, 64px) 0 var(--head-gap); font-size: var(--fs-h3); }
+  .scope { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); }
+  .scope__item { display: grid; gap: 8px; align-content: start; padding: 20px 0; border-top: 1px solid var(--line-subtle); }
+  .scope__item h4 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+
+  .note { margin-top: 24px; max-width: var(--measure-text); padding: 16px 20px; border-radius: var(--r-sm); background: var(--c-tint); }
+  .note--plain { background: var(--card-bg); }
+
+  .checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--card-gap); }
+  .checks li { position: relative; padding: clamp(18px, 2vw, 26px); padding-top: 56px; border-radius: var(--r-lg); background: var(--card-bg); }
+  .checks li::before {
+    content: ''; position: absolute; top: 22px; left: clamp(18px, 2vw, 26px);
+    width: 18px; height: 10px; border-left: 2px solid var(--c-primary); border-bottom: 2px solid var(--c-primary);
+    transform: rotate(-45deg);
+  }
+
+  .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); }
+  .notes--one { display: block; }
+  .tables { display: grid; gap: clamp(40px, 5vw, 64px); margin-top: clamp(48px, 6vw, 80px); }
+
+  .example { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: var(--card-gap); align-items: start; }
+  .example__card { display: grid; gap: 16px; padding: clamp(20px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .example__subj { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); }
+  .example__calc { padding: clamp(20px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+
+  .more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--card-gap); }
+  .more li { display: flex; flex-direction: column; gap: 10px; padding: clamp(18px, 2vw, 26px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .more h3 { font-size: var(--fs-h6); line-height: 1.2; letter-spacing: var(--tr-h6); }
+  .more__unit { font-size: var(--fs-small); }
+  .more__price { margin-top: auto; padding-top: 8px; font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); }
+
+  @media (max-width: 1100px) {
+    .factors { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .checks, .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 860px) {
+    .scope, .example { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .factors, .checks, .more { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

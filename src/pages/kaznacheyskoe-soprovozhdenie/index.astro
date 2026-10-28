@@ -1,0 +1,155 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import Sec from '../../components/page/Sec.astro';
+import PriceTable from '../../components/page/PriceTable.astro';
+import CaseCards from '../../components/page/CaseCards.astro';
+import Request from '../../components/sections/Request.astro';
+import { kazna } from '../../data/kazna';
+import { cases } from '../../data/cases';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+/* Порядок блоков — как в файле клиента. Кейс 3 (казначейский счёт, возврат НДС) —
+   по теме страницы. */
+const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
+---
+
+<Base title={kazna.seo.title} description={kazna.seo.description}>
+  <Header />
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Казначейское сопровождение' }]}
+      kicker="Казначейское сопровождение госконтрактов по 44-ФЗ и 223-ФЗ"
+      title={kazna.hero.title}
+      lead={kazna.hero.lead}
+      actions={[{ label: kazna.hero.primary, href: '#zayavka' }, { label: kazna.hero.secondary, href: '#zayavka', light: true }]}
+      art="contracts"
+    />
+
+    <Sec id="tarify" title={kazna.monthly.title} lead={kazna.monthly.lead} white>
+      <div class="tariffs">
+        {kazna.monthly.tariffs.map((t) => (
+          <article class="tariff">
+            <p class="tariff__label">Тариф</p>
+            <h3>{typo(`«${t.name}»`)}</h3>
+            <p class="tariff__for">{typo(t.for)}</p>
+            <dl class="tariff__params">
+              {t.params.map(([k, v]) => (
+                <div><dt>{typo(k)}</dt><dd>{typo(v)}</dd></div>
+              ))}
+            </dl>
+            <p class="tariff__price">{typo(t.price)}</p>
+            <p class="tariff__inc">Включено:</p>
+            <ul class="list">
+              {t.included.map((i) => <li>{typo(i)}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+
+      <div class="block-gap">
+        <PriceTable caption={kazna.extra.title} head={kazna.extra.head} rows={kazna.extra.rows} />
+      </div>
+    </Sec>
+
+    <Sec id="buhgalteriya" title={kazna.accounting.title} lead={kazna.accounting.lead}>
+      <div class="panel">
+        <PriceTable head={kazna.accounting.head} rows={kazna.accounting.rows} />
+      </div>
+    </Sec>
+
+    <Sec id="pakety" title={kazna.packages.title} white>
+      <div class="packs">
+        {kazna.packages.items.map((p) => (
+          <article class="pack">
+            <h3>{typo(`«${p.name}»`)}</h3>
+            <p class="pack__for">{typo(p.for)}</p>
+            <PriceTable head={['Состав', 'Стоимость']} rows={p.rows} foot={[['Итого', p.total]]} />
+          </article>
+        ))}
+      </div>
+    </Sec>
+
+    <Sec id="primery" title={kazna.examples.title}>
+      <div class="examples">
+        {kazna.examples.items.map((e) => (
+          <article class={`ex ${e.rows.length > 0 ? 'ex--wide' : ''}`}>
+            <div class="ex__head">
+              <h3>{typo(e.name)}</h3>
+              <ul class="list">
+                {e.params.map((p) => <li>{typo(p)}</li>)}
+              </ul>
+            </div>
+            {e.rows.length > 0 ? (
+              <PriceTable head={['Блок', 'Стоимость']} rows={e.rows} foot={[['Итого', e.total]]} />
+            ) : (
+              <p class="ex__total"><span>Стоимость:</span> {typo(e.total)}</p>
+            )}
+          </article>
+        ))}
+      </div>
+    </Sec>
+
+    <Sec id="cena" title={kazna.factors.title} white>
+      <ul class="factors">
+        {kazna.factors.items.map((f) => <li>{typo(f.charAt(0).toUpperCase() + f.slice(1))}</li>)}
+      </ul>
+    </Sec>
+
+    <Sec id="keys" title="Кейс по теме" action={{ label: 'Все кейсы', href: u('/keysy/') }}>
+      <CaseCards items={related} />
+    </Sec>
+
+    <Request topic={kazna.topic} />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tariffs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .tariff { display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .tariff__label { font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--c-primary); }
+  .tariff h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); margin-top: -8px; }
+  .tariff__for { min-height: 3.1em; }
+  .tariff__params { display: grid; }
+  .tariff__params div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line-subtle); font-size: var(--fs-small); }
+  .tariff__params dd { margin: 0; text-align: right; font-weight: var(--w-semibold); }
+  .tariff__price {
+    padding: 14px 16px; border-radius: var(--r-sm); background: var(--c-white-card);
+    font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4);
+  }
+  .tariff__inc { font-weight: var(--w-semibold); margin-bottom: -4px; }
+  .tariff .list { font-size: var(--fs-small); }
+
+  .block-gap { margin-top: clamp(48px, 6vw, 80px); }
+  .panel { padding: clamp(20px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+
+  .packs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+  .pack, .ex { display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .pack h3, .ex h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  .pack__for { margin-bottom: 4px; }
+
+  .examples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); align-items: stretch; }
+  .ex__head { display: grid; gap: 14px; align-content: start; }
+  .ex .ex__total { margin-top: auto; }
+  /* пример с расшифровкой — во всю ширину: условия слева, расчёт справа */
+  .ex--wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(20px, 3vw, 48px); align-items: start; }
+  .ex .list { font-size: var(--fs-small); }
+  .ex__total { margin-top: 8px; padding: 14px 16px; border-radius: var(--r-sm); background: var(--c-tint); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); }
+  .ex__total span { font-family: var(--ff-body); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+
+  .factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 48px); counter-reset: f; }
+  .factors li { counter-increment: f; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 16px 0; border-top: 1px solid var(--line-subtle); }
+  .factors li::before { content: counter(f, decimal-leading-zero); font-family: var(--ff-display); font-weight: var(--w-display); color: var(--c-primary); }
+
+  @media (max-width: 1100px) {
+    .tariffs, .examples, .ex--wide { grid-template-columns: minmax(0, 1fr); }
+    .tariff__for { min-height: 0; }
+    .factors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 860px) { .packs { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .factors { grid-template-columns: minmax(0, 1fr); } }
+</style>

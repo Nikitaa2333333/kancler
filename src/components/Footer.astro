@@ -14,7 +14,7 @@ const year = 2026;
       </div>
 
       <ul class="ftr__nav">
-        {nav.map((n) => <li><a class="pill" href={n.href}>{n.label}</a></li>)}
+        {nav.map((n) => <li><a class="pill" href={u(n.href)}>{n.label}</a></li>)}
       </ul>
 
       <div class="ftr__contacts">

@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import Sec from '../../components/page/Sec.astro';
+import Request from '../../components/sections/Request.astro';
+import { company } from '../../data/company';
+import { typo } from '../../lib/typo';
+
+/* Контакты: только то, что есть в company.ts. Телефон, мессенджеры и реквизиты клиент
+   ещё не прислала — пустые поля не выводятся (открытые вопросы 1–2). */
+const facts = [
+  { k: 'Почта для заявок', v: company.leadEmail, href: `mailto:${company.leadEmail}` },
+  company.phone && { k: 'Телефон', v: company.phone, href: `tel:${company.phoneHref}` },
+  company.telegram && { k: 'Telegram', v: 'Написать в Telegram', href: company.telegram },
+  company.whatsapp && { k: 'WhatsApp', v: 'Написать в WhatsApp', href: company.whatsapp },
+  { k: 'Часы работы', v: company.hours },
+  { k: 'Регион', v: company.region },
+  { k: 'Формат работы', v: company.remote },
+  { k: 'Основатель', v: company.founder.name },
+  company.legalName && { k: 'Юрлицо', v: company.legalName },
+  company.inn && { k: 'ИНН', v: company.inn },
+  company.ogrn && { k: 'ОГРН', v: company.ogrn },
+].filter(Boolean) as { k: string; v: string; href?: string }[];
+---
+
+<Base
+  title="Контакты — Канцлер, бухгалтерский и управленческий учёт для строительных компаний"
+  description={`Контакты «Канцлера»: ${company.leadEmail}, ${company.hours}. ${company.region}, работаем дистанционно.`}
+>
+  <Header />
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Контакты' }]}
+      title="Контакты"
+      lead={`${company.remote}. ${company.region}, ${company.hours}.`}
+      actions={[{ label: 'Оставить заявку', href: '#zayavka' }]}
+      art="grid"
+    />
+    <Sec white>
+      <dl class="facts">
+        {facts.map((f) => (
+          <div>
+            <dt>{typo(f.k)}</dt>
+            <dd>{f.href ? <a class="link" href={f.href}>{f.v}</a> : typo(f.v)}</dd>
+          </div>
+        ))}
+      </dl>
+    </Sec>
+    <Request topic="Контакты" />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); }
+  .facts div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 16px; padding: 18px 0; border-top: 1px solid var(--line-subtle); }
+  .facts dt { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 3px; }
+  .facts dd { margin: 0; font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); letter-spacing: var(--tr-h5); }
+  .facts .link { margin: -6px -12px; }
+  @media (max-width: 760px) { .facts { grid-template-columns: minmax(0, 1fr); } }
+</style>

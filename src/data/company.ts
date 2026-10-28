@@ -25,9 +25,12 @@ export const company = {
   leadEmail: 'kanc_konsalt@mail.ru',
 };
 
+/* Меню: страницы сайта (27.10.2026 появились страницы услуг и кейсов). Пути — без
+   префикса, в шапке и подвале проходят через u(). */
 export const nav = [
-  { href: '#uslugi', label: 'Услуги' },
-  { href: '#keysy', label: 'Кейсы' },
-  { href: '#o-kompanii', label: 'О компании' },
-  { href: '#zayavka', label: 'Контакты' },
+  { href: '/buhgalterskiy-uchet/', label: 'Бухгалтерия' },
+  { href: '/upravlencheskiy-uchet/', label: 'Управленческий учёт' },
+  { href: '/kaznacheyskoe-soprovozhdenie/', label: 'Казначейство' },
+  { href: '/keysy/', label: 'Кейсы' },
+  { href: '/kontakty/', label: 'Контакты' },
 ];

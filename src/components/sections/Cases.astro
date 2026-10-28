@@ -1,7 +1,9 @@
 ---
 import { cases } from '../../data/home';
+import { cases as items } from '../../data/cases';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
+import CaseCards from '../page/CaseCards.astro';
 ---
 
 <section class="sec sec--block cases" id="keysy" aria-labelledby="cases-title">
@@ -11,14 +13,8 @@ import { u } from '../../lib/url';
       <a class="btn" href={u('/keysy/')}>{cases.all}</a>
     </div>
 
-    <ul class="cases__grid">
-      {cases.items.map((c) => (
-        <li class={`case case--${c.tone}`}>
-          <h3>{typo(c.title)}</h3>
-          <a class="link" href={u('/keysy/')}>Читать кейс →</a>
-        </li>
-      ))}
-    </ul>
+    <!-- три кейса клиента со слайдов «Проект сайта» (27.10.2026), картинки — со слайдов -->
+    <CaseCards items={items} />
   </div>
 </section>
 
@@ -31,23 +27,4 @@ import { u } from '../../lib/url';
     gap: 20px;
     margin-bottom: var(--head-gap);
   }
-  .cases__grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--card-gap);
-  }
-  .case {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
-    min-height: clamp(260px, 24vw, 340px);
-    padding: clamp(22px, 2.4vw, 32px);
-    border-radius: var(--r-lg);
-    background: var(--card-bg, var(--c-white-card));
-  }
-  .case h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); max-width: 16ch; }
-  /* одна подача на все кейсы — без радуги (решение 23.10.2026) */
-  @media (max-width: 980px) { .cases__grid { grid-template-columns: minmax(0, 1fr); } .case { min-height: 200px; } }
 </style>

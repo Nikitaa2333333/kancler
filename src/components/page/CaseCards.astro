@@ -1,0 +1,58 @@
+---
+import type { Case } from '../../data/cases';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+/* Карточки кейсов: картинка со слайда клиента сверху, заголовок, строка результата.
+   Используется на главной, в списке кейсов и внизу страниц услуг. */
+interface Props { items: Case[] }
+const { items } = Astro.props;
+---
+
+<ul class={`cc ${items.length === 1 ? 'cc--one' : ''} ${items.length === 2 ? 'cc--two' : ''}`}>
+  {items.map((c) => (
+    <li class="cc__card">
+      <a class="cc__link" href={u(`/keysy/${c.slug}/`)}>
+        <div class="cc__img">
+          <img src={u(c.images[0].src)} alt="" width={c.images[0].w} height={c.images[0].h} loading="lazy" decoding="async" />
+        </div>
+        <div class="cc__body">
+          <h3>{typo(c.title)}</h3>
+          <p>{typo(c.short)}</p>
+          <span class="cc__more">Читать кейс →</span>
+        </div>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .cc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .cc__card { display: flex; }
+  .cc__link {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    background: var(--card-bg, var(--c-white-card));
+    transition: transform .25s;
+  }
+  .cc__link:hover { transform: translateY(-3px); }
+  .cc__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--c-white-card); border-bottom: 1px solid var(--line-faint); }
+  .cc__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; }
+  .cc__body { flex: 1; display: flex; flex-direction: column; gap: 12px; padding: clamp(20px, 2.2vw, 28px); }
+  .cc__body h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  .cc__body p { flex: 1; font-size: var(--fs-small); }
+  .cc__more { font-weight: var(--w-semibold); }
+  .cc--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* один кейс (внизу страниц услуг) — широкая карточка: картинка слева, текст справа */
+  .cc--one { grid-template-columns: minmax(0, 1fr); }
+  .cc--one .cc__link { flex-direction: row; }
+  .cc--one .cc__img { flex: 0 0 45%; aspect-ratio: auto; max-height: 340px; border-bottom: 0; border-right: 1px solid var(--line-faint); }
+  .cc--one .cc__body { justify-content: center; padding: clamp(24px, 3.2vw, 48px); }
+  .cc--one .cc__body h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); max-width: 24ch; }
+  .cc--one .cc__body p { flex: none; font-size: var(--fs-body); max-width: 48ch; }
+  @media (max-width: 760px) { .cc--one .cc__link { flex-direction: column; } .cc--one .cc__img { flex: none; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--line-faint); } }
+  @media (max-width: 980px) { .cc { grid-template-columns: minmax(0, 1fr); } .cc__img { aspect-ratio: 16 / 8; } }
+</style>

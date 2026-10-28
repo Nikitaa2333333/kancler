@@ -3,6 +3,9 @@ import { request } from '../../data/home';
 import { company } from '../../data/company';
 import { typo } from '../../lib/typo';
 
+/* topic — тема обращения страницы (из файлов клиента), уходит в заявку скрытым полем */
+interface Props { topic?: string }
+const { topic = 'Главная' } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
 ---
 
@@ -29,6 +32,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
             <input type="checkbox" name="consent" required />
             <span>{typo(request.consent)}</span>
           </label>
+          <input type="hidden" name="topic" value={topic} />
           <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="req__submit req__field--wide">
             <button class="btn" type="submit">{request.submit}</button>
@@ -63,7 +67,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
         await fetch(endpoint, {
           method: 'POST', mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ name, phone, comment: String(data.get('comment') || '').trim(), page: location.href }),
+          body: JSON.stringify({ name, phone, comment: String(data.get('comment') || '').trim(), topic: String(data.get('topic') || ''), page: location.href }),
         });
         form.reset();
         status.textContent = 'Заявка отправлена. Мы свяжемся с вами.';

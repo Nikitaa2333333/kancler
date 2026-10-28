@@ -1,0 +1,41 @@
+---
+import { typo } from '../../lib/typo';
+
+/* Вопрос — ответ на <details>, линии между вопросами (как таблицы цен). */
+interface Props { items: { q: string; a: string }[] }
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {items.map((it, i) => (
+    <details open={i === 0}>
+      <summary><span>{typo(it.q)}</span><span class="faq__mark" aria-hidden="true"></span></summary>
+      <p>{typo(it.a)}</p>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq { border-bottom: 1px solid var(--line-subtle); }
+  details { border-top: 1px solid var(--line-subtle); }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: clamp(16px, 1.8vw, 22px) 0;
+    font-family: var(--ff-display);
+    font-weight: var(--w-display);
+    font-size: var(--fs-h5);
+    line-height: 1.25;
+    letter-spacing: var(--tr-h5);
+  }
+  summary::-webkit-details-marker { display: none; }
+  .faq__mark { position: relative; flex: none; width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--c-tint); }
+  .faq__mark::before, .faq__mark::after { content: ''; position: absolute; left: 11px; right: 11px; top: 17px; height: 2px; background: var(--c-ink); transition: transform .2s; }
+  .faq__mark::after { transform: rotate(90deg); }
+  details[open] .faq__mark::after { transform: rotate(0); }
+  details p { max-width: var(--measure-text); padding-bottom: clamp(18px, 2vw, 24px); }
+</style>

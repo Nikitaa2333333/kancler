@@ -1,0 +1,121 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/page/PageHero.astro';
+import Sec from '../../components/page/Sec.astro';
+import CaseCards from '../../components/page/CaseCards.astro';
+import Request from '../../components/sections/Request.astro';
+import { cases, type Case } from '../../data/cases';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+export function getStaticPaths() {
+  return cases.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+interface Props { c: Case }
+const { c } = Astro.props;
+const others = cases.filter((x) => x.slug !== c.slug);
+let step = 0;
+const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\S*$/, '')}…` : c.intro[0];
+---
+
+<Base title={`${c.title} — кейс «Канцлера»`} description={desc}>
+  <Header />
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Кейсы', href: '/keysy/' }]}
+      title={c.title}
+    >
+      <ul class="tags">
+        {c.tags.map((t) => <li>{typo(t)}</li>)}
+      </ul>
+    </PageHero>
+
+    <Sec white>
+      <div class="case">
+        <div class="case__body">
+          <div class="case__intro">
+            {c.intro.map((p) => <p class="lead">{typo(p)}</p>)}
+          </div>
+
+          {c.sections.map((s) => {
+            const n = s.numbered ? ++step : 0;
+            return (
+              <section class="cs">
+                <h2>{n > 0 && <span class="cs__n">{n}</span>}{typo(s.title)}</h2>
+                {s.text?.map((p) => <p>{typo(p)}</p>)}
+                {s.list && (
+                  <ul class="list cs__list">
+                    {s.list.map((li) => <li>{typo(li)}</li>)}
+                  </ul>
+                )}
+              </section>
+            );
+          })}
+        </div>
+
+        <aside class="case__side">
+          <div class="side">
+            <p class="side__label">Услуга</p>
+            <a class="side__link" href={u(c.service.href)}>{typo(c.service.label)} →</a>
+            <a class="btn" href="#zayavka">Обсудить задачу</a>
+          </div>
+        </aside>
+      </div>
+    </Sec>
+
+    <Sec title="Материалы проекта" lead="Слайды и документы из работы по кейсу. Нажмите, чтобы открыть в полном размере.">
+      <div class={`gallery ${c.images.length === 2 ? 'gallery--two' : ''}`}>
+        {c.images.map((im) => (
+          <figure>
+            <a href={u(im.src)} target="_blank" rel="noopener">
+              <img src={u(im.src)} alt={im.alt} width={im.w} height={im.h} loading="lazy" decoding="async" />
+            </a>
+            <figcaption>{typo(im.alt)}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </Sec>
+
+    <Sec title="Другие кейсы" white action={{ label: 'Все кейсы', href: u('/keysy/') }}>
+      <CaseCards items={others} />
+    </Sec>
+
+    <Request topic={`Кейс: ${c.title}`} />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tags li { padding: 6px 12px; border-radius: var(--r-sm); background: var(--c-white-card); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+
+  .case { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+  .case__body { display: grid; gap: clamp(32px, 4vw, 48px); max-width: 780px; }
+  .case__intro { display: grid; gap: 16px; }
+  .cs { display: grid; gap: 14px; padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid var(--line-subtle); }
+  .cs h2 { display: flex; align-items: baseline; gap: 14px; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); max-width: none; }
+  .cs__n { flex: none; display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: var(--r-sm); background: var(--c-tint); font-size: var(--fs-h5); transform: translateY(-4px); }
+  .cs p { max-width: var(--measure-text); }
+  .cs__list { gap: 12px; max-width: var(--measure-text); }
+
+  .case__side { position: sticky; top: calc(var(--hdr-h) + 24px); }
+  .side { display: grid; gap: 12px; justify-items: start; padding: clamp(20px, 2.2vw, 28px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .side__label { font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  .side__link { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); letter-spacing: var(--tr-h5); margin-bottom: 8px; }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+  .gallery--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery figure { display: grid; gap: 10px; align-content: start; }
+  .gallery a { display: block; overflow: hidden; border-radius: var(--r-lg); background: var(--c-white-card); }
+  .gallery img { width: 100%; height: auto; transition: transform .3s; }
+  .gallery a:hover img { transform: scale(1.02); }
+  .gallery figcaption { font-size: var(--fs-small); max-width: 60ch; }
+
+  @media (max-width: 980px) {
+    .case { grid-template-columns: minmax(0, 1fr); }
+    .case__side { position: static; }
+  }
+  @media (max-width: 640px) { .gallery, .gallery--two { grid-template-columns: minmax(0, 1fr); } }
+</style>

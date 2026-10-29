@@ -9,6 +9,8 @@ export function typo(s: string): string {
   // два прохода: «и в», «у нас в» — после первой склейки второе слово ещё свободно
   let out = s.replace(SHORT, `$1$2${NBSP}`).replace(SHORT, `$1$2${NBSP}`);
   out = out.replace(/\s+—\s+/g, `${NBSP}— `);
+  // «из-за», «из-под» не переносим по дефису — неразрывный дефис
+  out = out.replace(/(^|[\s(«])(из)-(за|под)(?=[\s.,!?»)]|$)/gi, '$1$2\u2011$3');
   // разряды числа не разрываем: «40 320», «8 166 438»
   out = out.replace(/(\d) (?=\d{3}(?!\d))/g, `$1${NBSP}`);
   return out;

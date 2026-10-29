@@ -9,8 +9,8 @@ const { topic = 'Главная' } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
 ---
 
-<!-- Форма как на сайте КТМ (правка №5, 28.10): слева подводка и контакты, справа светлая
-     карточка с крупными белыми полями и большой круглой кнопкой — «хочется нажать». -->
+<!-- Форма как на сайте КТМ (правка №5, 28.10): слева подводка и контакты, справа крупные
+     белые поля прямо на плашке и большая круглая кнопка (без карточки-в-плашке, №15). -->
 <section class="sec sec--flush-top req" id="zayavka" aria-labelledby="req-title">
   <div class="wrap">
     <div class="req__band">
@@ -108,14 +108,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__note { max-width: 40ch; }
   .req__contacts { display: grid; gap: 6px; justify-items: start; margin-top: 12px; padding-top: 20px; border-top: 1px solid var(--line-subtle); }
   .req__big, .req__mail { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); color: var(--c-primary); }
-  .req__form {
-    display: grid;
-    gap: 12px;
-    padding: clamp(18px, 2.6vw, 32px);
-    border-radius: 28px;
-    background: var(--c-paper);
-    box-shadow: 0 18px 40px -24px rgb(31 50 90 / 0.35);
-  }
+  /* поля прямо на синей плашке — без внутренней карточки и без теней (правка №15, 28.10) */
+  .req__form { display: grid; gap: 12px; }
   .req__field input,
   .req__field textarea {
     width: 100%;
@@ -138,14 +132,13 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     margin-top: 6px;
     border-radius: 999px;
     font-size: 18px;
-    box-shadow: 0 12px 24px -12px rgb(47 74 127 / 0.6);
-    transition: background-color .2s, transform .15s, box-shadow .2s;
+    transition: background-color .2s, transform .15s;
   }
-  .req__submit:hover { transform: translateY(-1px); box-shadow: 0 16px 28px -12px rgb(47 74 127 / 0.7); }
+  .req__submit:hover { transform: translateY(-1px); }
   .req__submit:active { transform: translateY(1px); }
   .req__consent { display: flex; align-items: flex-start; gap: 10px; font-size: var(--fs-small); }
   .req__consent input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--c-primary); }
   .req__alt { display: flex; flex-wrap: wrap; gap: 10px; }
   .req__status { min-height: 1.5em; font-size: var(--fs-small); font-weight: var(--w-medium); }
-  @media (max-width: 860px) { .req__band { grid-template-columns: minmax(0, 1fr); padding: 28px 16px 16px; } .req__info { padding-inline: 8px; } }
+  @media (max-width: 860px) { .req__band { grid-template-columns: minmax(0, 1fr); padding: 28px 16px 20px; } }
 </style>

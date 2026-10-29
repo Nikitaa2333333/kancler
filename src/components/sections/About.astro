@@ -47,7 +47,6 @@ import { u } from '../../lib/url';
     position: relative;
     z-index: 1;
     margin-left: calc(-1 * clamp(56px, 7vw, 112px));
-    box-shadow: 0 20px 48px rgb(43 40 51 / 0.1);
     display: flex;
     flex-direction: column;
     gap: clamp(20px, 2.4vw, 32px);
@@ -63,14 +62,9 @@ import { u } from '../../lib/url';
     letter-spacing: var(--tr-h4);
   }
   .about__role { margin-top: 4px; font-size: var(--fs-lead); }
-  .about__facts { margin-top: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .about__facts li {
-    display: grid;
-    gap: 4px;
-    padding: 14px 16px;
-    border-radius: var(--r-md);
-    background: var(--c-band);
-  }
+  /* факты без плашек внутри карточки — линия сверху (правка №16, 28.10) */
+  .about__facts { margin-top: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+  .about__facts li { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--line-subtle); }
   .about__facts span { font-size: var(--fs-small); }
   /* <b> здесь не внутри фразы, а значение в служебной плашке — вес задаём явно */
   .about__facts b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); }

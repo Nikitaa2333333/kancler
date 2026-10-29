@@ -126,10 +126,10 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 50px;
+  min-height: 56px;
   padding: 12px 24px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 999px; /* одна форма кнопок на весь сайт — круглая (правка №19, 29.10) */
   background: var(--c-primary);
   color: var(--c-white);
   font-family: var(--ff-body);
@@ -144,7 +144,7 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 .btn--light { background: var(--c-white-card); color: var(--c-ink); }
 .btn--light:hover, .btn--soft:hover { background: var(--c-primary); color: var(--c-white); }
 .btn--soft { background: var(--c-tint); color: var(--c-ink); }
-.btn--sm { min-height: 40px; padding: 8px 18px; font-size: 15px; border-radius: var(--r-sm); }
+.btn--sm { min-height: 44px; padding: 8px 20px; font-size: 15px; }
 /* На телефоне крупные кнопки — во всю ширину (правка №14, 28.10.2026) */
 @media (max-width: 560px) { .btn:not(.btn--sm) { width: 100%; } }
 

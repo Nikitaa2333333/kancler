@@ -1,64 +1,40 @@
 ---
 import { cost } from '../../data/home';
 import { typo } from '../../lib/typo';
+
+/* В едином стиле со страницами услуг (правка №18, 28.10.2026): вместо таблицы — сетка
+   факторов с крупным номером, заголовком антиквой и пояснением, линия сверху, без плашек.
+   Текст клиента разделён по скобке, как было; пояснение — с заглавной буквы. */
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 ---
 
 <section class="sec sec--block sec--white" id="stoimost" aria-labelledby="cost-title">
   <div class="wrap">
-    <h2 id="cost-title">{typo(cost.title)}</h2>
+    <div class="cost__head">
+      <h2 id="cost-title">{typo(cost.title)}</h2>
+      <p class="cost__sub">{typo(cost.accounting.title)}</p>
+    </div>
 
-    <!-- Табличный формат (решение пользователя 22.10.2026). Колонка «Управленческий
-         учёт» появится, когда клиент пришлёт текст («ДУМАЕМ»). -->
-    <table class="cost__table">
-      <caption>{typo(cost.accounting.title)}</caption>
-      <thead>
-        <tr>
-          <th scope="col">Фактор</th>
-          <th scope="col">Почему влияет на стоимость</th>
-        </tr>
-      </thead>
-      <tbody>
-        {cost.accounting.rows.map(([factor, why]) => (
-          <tr>
-            <th scope="row">{typo(factor)}</th>
-            <td>{typo(why)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <!-- Колонка «Управленческий учёт» появится, когда клиент пришлёт текст («ДУМАЕМ»). -->
+    <ol class="cost__grid">
+      {cost.accounting.rows.map(([factor, why], i) => (
+        <li>
+          <span class="cost__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{typo(factor)}</h3>
+          <p>{typo(cap(why))}</p>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>
 
 <style>
-  h2 { margin-bottom: var(--head-gap); }
-  .cost__table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-  }
-  .cost__table caption {
-    text-align: left;
-    padding-bottom: 16px;
-    font-family: var(--ff-display);
-    font-weight: var(--w-display);
-    font-size: var(--fs-h5);
-    line-height: var(--lh-h5);
-    letter-spacing: var(--tr-h5);
-  }
-  .cost__table th, .cost__table td {
-    vertical-align: top;
-    padding: clamp(14px, 1.6vw, 20px) 0;
-    border-top: 1px solid var(--c-ink);
-    font-weight: var(--w-body);
-  }
-  .cost__table thead th { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 12px; padding-bottom: 12px; }
-  .cost__table tbody th { width: 38%; padding-right: 24px; font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
-  .cost__table td { max-width: var(--measure-text); }
-  .cost__table tbody tr:last-child th, .cost__table tbody tr:last-child td { border-bottom: 1px solid var(--c-ink); }
-  @media (max-width: 640px) {
-    .cost__table thead { display: none; }
-    .cost__table tr { display: grid; }
-    .cost__table tbody th { width: auto; padding-bottom: 4px; }
-    .cost__table td { border-top: 0; padding-top: 0; }
-  }
+  .cost__head { display: grid; gap: 12px; margin-bottom: var(--head-gap); }
+  .cost__sub { font-size: var(--fs-lead); font-weight: var(--w-semibold); color: var(--c-primary); }
+  .cost__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 3vw, 44px) clamp(20px, 3vw, 40px); }
+  .cost__grid li { display: grid; align-content: start; gap: 10px; padding-top: clamp(18px, 2vw, 24px); border-top: 1px solid var(--line-subtle); }
+  .cost__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1; color: var(--c-primary); }
+  .cost__grid h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  @media (max-width: 980px) { .cost__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .cost__grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

@@ -134,8 +134,10 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     z-index: 1;
     margin: var(--block-gap) var(--hero-frame) 0;
     border-radius: var(--r-lg);
-    background: var(--c-band);  /* тот же цвет, что у всех плашек (правка №82) */
+    background: var(--c-primary);  /* залита нашим синим, текст белый (правка №125) */
+    color: var(--c-white);
   }
+  .req h2 { color: var(--c-white); }
   .req__band {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -163,10 +165,14 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__field textarea { min-height: 112px; resize: vertical; }
   .req__field input::placeholder, .req__field textarea::placeholder { color: rgb(20 20 20 / 0.45); }
   .req__field input:focus,
-  .req__field textarea:focus { outline: none; border-color: var(--c-primary); box-shadow: 0 0 0 4px rgb(0 98 173 / 0.14); }
-  .req__field input[aria-invalid] { border-color: var(--c-warn); box-shadow: none; }
-  .req__err { display: block; padding-left: 20px; font-size: var(--fs-small); font-weight: var(--w-medium); color: var(--c-warn); }
+  .req__field textarea:focus { outline: none; border-color: var(--c-ink); }
+  /* ошибки на синем: красная рамка поля + белая подпись (красный текст на синем не читается) */
+  .req__field input[aria-invalid] { border-color: #ff8a73; box-shadow: none; }
+  .req__err { display: block; padding-left: 20px; font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--c-white); }
   .req__err:empty { display: none; }
+  /* кнопка на синем — белая с тёмным текстом */
+  .req__submit { background: var(--c-white); color: var(--c-ink); }
+  .req__submit:hover { background: var(--c-accent); color: var(--c-ink); }
   .req__submit {
     margin-top: 6px;
     transition: background-color .2s, transform .15s;
@@ -176,8 +182,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   /* согласие — одна короткая строка под кнопкой (№25) */
   /* галочка — по левому краю полей, текст рядом (№122) */
   .req__consent { display: flex; align-items: flex-start; gap: 10px; padding-left: 4px; font-size: var(--fs-small); line-height: 1.35; }
-  .req__consent input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--c-primary); }
-  .req__consent input[aria-invalid] { outline: 2px solid var(--c-warn); outline-offset: 2px; }
+  .req__consent input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--c-white); }
+  .req__consent input[aria-invalid] { outline: 2px solid #ff8a73; outline-offset: 2px; }
   .req__alt { display: flex; flex-wrap: wrap; gap: 10px; }
   .req__status { font-size: var(--fs-small); font-weight: var(--w-medium); }
   .req__status:empty { display: none; }

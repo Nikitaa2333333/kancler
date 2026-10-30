@@ -31,9 +31,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
     <PageHero
       title={c.title}
     >
-      <ul class="tags">
-        {c.tags.map((t) => <li>{typo(t)}</li>)}
-      </ul>
+      <p class="tags">{typo(c.tags.join(' · '))}</p>
     </PageHero>
 
     {c.figures && (
@@ -102,8 +100,8 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
 </Base>
 
 <style>
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .tags li { padding: 6px 12px; border-radius: var(--r-sm); background: var(--c-white-card); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  /* теги — строкой через точку, без белых бирок (второй цвет в плашке, №124) */
+  .tags { max-width: 60ch; font-size: var(--fs-body); font-weight: var(--w-semibold); line-height: 1.5; }
 
   .case { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
   .case__body { display: grid; gap: clamp(32px, 4vw, 48px); max-width: 780px; }

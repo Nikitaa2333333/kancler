@@ -40,7 +40,7 @@ const tones = ['blue', 'sand', 'sage'];
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
-    min-height: clamp(420px, 36vw, 500px);
+    /* высота по содержимому, без пустоты над кнопкой (№167) */
     padding: clamp(28px, 3vw, 44px);
     border-radius: var(--r-lg);
     background: var(--tone);
@@ -50,7 +50,7 @@ const tones = ['blue', 'sand', 'sage'];
   .svc__card--blue { --tone: var(--c-tone-blue); }
   .svc__card--sand { --tone: var(--c-tone-sand); }
   .svc__card--sage { --tone: var(--c-tone-sage); }
-  .svc__card h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
+  .svc__card h3 { font-size: var(--fs-h3); font-weight: var(--w-display); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
   .svc__text { font-size: var(--fs-lead); line-height: 1.45; }
   /* пункты без тире: знак + текст, тонкие линии между строками, крупно и плотно (№56) */
   .svc__list { align-self: stretch; display: grid; }

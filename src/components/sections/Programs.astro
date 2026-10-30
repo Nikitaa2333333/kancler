@@ -3,29 +3,27 @@ import { support } from '../../data/home';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 
-/* Строка логотипов программ, в которых ведётся учёт (правка №152). Логотипы — официальные,
-   с сайтов 1С, Контура и Saby (бывш. СБИС); подпись под каждым — как у клиента. */
+/* Строка логотипов программ, в которых ведётся учёт (правки №152, №153). Логотипы — официальные,
+   с сайтов 1С, Контура и Saby (бывш. СБИС); крупно, без плашек и подписей. */
 ---
 
 <div class="prog">
   <h3 class="prog__title">{typo(support.programsTitle)}</h3>
   <ul class="prog__row">
     {support.programs.map((p) => (
-      <li>
-        <span class="prog__logo"><img src={u(p.logo)} alt="" style={`height:${p.h}px`} loading="lazy" decoding="async" /></span>
-        <span class="prog__name">{typo(p.name)}</span>
-      </li>
+      <li><img src={u(p.logo)} alt={p.name} style={`--h:${p.h}`} loading="lazy" decoding="async" /></li>
     ))}
   </ul>
 </div>
 
 <style>
-  .prog { display: grid; gap: clamp(16px, 2vw, 24px); }
+  /* логотипы крупно, без плашек и подписей — как ряд партнёров на сайте КТМ (правка №153) */
+  .prog { display: grid; gap: clamp(20px, 2.4vw, 32px); }
   .prog__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .prog__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--card-gap); }
-  .prog__row li { display: grid; gap: 12px; justify-items: center; align-content: center; min-height: 140px; padding: 20px 16px; border-radius: var(--r-lg); background: var(--c-white-card); box-shadow: inset 0 0 0 1px var(--line-faint); text-align: center; }
-  .prog__logo { display: grid; place-items: center; height: 60px; }
-  .prog__logo img { width: auto; max-width: 100%; }
-  .prog__name { font-size: var(--fs-small); font-weight: var(--w-semibold); }
-  @media (max-width: 760px) { .prog__row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .prog__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: clamp(28px, 4vw, 64px) clamp(36px, 5vw, 80px); }
+  .prog__row img { display: block; width: auto; height: calc(var(--h) * 1.9px); max-width: 100%; }
+  @media (max-width: 760px) {
+    .prog__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: start; gap: 32px 24px; }
+    .prog__row img { height: calc(var(--h) * 1.25px); }
+  }
 </style>

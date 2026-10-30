@@ -13,8 +13,8 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 <section class="sec sec--block sec--white" id="stoimost" aria-labelledby="cost-title">
   <div class="wrap">
     <div class="cost__head">
+      <p class="cost__tag">{typo(cost.accounting.title)}</p>
       <h2 id="cost-title">{typo(cost.title)}</h2>
-      <p class="cost__sub">{typo(cost.accounting.title)}</p>
     </div>
 
     <!-- Колонка «Управленческий учёт» появится, когда клиент пришлёт текст («ДУМАЕМ»). -->
@@ -24,5 +24,6 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 <style>
   .cost__head { display: grid; gap: 12px; margin-bottom: clamp(20px, 2.4vw, 32px); }
-  .cost__sub { font-size: var(--fs-lead); font-weight: var(--w-semibold); color: var(--c-primary); }
+  /* «Бухгалтерское сопровождение» — бирка над заголовком (правка №96) */
+  .cost__tag { justify-self: start; padding: 6px 14px; border-radius: 999px; background: var(--c-tint); font-size: var(--fs-small); font-weight: var(--w-semibold); }
 </style>

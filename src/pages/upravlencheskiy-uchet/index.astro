@@ -20,6 +20,7 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   <Header />
   <main>
     <PageHero
+      tone="sand"
       title={upr.hero.title}
       lead={upr.hero.lead}
       actions={[{ label: upr.hero.primary, href: '#zayavka' }, { label: upr.hero.secondary, href: '#stoimost', light: true }]}
@@ -29,7 +30,7 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
     <Sec id="napravleniya" title={upr.blocks.title} white>
       <div class="blocks bleed">
         {upr.blocks.items.map((b, i) => (
-          <article class={`blk blk--${['blue', 'sand', 'sage'][i % 3]}`}>
+          <article class="blk">
             <h3>{`${i + 1}. `}{typo(b.title)}</h3>
             {b.tagline && <p class="blk__tag">{typo(b.tagline)}</p>}
             {b.text.map((t) => <p>{typo(t)}</p>)}
@@ -86,11 +87,8 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   /* компактнее внутри (№140) */
   .blk { display: flex; flex-direction: column; gap: 8px; padding: clamp(18px, 1.8vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
   /* знак вместо одинокой цифры, номер — внутри заголовка (№133, №135) */
-  /* заголовок крупнее, без значков; цвет — как плашки услуг на главной (№141) */
+  /* заголовок крупнее, без значков (№141); цвет услуги — у первого экрана, не у карточек (№146) */
   .blk h3 { font-size: clamp(26px, 2.4vw, 32px); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
-  .blk--blue { background: var(--c-tone-blue); }
-  .blk--sand { background: var(--c-tone-sand); }
-  .blk--sage { background: var(--c-tone-sage); }
   .blk p { line-height: 1.45; }
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 

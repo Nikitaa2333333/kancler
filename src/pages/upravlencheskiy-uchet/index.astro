@@ -4,7 +4,6 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
 import Crumbs from '../../components/page/Crumbs.astro';
-import OfficeIcon from '../../components/OfficeIcon.astro';
 import Sec from '../../components/page/Sec.astro';
 import PriceTable from '../../components/page/PriceTable.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
@@ -30,8 +29,7 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
     <Sec id="napravleniya" title={upr.blocks.title} white>
       <div class="blocks bleed">
         {upr.blocks.items.map((b, i) => (
-          <article class="blk">
-            <span class="blk__ico"><OfficeIcon name={['calc', 'trend', 'briefcase'][i % 3]} /></span>
+          <article class={`blk blk--${['blue', 'sand', 'sage'][i % 3]}`}>
             <h3>{`${i + 1}. `}{typo(b.title)}</h3>
             {b.tagline && <p class="blk__tag">{typo(b.tagline)}</p>}
             {b.text.map((t) => <p>{typo(t)}</p>)}
@@ -40,8 +38,9 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
       </div>
     </Sec>
 
-    <Sec id="kak-rabotaem" title={upr.sequences.title}>
-      <div class="seqs">
+    <Sec id="kak-rabotaem" title={upr.sequences.title} white>
+      <!-- три последовательности — плашками в ряд, на телефоне листаются вбок (№142) -->
+      <div class="seqs bleed">
         {upr.sequences.items.map((s) => (
           <div class="seq">
             <h3>{typo(s.title)}</h3>
@@ -87,13 +86,16 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   /* компактнее внутри (№140) */
   .blk { display: flex; flex-direction: column; gap: 8px; padding: clamp(18px, 1.8vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
   /* знак вместо одинокой цифры, номер — внутри заголовка (№133, №135) */
-  .blk__ico { display: block; width: 30px; margin-bottom: 2px; color: var(--c-ink); --icon-bg: var(--card-bg); }
-  .blk h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  /* заголовок крупнее, без значков; цвет — как плашки услуг на главной (№141) */
+  .blk h3 { font-size: clamp(26px, 2.4vw, 32px); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
+  .blk--blue { background: var(--c-tone-blue); }
+  .blk--sand { background: var(--c-tone-sand); }
+  .blk--sage { background: var(--c-tone-sage); }
   .blk p { line-height: 1.45; }
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
-  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
-  .seq { display: grid; align-content: start; }  /* без линии под заголовком секции (№98) */
+  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: stretch; }
+  .seq { display: grid; align-content: start; padding: clamp(18px, 1.8vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
   .seq h3 { margin-bottom: 8px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; }
   .seq li { display: grid; padding: 10px 0; }
@@ -105,6 +107,11 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
   .about__text { display: grid; gap: 16px; }
 
-  @media (max-width: 1100px) { .blocks, .seqs { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 1100px) { .blocks { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 860px) {
+    .seqs { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .seqs::-webkit-scrollbar { display: none; }
+    .seq { flex: 0 0 86%; scroll-snap-align: start; }
+  }
   @media (max-width: 860px) { .about { grid-template-columns: minmax(0, 1fr); } }
 </style>

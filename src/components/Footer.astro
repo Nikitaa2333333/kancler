@@ -62,13 +62,12 @@ const more = nav.filter((n) => !services.includes(n));
 </footer>
 
 <style>
-  /* подвал без плашки, во всю ширину: страница плавно уходит из белого в синий —
-     завершение, как градиент первого экрана сверху (правка №132) */
-  .ftr { position: relative; z-index: 1; margin-top: var(--block-gap); background: linear-gradient(180deg, var(--c-paper) 0, var(--c-primary) clamp(120px, 14vw, 220px), var(--c-primary) 100%); }
+  /* подвал без плашки, во всю ширину (№132), сплошной синий (№143) */
+  .ftr { position: relative; z-index: 1; margin-top: var(--block-gap); background: var(--c-primary); }  /* сплошной синий, без градиента (№143) */
   .ftr__panel {
     position: relative;
     overflow: hidden;
-    padding-top: clamp(150px, 18vw, 280px);
+    padding-top: clamp(40px, 6vw, 88px);
     color: var(--c-white);
   }
   .ftr a { color: inherit; }

@@ -105,20 +105,15 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 }
 .text { max-width: var(--measure-text); }
 
-/* — Перечисления: единый маркер (токены --bullet-*), линий между пунктами нет — */
-.list { display: grid; gap: var(--bullet-gap-short); }
-.list > li { position: relative; padding-left: var(--bullet-indent); }
-.list > li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.74em;
-  width: var(--bullet-size);
-  height: 1.5px;
-  background: currentColor;
-  opacity: .45;
-}
-.list--long { gap: var(--bullet-gap-long); }
+/* — Перечисления: без маркеров (тире и точки запрещены, правки №40, №98), тонкие линии
+   только МЕЖДУ пунктами, над первым и под последним — нет. Пункт с жирным знаком —
+   OfficeIcon в строке (см. «Берём учёт», «Дополнительные услуги»). — */
+.list { display: grid; }
+.list > li { padding: 8px 0; }
+.list > li:first-child { padding-top: 0; }
+.list > li:last-child { padding-bottom: 0; }
+.list > li + li { border-top: 1px solid var(--line-subtle); }
+.list--long > li { padding-block: 14px; }
 
 /* — Кнопки: крупные (решение пользователя 23.10.2026) — */
 .btn {

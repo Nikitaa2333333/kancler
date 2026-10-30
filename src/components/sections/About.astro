@@ -64,7 +64,8 @@ import { u } from '../../lib/url';
   /* факты без плашек внутри карточки — линия сверху (правка №16, 28.10) */
   /* факты — строками «подпись — значение» на всю ширину колонки (правка №48) */
   .about__facts { margin-top: auto; display: grid; }
-  .about__facts li { display: grid; grid-template-columns: minmax(96px, 1fr) minmax(0, 2fr); align-items: baseline; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line-subtle); }
+  .about__facts li { display: grid; grid-template-columns: minmax(96px, 1fr) minmax(0, 2fr); align-items: baseline; gap: 16px; padding: 16px 0; }
+  .about__facts li + li { border-top: 1px solid var(--line-subtle); }
   .about__facts span { font-size: var(--fs-small); }
   /* <b> здесь не внутри фразы, а значение в служебной плашке — вес задаём явно */
   .about__facts b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); }

@@ -70,18 +70,22 @@ const last = head.length - 1;
   .pt tbody th { font-size: var(--fs-lead); line-height: 1.35; }
   .pt tbody td { font-size: var(--fs-body); line-height: 1.4; }
   .pt .pt__price { text-align: right; padding-right: 0; white-space: nowrap; }
-  .pt td.pt__price { font-size: var(--fs-lead); font-weight: var(--w-semibold); }
+  .pt td.pt__price { font-size: var(--fs-h5); font-weight: var(--w-semibold); }  /* цена крупно (правки №90, №92) */
   .pt tfoot th, .pt tfoot td { font-size: var(--fs-lead); }
   .pt tfoot tr:first-child > * { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); border-top: 2px solid var(--c-ink); }
 
   @media (max-width: 720px) {
     .pt thead { display: none; }
-    .pt tr { display: grid; gap: 4px; padding: 14px 0; }
+    /* телефон (№90): название → цена крупно → единица впритык к цене */
+    .pt tr { display: grid; padding: 14px 0; }
+    .pt tbody th { order: 1; }
+    .pt tbody td.pt__price { order: 2; }
+    .pt tbody td:not(.pt__price) { order: 3; }
     .pt tbody tr + tr, .pt tfoot tr { border-top: 1px solid var(--line-subtle); }
     .pt tfoot tr:first-child { border-top: 2px solid var(--c-ink); }
     .pt th, .pt td, .pt tbody tr + tr > *, .pt tfoot tr > *, .pt tfoot tr:first-child > * { border: 0; padding: 0; }
     .pt tbody td { font-size: var(--fs-small); }
     .pt .pt__price { text-align: left; white-space: normal; }
-    .pt td.pt__price { margin-top: 4px; font-size: var(--fs-lead); }
+    .pt tbody td.pt__price { margin-top: 6px; font-size: var(--fs-h5); }
   }
 </style>

@@ -20,6 +20,10 @@ import { u } from '../../lib/url';
 
 /* Порядок блоков — как в файле клиента (8 блоков + форма). Блок 4 «Как начинаем работу» —
    «дублируем квадратиками с первой страницы»: тот же компонент, что на главной. */
+/* доп. услуги (№88): короткая единица («1 час») — в строку цены через «/»; цена «без НДС…, с НДС…» —
+   две колонки */
+const more = buh.more.items.map((it) => ({ it, short: !!it.unit && it.unit.length < 13, parts: it.price.split(/,\s(?=с НДС)/) }));
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 ---
 
@@ -37,14 +41,15 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <FactorGrid items={buh.price.factors} />
 
       <h3 class="subhead">{typo(buh.scope.title)}</h3>
-      <div class="scope">
+      <!-- плашки с горизонтальной прокруткой (правка №94, 30.10) -->
+      <ul class="scope">
         {buh.scope.items.map((it) => (
-          <div class="scope__item">
+          <li class="scope__item">
             <h4>{typo(it.title)}</h4>
             <p>{typo(it.text)}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
       <IconNote icon="plus">{typo(buh.scope.note)}</IconNote>
     </Sec>
 
@@ -52,24 +57,25 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <ul class="checks">
         {buh.result.items.map((it) => <li><span class="checks__ico"><OfficeIcon name="check" /></span><span>{typo(it)}</span></li>)}
       </ul>
-      <IconNote icon="trend">
-        {typo(buh.result.note)}{' '}<a class="link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)} →</a>
-      </IconNote>
+      <IconNote icon="trend">{typo(buh.result.note)}</IconNote>
+      <!-- ссылка не внутри текста, а отдельной кнопкой под ним (правка №93) -->
+      <a class="btn btn--light btn--sm note-link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
     </Sec>
 
     <Process />
 
     <Sec id="tarify" title={buh.tariffs.title} white>
-      <!-- тарифы — карточки для сравнения, а не таблица (правка №68, 30.10) -->
+      <!-- тарифы — карточки (№68). №91: подписи «Для кого / Объём» не повторяем в каждой
+           карточке: под названием — для кого, ниже — объём строками, цена — внизу карточки -->
       <div class="tcards">
         {buh.tariffs.rows.map(([name, who, volume, price]) => (
           <article class="tcard">
             <h3>{typo(name)}</h3>
+            <p class="tcard__who">{typo(who)}</p>
+            <ul class="tcard__vol">
+              {volume.split(', ').map((v) => <li>{typo(cap(v))}</li>)}
+            </ul>
             <p class="tcard__price">{typo(price)}</p>
-            <dl>
-              <div><dt>Для кого</dt><dd>{typo(who)}</dd></div>
-              <div><dt>Объём в месяц</dt><dd>{typo(volume)}</dd></div>
-            </dl>
           </article>
         ))}
       </div>
@@ -88,33 +94,48 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     </Sec>
 
     <Sec id="primer" title={buh.example.title}>
-      <div class="example">
-        <div class="example__card">
-          <p class="example__subj">{typo(buh.example.subject)}</p>
-          <ul class="example__params">
-            {buh.example.params.map((p) => <li>{typo(p)}</li>)}
-          </ul>
+      <!-- пример расчёта — «чек»: условия сверху, линия отрыва с вырезами по краям, строки
+           с ценой справа, итог крупно (правка №89, 30.10) -->
+      <div class="receipt">
+        <div class="receipt__part">
+          <p class="receipt__subj">{typo(buh.example.subject)}</p>
+          <p class="receipt__params">{typo(cap(buh.example.params.join(', ')))}</p>
         </div>
-        <div class="example__calc">
-          <PriceTable head={buh.example.head} rows={buh.example.rows} foot={[buh.example.total, ...buh.example.after]} />
+        <div class="receipt__cut" aria-hidden="true"></div>
+        <div class="receipt__part">
+          <ul class="receipt__rows">
+            {buh.example.rows.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
+          </ul>
+          <p class="receipt__total"><span>{typo(buh.example.total[0])}</span><b>{typo(buh.example.total[1])}</b></p>
+        </div>
+        <div class="receipt__cut" aria-hidden="true"></div>
+        <div class="receipt__part">
+          <ul class="receipt__rows receipt__rows--after">
+            {buh.example.after.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
+          </ul>
         </div>
       </div>
     </Sec>
 
     <Sec id="dop" title={buh.more.title} white>
+      <!-- №88: плюсик, название, сразу под ним цена крупно, ещё плотнее — единица мелко;
+           короткая единица — через косую черту в строке цены; «без НДС / с НДС» — две колонки -->
       <ul class="more">
-        {buh.more.items.map((it) => (
-          <li>
-            <h3>{typo(it.title)}</h3>
-            {it.unit && <p class="more__unit">{typo(it.unit)}</p>}
-            {it.price && <p class="more__price">{typo(it.price)}</p>}
-          </li>
+        {more.map(({ it, short, parts }) => (
+            <li>
+              <span class="more__ico"><OfficeIcon name="plus" /></span>
+              <div class="more__body">
+                <h3>{typo(it.title)}</h3>
+                {it.price && (parts.length > 1 ? (
+                  <div class="more__split">{parts.map((pp) => <p class="more__price">{typo(pp)}</p>)}</div>
+                ) : (
+                  <p class="more__price">{typo(it.price)}{short && <span class="more__per"> / {typo(it.unit)}</span>}</p>
+                ))}
+                {it.unit && !short && <p class="more__unit">{typo(it.unit)}</p>}
+              </div>
+            </li>
         ))}
       </ul>
-    </Sec>
-
-    <Sec id="voprosy" title={buh.faq.title}>
-      <Faq items={buh.faq.items} />
     </Sec>
 
     <Sec id="keys" title="Кейс по теме" white action={{ label: 'Все кейсы', href: u('/keysy/') }}>
@@ -122,6 +143,11 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     </Sec>
 
     <Request topic={buh.topic} />
+
+    <!-- частые вопросы — после формы (правка №95) -->
+    <Sec id="voprosy" title={buh.faq.title}>
+      <Faq items={buh.faq.items} />
+    </Sec>
   </main>
   <Crumbs items={[{ label: 'Бухгалтерский учёт' }]} />
   <Footer />
@@ -131,9 +157,12 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   /* «Что входит в сопровождение»: подзаголовок крупно, пункты мельче и сразу под ним, без
      линий (правка №65, 30.10) */
   .subhead { margin: clamp(48px, 6vw, 80px) 0 clamp(16px, 2vw, 24px); font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
-  .scope { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 32px) clamp(24px, 4vw, 64px); }
-  .scope__item { display: grid; gap: 6px; align-content: start; }
-  .scope__item h4 { font-size: var(--fs-h6); line-height: 1.25; letter-spacing: var(--tr-h6); }
+  .scope { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    --edge: calc(var(--hero-frame) + max(var(--gutter), (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2));
+    margin-inline: calc(-1 * var(--edge)); padding: 0 var(--edge) 4px; scroll-padding-inline: var(--edge); }
+  .scope::-webkit-scrollbar { display: none; }
+  .scope__item { flex: 0 0 clamp(260px, 26vw, 330px); scroll-snap-align: start; display: grid; gap: 10px; align-content: start; padding: clamp(22px, 2.2vw, 30px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .scope__item h4 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
 
   /* «Что получает заказчик»: галочка слева на уровне первой строки, текст крупный (№67) */
   .checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px clamp(24px, 4vw, 64px); }
@@ -142,39 +171,63 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */
   .tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
-  .tcard { display: flex; flex-direction: column; gap: 16px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .tcard { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
   .tcard h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .tcard__price { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1.1; letter-spacing: var(--tr-h3); }
-  .tcard dl { display: grid; gap: 12px; margin-top: auto; }
-  .tcard dt { font-size: var(--fs-small); font-weight: var(--w-semibold); }
-  .tcard dd { margin: 2px 0 0; line-height: 1.4; }
+  /* один кегль у «для кого» и у объёма (№91) */
+  .tcard__who, .tcard__vol { line-height: 1.4; }
+  .tcard__vol { display: grid; }
+  .tcard__vol li { padding: 7px 0; }
+  .tcard__vol li + li { border-top: 1px solid var(--line-subtle); }
+  .tcard__price { margin-top: auto; padding-top: 8px; font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1.1; letter-spacing: var(--tr-h3); }
 
   .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); line-height: 1.4; }
   .notes--one { display: block; }
   .tables { display: grid; gap: clamp(48px, 6vw, 72px); margin-top: clamp(48px, 6vw, 80px); }
 
-  /* пример расчёта: параметры без тире, плотно; таблица без лишних линий сверху (№71) */
-  .example { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
-  .example__card { display: grid; gap: 12px; }
-  .example__subj { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); }
-  .example__params { display: grid; font-size: var(--fs-lead); line-height: 1.35; }
-  .example__params li { padding: 8px 0; }
-  .example__params li + li { border-top: 1px solid var(--line-subtle); }
+  .note-link { margin: 16px 0 0 46px; }
 
-  .more { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 2.6vw, 36px) clamp(20px, 3vw, 40px); }
-  .more li { display: flex; flex-direction: column; gap: 6px; }
+  /* чек (№89): белая лента на плашке, линия отрыва пунктиром с полукруглыми вырезами */
+  .receipt { --cut: var(--c-band); max-width: 680px; border-radius: var(--r-md); background: var(--c-white-card); }
+  .receipt__part { display: grid; gap: 14px; padding: clamp(22px, 2.6vw, 34px); }
+  .receipt__cut { position: relative; height: 0; margin: 0 22px; border-top: 2px dashed var(--line-subtle); }
+  .receipt__cut::before, .receipt__cut::after { content: ''; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--cut); }
+  .receipt__cut::before { left: -34px; }
+  .receipt__cut::after { right: -34px; }
+  .receipt__subj { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); }
+  .receipt__params { font-size: var(--fs-lead); line-height: 1.45; }
+  .receipt__rows { display: grid; gap: 12px; }
+  .receipt__rows li, .receipt__total { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; font-size: var(--fs-lead); line-height: 1.35; }
+  /* <b> — цена в строке чека, не выделение во фразе */
+  .receipt__rows b { flex: none; font-size: var(--fs-h5); font-weight: var(--w-semibold); white-space: nowrap; }
+  .receipt__total { margin-top: 6px; padding-top: 14px; border-top: 2px solid var(--c-ink); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); letter-spacing: var(--tr-h3); }
+  .receipt__total b { font-weight: var(--w-display); white-space: nowrap; }
+  .receipt__rows--after b { font-size: var(--fs-lead); }
+  @media (max-width: 560px) {
+    .receipt__part { padding: 20px 18px; }
+    .receipt__cut { margin: 0 14px; }
+    .receipt__cut::before { left: -26px; }
+    .receipt__cut::after { right: -26px; }
+    .receipt__rows li { display: grid; gap: 2px; }
+    .receipt__rows--after b { white-space: normal; }
+  }
+
+  .more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(22px, 2.4vw, 32px) clamp(24px, 4vw, 64px); }
+  .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .more__ico { padding-top: 0.15em; color: var(--c-ink); }
+  .more__body { display: grid; }
   .more h3 { font-family: var(--ff-body); font-weight: var(--w-semibold); font-size: var(--fs-lead); line-height: 1.35; letter-spacing: 0; }
-  .more__unit { font-size: var(--fs-small); }
-  .more__price { margin-top: auto; padding-top: 4px; font-size: var(--fs-lead); font-weight: var(--w-semibold); }
+  .more__price { margin-top: 6px; font-size: var(--fs-h5); font-weight: var(--w-semibold); line-height: 1.25; }
+  .more__per, .more__unit { font-size: var(--fs-small); font-weight: var(--w-body); }
+  .more__unit { margin-top: 2px; }
+  .more__split { display: flex; flex-wrap: wrap; gap: 0 28px; }
 
   @media (max-width: 1100px) {
     .tcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 860px) {
-    .scope, .example, .checks { grid-template-columns: minmax(0, 1fr); }
+    .checks, .more { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 560px) {
-    .tcards, .more { grid-template-columns: minmax(0, 1fr); }
+    .tcards { grid-template-columns: minmax(0, 1fr); }
   }
 </style>

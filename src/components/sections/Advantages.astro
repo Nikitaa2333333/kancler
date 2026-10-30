@@ -102,8 +102,8 @@ const icons: Record<string, { color: string; svg: string }> = {
     scroll-snap-type: x mandatory;
     /* --edge — расстояние от края окна до текста блока (поле блока + отступ .wrap) */
     --edge: calc(var(--hero-frame) + max(var(--gutter), (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2));
-    /* --pad — где встаёт первая карточка: у края плашки-секции, а не по тексту (№138) */
-    --pad: calc(var(--hero-frame) + max(0px, (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2 - var(--gutter)));
+    /* --pad — первая карточка по линии текста (№138 возвращено пользователем, №139) */
+    --pad: var(--edge);
     margin-inline: calc(-1 * var(--edge));
     padding-inline: var(--pad);
     scroll-padding-inline: var(--pad);
@@ -113,12 +113,12 @@ const icons: Record<string, { color: string; svg: string }> = {
   .adv__track::-webkit-scrollbar { display: none; }
   .adv__track > li {
     flex: 0 0 clamp(310px, 30vw, 400px);
-    min-height: clamp(440px, 38vw, 520px);  /* крупнее (№126) */  /* карточки вытянуты в высоту, крупнее (правка №54); на телефоне — по содержимому */
+    min-height: clamp(380px, 32vw, 440px);  /* крупнее (№126), компактнее внутри (№139) */  /* карточки вытянуты в высоту, крупнее (правка №54); на телефоне — по содержимому */
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: clamp(24px, 2.4vw, 32px);
+    gap: 10px;
+    padding: clamp(18px, 1.8vw, 24px);  /* компактнее внутри (№139) */
     border-radius: var(--r-lg);
     background: var(--card-bg, var(--c-white-card));
   }

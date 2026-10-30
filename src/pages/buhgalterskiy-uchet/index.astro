@@ -141,11 +141,11 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .subhead { margin: clamp(48px, 6vw, 80px) 0 clamp(16px, 2vw, 24px); font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
   .scope { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
     --edge: calc(var(--hero-frame) + max(var(--gutter), (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2));
-    /* --pad — где встаёт первая карточка: у края плашки-секции, а не по тексту (№138) */
-    --pad: calc(var(--hero-frame) + max(0px, (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2 - var(--gutter)));
+    /* --pad — первая карточка по линии текста (№138 возвращено пользователем, №139) */
+    --pad: var(--edge);
     margin-inline: calc(-1 * var(--edge)); padding: 0 var(--pad) 4px; scroll-padding-inline: var(--pad); }
   .scope::-webkit-scrollbar { display: none; }
-  .scope__item { flex: 0 0 clamp(320px, 36vw, 460px); scroll-snap-align: start; display: grid; gap: 10px; align-content: start; padding: clamp(22px, 2.2vw, 30px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .scope__item { flex: 0 0 clamp(320px, 36vw, 460px); scroll-snap-align: start; display: grid; gap: 8px; align-content: start; padding: clamp(18px, 1.8vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
   @media (max-width: 560px) { .scope__item { flex-basis: 86%; } }  /* на телефоне шире, без «столбика» текста (№121) */
   .scope__item h4 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
 

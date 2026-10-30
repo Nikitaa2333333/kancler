@@ -2,7 +2,8 @@
 import { typo } from '../../lib/typo';
 
 /* Секция внутренней страницы — та же плашка-блок, что на главной (.sec--block),
-   белые чередуются через white. Заголовок, лид и необязательная кнопка справа. */
+   белые чередуются через white. Заголовок, лид; необязательная кнопка — внизу блока
+   (правка №73, 30.10: «Все кейсы» стоит под карточками, как на главной). */
 interface Props {
   id?: string;
   title?: string;
@@ -16,16 +17,16 @@ const hid = id ? `${id}-title` : undefined;
 
 <section class={`sec sec--block ${white ? 'sec--white' : ''}`} id={id} aria-labelledby={hid}>
   <div class="wrap">
-    {(title || lead || action) && (
+    {(title || lead) && (
       <div class="sx__head">
         <div class="sx__titles">
           {title && <h2 id={hid}>{typo(title)}</h2>}
           {lead && <p class="lead sx__lead">{typo(lead)}</p>}
         </div>
-        {action && <a class="btn" href={action.href}>{typo(action.label)}</a>}
       </div>
     )}
     <slot />
+    {action && <a class="btn sx__action" href={action.href}>{typo(action.label)}</a>}
   </div>
 </section>
 
@@ -40,5 +41,6 @@ const hid = id ? `${id}-title` : undefined;
   }
   .sx__titles { display: grid; gap: 16px; }
   .sx__titles h2 { max-width: 30ch; }
+  .sx__action { margin-top: var(--head-gap); }
   .sx__lead { max-width: var(--measure-text); font-size: var(--fs-lead); }
 </style>

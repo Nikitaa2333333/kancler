@@ -1,0 +1,25 @@
+---
+import { typo } from '../../lib/typo';
+
+/* Сетка факторов «что влияет на цену» — одна на главной и на страницах услуг (правка №64,
+   30.10): заголовок антиквой и пояснение, без номеров и без линий, плотно (№80). */
+interface Props { items: { title: string; text: string }[] }
+const { items } = Astro.props;
+---
+
+<ul class="fg">
+  {items.map((f) => (
+    <li>
+      <h3>{typo(f.title)}</h3>
+      <p>{typo(f.text)}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .fg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 2.6vw, 36px) clamp(20px, 3vw, 40px); }
+  .fg li { display: grid; align-content: start; gap: 8px; }
+  .fg h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  @media (max-width: 980px) { .fg { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .fg { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+</style>

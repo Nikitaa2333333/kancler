@@ -1,0 +1,14 @@
+---
+import OfficeIcon from '../OfficeIcon.astro';
+
+/* Пояснение с жирным знаком слева — вместо мелкой плашки (правка №66, 30.10). Текст — в слоте. */
+interface Props { icon: string }
+const { icon } = Astro.props;
+---
+
+<p class="in"><span class="in__ico"><OfficeIcon name={icon} /></span><span><slot /></span></p>
+
+<style>
+  .in { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 16px; align-items: start; max-width: 64ch; margin-top: var(--head-gap); font-size: var(--fs-lead); line-height: 1.45; }
+  .in__ico { padding-top: 0.1em; color: var(--c-ink); }
+</style>

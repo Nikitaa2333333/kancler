@@ -1,0 +1,25 @@
+---
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+/* Хлебные крошки — внизу страницы, над подвалом, а не в первом экране (правка №61, 30.10). */
+interface Props { items: { label: string; href?: string }[] }
+const { items } = Astro.props;
+---
+
+<nav class="crumbs wrap" aria-label="Навигационная цепочка">
+  <ol>
+    <li><a class="pill" href={u('/')}>Главная</a></li>
+    {items.map((c) => (
+      <li>{c.href ? <a class="pill" href={u(c.href)}>{typo(c.label)}</a> : <span aria-current="page">{typo(c.label)}</span>}</li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .crumbs { padding-block: clamp(20px, 2.4vw, 32px); }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: var(--fs-small); }
+  .crumbs li { display: flex; align-items: center; gap: 20px; }
+  .crumbs li + li::before { content: '/'; opacity: 0.5; margin-left: -12px; }
+  .crumbs .pill { font-weight: var(--w-medium); }
+</style>

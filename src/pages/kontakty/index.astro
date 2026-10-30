@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
+import Crumbs from '../../components/page/Crumbs.astro';
 import Sec from '../../components/page/Sec.astro';
 import Request from '../../components/sections/Request.astro';
 import { company } from '../../data/company';
@@ -32,7 +33,6 @@ const facts = [
   <Header />
   <main>
     <PageHero
-      crumbs={[{ label: 'Контакты' }]}
       title="Контакты"
       lead={`${company.remote}. ${company.region}, ${company.hours}.`}
       actions={[{ label: 'Оставить заявку', href: '#zayavka' }]}
@@ -49,6 +49,7 @@ const facts = [
     </Sec>
     <Request topic="Контакты" />
   </main>
+  <Crumbs items={[{ label: 'Контакты' }]} />
   <Footer />
 </Base>
 

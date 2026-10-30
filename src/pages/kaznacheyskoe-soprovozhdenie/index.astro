@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
+import Crumbs from '../../components/page/Crumbs.astro';
 import Sec from '../../components/page/Sec.astro';
 import PriceTable from '../../components/page/PriceTable.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
@@ -21,8 +22,6 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   <Header />
   <main>
     <PageHero
-      crumbs={[{ label: 'Казначейское сопровождение' }]}
-      kicker="Казначейское сопровождение госконтрактов по 44-ФЗ и 223-ФЗ"
       title={kazna.hero.title}
       lead={kazna.hero.lead}
       actions={[{ label: kazna.hero.primary, href: '#zayavka' }, { label: kazna.hero.secondary, href: '#zayavka', light: true }]}
@@ -105,6 +104,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
     <Request topic={kazna.topic} />
   </main>
+  <Crumbs items={[{ label: 'Казначейское сопровождение' }]} />
   <Footer />
 </Base>
 

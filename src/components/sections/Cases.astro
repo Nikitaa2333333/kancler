@@ -2,7 +2,6 @@
 import { cases } from '../../data/home';
 import { cases as items } from '../../data/cases';
 import { typo } from '../../lib/typo';
-import { u } from '../../lib/url';
 import CaseCards from '../page/CaseCards.astro';
 ---
 
@@ -10,7 +9,6 @@ import CaseCards from '../page/CaseCards.astro';
   <div class="wrap">
     <div class="cases__head">
       <h2 id="cases-title">{typo(cases.title)}</h2>
-      <a class="btn" href={u('/keysy/')}>{cases.all}</a>
     </div>
 
     <!-- три кейса клиента со слайдов «Проект сайта» (27.10.2026), картинки — со слайдов -->

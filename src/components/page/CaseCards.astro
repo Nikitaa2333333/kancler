@@ -19,7 +19,6 @@ const { items } = Astro.props;
         <div class="cc__body">
           <h3>{typo(c.title)}</h3>
           <p>{typo(c.short)}</p>
-          <span class="btn btn--sm cc__more">Читать кейс →</span>
         </div>
       </a>
     </li>
@@ -30,16 +29,17 @@ const { items } = Astro.props;
   .cc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px); }
   .cc__card { display: flex; }
   /* без «плашки в плашке» (правка №7, 28.10): карточки не красим, картинка в скруглённой
-     рамке, текст прямо на фоне блока; «Читать кейс» — кнопкой (правка №6) */
+     рамке, текст прямо на фоне блока; вся карточка — ссылка (кнопку «Читать кейс» сняли, №30) */
   .cc__link { display: flex; flex-direction: column; gap: 18px; width: 100%; }
-  .cc__img { aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--r-lg); background: var(--c-white-card); box-shadow: 0 0 0 1px var(--line-faint); }
+  /* фото прямоугольные, без скругления; переход по картинке или тексту, без кнопки (правка №30, 30.10) */
+  .cc__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--c-white-card); box-shadow: 0 0 0 1px var(--line-faint); }
   .cc__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transition: transform .4s; }
   .cc__link:hover .cc__img img { transform: scale(1.03); }
   .cc__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
   .cc__body h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .cc__body p { flex: 1; }
-  .cc__more { margin-top: 6px; }
-  .cc__link:hover .cc__more { background: var(--c-primary-deep); }
+  .cc__link:hover h3 { color: var(--c-primary); }
+  .cc__body h3 { transition: color .2s; }
   .cc--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* один кейс (внизу страниц услуг) — широко: картинка слева, текст справа */
   .cc--one { grid-template-columns: minmax(0, 1fr); }

@@ -19,7 +19,7 @@ const { items } = Astro.props;
 
 <style>
   .fig { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: clamp(20px, 3vw, 40px); }
-  .fig li { display: grid; gap: 10px; align-content: start; padding: clamp(18px, 2vw, 24px) 0 0; }
+  .fig li { display: grid; gap: 2px; align-content: start; padding: clamp(18px, 2vw, 24px) 0 0; }
   .fig__v { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1.1; letter-spacing: var(--tr-h3); }
   .fig__v span {
     background: linear-gradient(var(--c-accent), var(--c-accent)) no-repeat 0 88% / 0% 38%;
@@ -27,6 +27,6 @@ const { items } = Astro.props;
     transition-delay: calc(var(--i) * 0.15s + 0.2s);
   }
   .is-in .fig__v span { background-size: 100% 38%; }
-  .fig__l { font-size: var(--fs-small); max-width: 26ch; }
+  .fig__l { font-size: var(--fs-body); line-height: 1.35; max-width: 26ch; }  /* подпись впритык к числу (№129) */
 
 </style>

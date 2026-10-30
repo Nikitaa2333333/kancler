@@ -14,7 +14,7 @@ const tones = ['blue', 'sand', 'sage'];
   <div class="wrap">
     <h2 id="svc-title">{typo(services.title)}</h2>
 
-    <div class="svc__grid">
+    <div class="svc__grid bleed">
       {services.cards.map((c, i) => (
         <article class={`svc__card svc__card--${tones[i % 3]}`}>
           <h3>{typo(c.title)}</h3>

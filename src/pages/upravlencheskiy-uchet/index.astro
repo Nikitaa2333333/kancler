@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
 import Crumbs from '../../components/page/Crumbs.astro';
+import OfficeIcon from '../../components/OfficeIcon.astro';
 import Sec from '../../components/page/Sec.astro';
 import PriceTable from '../../components/page/PriceTable.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
@@ -27,11 +28,11 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
     />
 
     <Sec id="napravleniya" title={upr.blocks.title} white>
-      <div class="blocks">
+      <div class="blocks bleed">
         {upr.blocks.items.map((b, i) => (
           <article class="blk">
-            <span class="blk__n" aria-hidden="true">{i + 1}</span>
-            <h3>{typo(b.title)}</h3>
+            <span class="blk__ico"><OfficeIcon name={['calc', 'trend', 'briefcase'][i % 3]} /></span>
+            <h3>{`${i + 1}. `}{typo(b.title)}</h3>
             {b.tagline && <p class="blk__tag">{typo(b.tagline)}</p>}
             {b.text.map((t) => <p>{typo(t)}</p>)}
           </article>
@@ -47,11 +48,8 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
             <ol>
               {s.steps.map((st, i) => (
                 <li>
-                  <span class="seq__n" aria-hidden="true">{i + 1}</span>
-                  <div>
-                    <h4>{typo(st.title)}</h4>
-                    {st.text && <p>{typo(st.text)}</p>}
-                  </div>
+                  <h4>{`${i + 1}. `}{typo(st.title)}</h4>
+                  {st.text && <p>{typo(st.text)}</p>}
                 </li>
               ))}
             </ol>
@@ -87,20 +85,20 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
   /* три направления — плашки с крупной цифрой (№111) */
   .blk { display: flex; flex-direction: column; gap: 12px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
-  .blk__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h1); line-height: 1; }
+  /* знак вместо одинокой цифры, номер — внутри заголовка (№133, №135) */
+  .blk__ico { display: block; width: 40px; margin-bottom: 4px; color: var(--c-ink); --icon-bg: var(--card-bg); }
   .blk h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .blk__tag { font-weight: var(--w-semibold); }
+  .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
   .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
   .seq { display: grid; align-content: start; }  /* без линии под заголовком секции (№98) */
   .seq h3 { margin-bottom: 20px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; }
-  .seq li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; padding: 14px 0; }
+  .seq li { display: grid; padding: 14px 0; }
   .seq li + li { border-top: 1px solid var(--line-subtle); }
-  /* номер шага — просто цифра антиквой, без квадратика-подложки (№112) */
-  .seq__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); line-height: 1.3; }
-  .seq h4 { font-family: var(--ff-body); font-size: var(--fs-lead); font-weight: var(--w-semibold); letter-spacing: 0; line-height: 1.4; }
-  .seq p { margin-top: 4px; line-height: 1.45; }
+  /* номер внутри заголовка «1. …», заголовок плотнее, отступ до описания больше (№133) */
+  .seq h4 { font-family: var(--ff-body); font-size: var(--fs-lead); font-weight: var(--w-semibold); letter-spacing: 0; line-height: 1.25; }
+  .seq p { margin-top: 8px; line-height: 1.45; }
 
   .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
   .about__text { display: grid; gap: 16px; }

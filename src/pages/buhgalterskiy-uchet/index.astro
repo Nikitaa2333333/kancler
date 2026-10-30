@@ -68,9 +68,10 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     <Sec id="tarify" title={buh.tariffs.title} white>
       <!-- тарифы — карточки (№68). №91: подписи «Для кого / Объём» не повторяем в каждой
            карточке: под названием — для кого, ниже — объём строками, цена — внизу карточки -->
-      <div class="tcards">
-        {buh.tariffs.rows.map(([name, who, volume, price]) => (
+      <div class="tcards bleed">
+        {buh.tariffs.rows.map(([name, who, volume, price], i) => (
           <article class={`tcard ${price.startsWith('по') ? 'tcard--custom' : ''}`}>
+            <span class="tcard__ico"><OfficeIcon name={['clip', 'folder', 'percent', 'split', 'star'][i % 5]} /></span>
             <h3>{typo(name.replace(/[«»]/g, ''))}</h3>
             <p class="tcard__who">{typo(who)}</p>
             <ul class="tcard__vol">
@@ -152,7 +153,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .checks__ico { padding-top: 0.1em; color: var(--c-ink); }
 
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */
-  .tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: var(--card-gap); }  /* все карточки одного размера (№136) */
+  .tcard__ico { display: block; width: 32px; color: var(--c-ink); --icon-bg: var(--card-bg); }
   .tcard { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
   .tcard h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   /* «для кого» — крупно и впритык к названию (№99) */
@@ -165,8 +167,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tcard__vol li { padding: 7px 0; }
   .tcard__vol li + li { border-top: 1px solid var(--line-subtle); }
   /* цена — не крупнее текста, в небольшой плашке (№100) */
-  /* цена внизу карточки: без подложки (второй цвет в плашке = плашка в плашке, №124), черта сверху */
-  .tcard__price { margin-top: auto; padding-top: 12px; border-top: 2px solid var(--c-ink); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
+  /* цена внизу карточки — просто текстом: без подложки (№124) и без жирной черты (№136) */
+  .tcard__price { margin-top: auto; padding-top: 8px; font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
 
   .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); line-height: 1.4; }
   .notes--one { display: block; }

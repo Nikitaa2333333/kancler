@@ -10,7 +10,7 @@ import OfficeIcon from '../OfficeIcon.astro';
       <h2 id="proc-title">{typo(proc.title)}</h2>
     </div>
 
-    <ol class="proc__grid">
+    <ol class="proc__grid bleed">
       {proc.steps.map((s, i) => (
         <li>
           <h3><span class="proc__n">{i + 1}</span>{typo(s.title)}</h3>
@@ -64,7 +64,7 @@ import OfficeIcon from '../OfficeIcon.astro';
     margin-top: clamp(40px, 5vw, 64px);  /* без линии сверху (правка №84) */
   }
   /* щит — внутри заголовка, на уровне текста: высотой со строчную, перед первым словом (№123) */
-  .proc__shield { display: inline-block; width: 0.82em; margin-right: 0.22em; vertical-align: -0.08em; color: var(--c-ink); }
+  .proc__shield { display: inline-block; width: 1.25em; margin-right: 0.25em; vertical-align: -0.24em; color: var(--c-ink); }  /* крупнее, явнее (№137) */
   .proc__guarantee h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 16ch; }
   .proc__guarantee p { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 40ch; }
   @media (max-width: 860px) { .proc__guarantee { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 16px; } }

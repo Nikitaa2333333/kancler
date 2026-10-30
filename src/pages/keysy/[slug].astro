@@ -66,7 +66,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
         <aside class="case__side">
           <div class="side">
             <p class="side__label">Услуга</p>
-            <a class="side__link" href={u(c.service.href)}>{typo(c.service.label)} →</a>
+            <a class="mlink side__link" href={u(c.service.href)}>{typo(c.service.label)}</a>
             <a class="btn" href="#zayavka">Обсудить задачу</a>
           </div>
         </aside>
@@ -117,7 +117,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
   .case__side { position: sticky; top: calc(var(--hdr-h) + 24px); }
   .side { display: grid; gap: 12px; justify-items: start; }
   .side__label { font-size: var(--fs-small); font-weight: var(--w-semibold); }
-  .side__link { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h5); letter-spacing: var(--tr-h5); margin-bottom: 8px; }
+  .side__link { font-size: var(--fs-lead); margin-bottom: 8px; }
 
   .charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
   .charts__wide { grid-column: 1 / -1; }

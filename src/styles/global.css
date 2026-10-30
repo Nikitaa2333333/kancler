@@ -145,6 +145,14 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 /* На телефоне крупные кнопки — во всю ширину (правка №14, 28.10.2026) */
 @media (max-width: 560px) { .btn:not(.btn--sm) { width: 100%; } }
 
+/* Ссылка «Подробнее ›» — синяя, жирнее текста, с аккуратной галочкой справа, без
+   подчёркивания; при наведении галочка чуть сдвигается (правка №119, референс mailganer.com).
+   Для переходов «к странице/ко всем» вместо светлых кнопок. */
+.mlink { display: inline-flex; align-items: center; gap: 6px; color: var(--c-primary); font-weight: var(--w-semibold); }
+.mlink::after { content: ''; flex: none; width: 0.42em; height: 0.42em; margin-top: 0.05em; border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: rotate(45deg); transition: transform .2s; }
+.mlink:hover { color: var(--c-primary-deep); }
+.mlink:hover::after { transform: translateX(3px) rotate(45deg); }
+
 /* Ссылки без подчёркивания нигде (решение пользователя 23.10.2026). Наведение —
    фоновая плашка: класс .pill на ссылке/кнопке-тексте, плашка выступает за текст
    отрицательными полями, поэтому вёрстку не сдвигает. */

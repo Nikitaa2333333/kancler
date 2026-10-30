@@ -64,9 +64,9 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     <Sec id="pakety" title={kazna.packages.title} white>
       <!-- пакеты — плашками: что входит строками, итог — пилюлей внизу (№109) -->
       <div class="packs bleed">
-        {kazna.packages.items.map((p) => (
+        {kazna.packages.items.map((p, i) => (
           <article class="pack">
-            <h3>{typo(p.name)}</h3>
+            <h3><span class="pack__ico"><OfficeIcon name={['check', 'ruble', 'briefcase', 'folder'][i % 4]} /></span>{typo(p.name)}</h3>
             <p class="pack__for">{typo(p.for)}</p>
             <ul class="pack__rows">
               {p.rows.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
@@ -124,6 +124,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
   .packs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
   .pack { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  /* знак — внутри заголовка, на уровне текста, без отдельной строки (№148) */
+  .pack__ico { display: inline-block; width: 0.95em; margin-right: 0.35em; vertical-align: -0.12em; color: var(--c-ink); --icon-bg: var(--card-bg); }
   .pack__rows { display: grid; margin-bottom: 8px; }
   .pack__rows li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 8px 0; line-height: 1.35; }
   .pack__rows li + li { border-top: 1px solid var(--line-subtle); }

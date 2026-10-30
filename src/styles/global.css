@@ -75,7 +75,7 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 }
 .sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
 /* секции подряд — один белый лист: без двойного отступа (дыра, правки №115, №144) */
-.sec--block + .sec--block { margin-top: 0; padding-top: 0; }
+.sec--block + .sec--block, .sec--block + script + .sec--block { margin-top: 0; padding-top: 0; }  /* скрипт компонента между секциями не должен ломать правило (дыра, №151) */
 /* исключение — плашка-акцент: частые вопросы (№145); соседи отделены обычным зазором */
 .sec--plate { background: var(--c-band); --card-bg: var(--c-white-card); }
 .sec--block + .sec--plate, .sec--plate + .sec--block, .req + .sec--plate { margin-top: var(--block-gap); padding-top: var(--section-gap); }

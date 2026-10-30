@@ -75,7 +75,7 @@ import OfficeIcon from '../OfficeIcon.astro';
     .proc__grid {
       --edge: calc(var(--hero-frame) + var(--gutter));
       display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-      margin-inline: calc(-1 * var(--edge)); padding-inline: var(--edge); scroll-padding-inline: var(--edge);
+      margin-inline: calc(-1 * var(--edge)); padding-inline: var(--hero-frame); scroll-padding-inline: var(--hero-frame);  /* узко от экрана (№149) */
     }
     .proc__grid::-webkit-scrollbar { display: none; }
     .proc__grid li { flex: 0 0 78%; scroll-snap-align: start; }

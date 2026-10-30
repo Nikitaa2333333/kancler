@@ -191,7 +191,7 @@ export const support = {
      заголовок блока — наш (draft). Логотипы — с официальных сайтов программ. */
   programsTitle: 'Работаем в программах', // наше
   programs: [
-    { name: '1С: Бухгалтерия', logo: '/images/logos/1c.png', h: 56 },
+    { name: '1С: Бухгалтерия', logo: '/images/logos/1c.png', h: 52 },
     { name: 'Диадок', logo: '/images/logos/diadoc.svg', h: 30 },
     { name: 'СБИС / Тензор', logo: '/images/logos/saby.svg', h: 34 },
     { name: 'Контур.Экстерн', logo: '/images/logos/extern.svg', h: 30 },

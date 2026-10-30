@@ -34,12 +34,15 @@ import { u } from '../../lib/url';
   /* Приём «Архимеда» (23.10.2026): карточка с текстом заезжает на фотографию */
   .about__grid {
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: center;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+    align-items: stretch;
   }
+  /* правка №48 (30.10): фото ниже, текст растянут на высоту фото — сверху заголовок и
+     основатель, снизу факты; дыр над и под текстом больше нет */
   .about__photo {
     overflow: hidden;
-    min-height: clamp(320px, 34vw, 520px);
+    aspect-ratio: 4 / 3;
+    max-height: 460px;
     border-radius: var(--r-lg);
   }
   .about__photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -48,7 +51,7 @@ import { u } from '../../lib/url';
     display: flex;
     flex-direction: column;
     gap: clamp(20px, 2.4vw, 32px);
-    padding-left: clamp(28px, 4vw, 64px);
+    padding: clamp(8px, 1vw, 16px) 0 0 clamp(28px, 4vw, 64px);
   }
   .about__name {
     font-family: var(--ff-display);
@@ -59,13 +62,15 @@ import { u } from '../../lib/url';
   }
   .about__role { margin-top: 4px; font-size: var(--fs-lead); }
   /* факты без плашек внутри карточки — линия сверху (правка №16, 28.10) */
-  .about__facts { margin-top: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
-  .about__facts li { display: grid; gap: 4px; padding: 14px 0; border-top: 1px solid var(--line-subtle); }
+  /* факты — строками «подпись — значение» на всю ширину колонки (правка №48) */
+  .about__facts { margin-top: auto; display: grid; }
+  .about__facts li { display: grid; grid-template-columns: minmax(96px, 1fr) minmax(0, 2fr); align-items: baseline; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line-subtle); }
   .about__facts span { font-size: var(--fs-small); }
   /* <b> здесь не внутри фразы, а значение в служебной плашке — вес задаём явно */
   .about__facts b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); }
   @media (max-width: 860px) {
     .about__grid { grid-template-columns: minmax(0, 1fr); }
     .about__card { padding: 28px 0 0; }
+    .about__photo { max-height: none; }
   }
 </style>

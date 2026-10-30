@@ -3,25 +3,25 @@ import { services } from '../../data/home';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 
+/* у каждой услуги свой цвет плашки (правка №39, 30.10); чертежи сняты (№50) */
+const tones = ['blue', 'sand', 'sage'];
 ---
 
-<!-- Главный блок сайта (правка №32, 30.10): заголовок прямо на фоне страницы, без плашки;
-     три услуги — крупными плашками в ряд, без разделительных линий; кнопка прижата к тексту. -->
+<!-- Главный блок сайта (правки №32, №39): заголовок прямо на фоне страницы; три услуги —
+     крупные плашки разного цвета, кнопка прижата к низу. -->
 <section class="sec svc" id="uslugi" aria-labelledby="svc-title">
   <div class="wrap">
     <h2 id="svc-title">{typo(services.title)}</h2>
 
     <div class="svc__grid">
-      {services.cards.map((c) => (
-        <article class="svc__card">
-          <div class="svc__body">
-            <h3>{typo(c.title)}</h3>
-            <p class="svc__text">{typo(c.text)}</p>
-            <ul class="list svc__list">
-              {c.items.map((it) => <li>{typo(it)}</li>)}
-            </ul>
-            <a class="btn" href={u(c.href)}>{services.more}</a>
-          </div>
+      {services.cards.map((c, i) => (
+        <article class={`svc__card svc__card--${tones[i % 3]}`}>
+          <h3>{typo(c.title)}</h3>
+          <p class="svc__text">{typo(c.text)}</p>
+          <ul class="list svc__list">
+            {c.items.map((it) => <li>{typo(it)}</li>)}
+          </ul>
+          <a class="btn" href={u(c.href)}>{services.more}</a>
         </article>
       ))}
     </div>
@@ -33,16 +33,27 @@ import { u } from '../../lib/url';
   .svc__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
   .svc__card {
     display: flex;
-    padding: clamp(24px, 2.8vw, 40px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    min-height: clamp(420px, 36vw, 500px);
+    padding: clamp(28px, 3vw, 44px);
     border-radius: var(--r-lg);
-    background: var(--c-band);
-    transition: background-color .25s;
+    background: var(--tone);
+    transition: transform .3s var(--ease, ease);
   }
-  .svc__card:hover { background: var(--c-tint); }
-  .svc__body { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-  .svc__card h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
-  .svc__text { font-size: var(--fs-lead); line-height: 1.4; }
-  .svc__list li::before { background: var(--c-ink); }
-  .svc__card .btn { margin-top: 8px; }
-  @media (max-width: 1100px) { .svc__grid { grid-template-columns: minmax(0, 1fr); } .svc__text { max-width: 46ch; } }
+  .svc__card:hover { transform: translateY(-4px); }
+  .svc__card--blue { --tone: #e3eaf6; }
+  .svc__card--sand { --tone: #f1e7d6; }
+  .svc__card--sage { --tone: #e2eadc; }
+  .svc__card h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
+  .svc__text { font-size: var(--fs-lead); line-height: 1.45; }
+  .svc__list { gap: 10px; }
+  .svc__card .btn { margin-top: auto; }
+  @media (max-width: 1100px) {
+    .svc__grid { grid-template-columns: minmax(0, 1fr); }
+    .svc__card { min-height: 0; }
+    .svc__card .btn { margin-top: 8px; }
+    .svc__text { max-width: 46ch; }
+  }
 </style>

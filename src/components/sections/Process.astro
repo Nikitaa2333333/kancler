@@ -13,8 +13,7 @@ import OfficeIcon from '../OfficeIcon.astro';
     <ol class="proc__grid">
       {proc.steps.map((s, i) => (
         <li>
-          <span class="proc__step" aria-hidden="true">Шаг {i + 1}</span>
-          <h3>{typo(s.title)}</h3>
+          <h3><span class="proc__n">{i + 1}</span>{typo(s.title)}</h3>
           <p>{typo(s.text)}</p>
         </li>
       ))}
@@ -53,8 +52,8 @@ import OfficeIcon from '../OfficeIcon.astro';
     border-radius: var(--r-lg);
     background: var(--card-bg, var(--c-white-card));
   }
-  /* «Шаг 1» — подпись без подложки (цифры в плашках не делаем, №112, №120) */
-  .proc__step { margin-bottom: 4px; font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  /* номер шага — цифрой прямо в заголовке, без слова «Шаг» (правка №128) */
+  .proc__n { margin-right: 0.4em; }
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
   /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46, вернули в №60, перерисован в стиле знаков услуг — №79) */
   .proc__guarantee {

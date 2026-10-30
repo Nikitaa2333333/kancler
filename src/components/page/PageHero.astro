@@ -11,13 +11,15 @@ interface Props {
   lead?: string;
   actions?: Action[];
   stat?: { value: string; label: string };
+  /** цвет услуги — как её плашка в «Услугах» на главной (№146) */
+  tone?: 'blue' | 'sand' | 'sage';
 }
-const { title, lead, actions = [], stat } = Astro.props;
+const { title, lead, actions = [], stat, tone } = Astro.props;
 const href = (h: string) => (h.startsWith('#') ? h : u(h));
 ---
 
 <section class="ph" aria-labelledby="ph-title">
-  <div class="ph__frame">
+  <div class="ph__frame" style={tone ? `background: var(--c-tone-${tone})` : undefined}>
     <div class="ph__copy">
       <h1 id="ph-title">{typo(title)}</h1>
       {lead && <p class="ph__lead">{typo(lead)}</p>}

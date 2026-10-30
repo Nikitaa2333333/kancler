@@ -84,15 +84,16 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
 
 <style>
   .blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
-  .blk { display: flex; flex-direction: column; gap: 12px; padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
+  .blk { display: flex; flex-direction: column; gap: 12px; }  /* без линии под заголовком секции (№98) */
   .blk h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .blk__tag { font-weight: var(--w-semibold); color: var(--c-primary); }
+  .blk__tag { font-weight: var(--w-semibold); }
 
   .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
-  .seq { padding: clamp(18px, 2vw, 24px) 0 0; border-top: 1px solid var(--line-subtle); }
+  .seq { display: grid; align-content: start; }  /* без линии под заголовком секции (№98) */
   .seq h3 { margin-bottom: 20px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; }
-  .seq li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-top: 1px solid var(--line-subtle); }
+  .seq li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 14px 0; }
+  .seq li + li { border-top: 1px solid var(--line-subtle); }
   .seq__n { display: grid; place-items: center; width: 28px; height: 28px; border-radius: var(--r-sm); background: var(--c-tint); font-size: var(--fs-small); font-weight: var(--w-semibold); }
   .seq h4 { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--w-semibold); letter-spacing: 0; line-height: var(--lh-body); }
   .seq p { font-size: var(--fs-small); margin-top: 4px; }

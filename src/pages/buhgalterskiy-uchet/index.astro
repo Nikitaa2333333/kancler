@@ -93,7 +93,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       </div>
     </Sec>
 
-    <Sec id="primer" title={buh.example.title}>
+    <Sec id="primer" title={buh.example.title} white>
       <!-- пример расчёта — «чек»: условия сверху, линия отрыва с вырезами по краям, строки
            с ценой справа, итог крупно (правка №89, 30.10) -->
       <div class="receipt">
@@ -117,7 +117,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       </div>
     </Sec>
 
-    <Sec id="dop" title={buh.more.title} white>
+    <Sec id="dop" title={buh.more.title}>
       <!-- №88: плюсик, название, сразу под ним цена крупно, ещё плотнее — единица мелко;
            короткая единица — через косую черту в строке цены; «без НДС / с НДС» — две колонки -->
       <ul class="more">
@@ -187,7 +187,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .note-link { margin: 16px 0 0 46px; }
 
   /* чек (№89): белая лента на плашке, линия отрыва пунктиром с полукруглыми вырезами */
-  .receipt { --cut: var(--c-band); max-width: 680px; border-radius: var(--r-md); background: var(--c-white-card); }
+  /* чек — плашка на белой секции (не плашка в плашке), вырезы — цветом фона секции */
+  .receipt { --cut: var(--c-white-card); max-width: 680px; border-radius: var(--r-md); background: var(--c-band); }
   .receipt__part { display: grid; gap: 14px; padding: clamp(22px, 2.6vw, 34px); }
   .receipt__cut { position: relative; height: 0; margin: 0 22px; border-top: 2px dashed var(--line-subtle); }
   .receipt__cut::before, .receipt__cut::after { content: ''; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--cut); }

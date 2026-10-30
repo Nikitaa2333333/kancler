@@ -72,6 +72,8 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
   --card-bg: var(--c-white-card);
 }
 .sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
+/* две белые секции подряд — один белый лист: без двойного отступа (дыра, правка №115) */
+.sec--white + .sec--white { margin-top: 0; padding-top: 0; }
 
 /* Наложение блоков — простое (решение пользователя 23.10.2026: «папки» с язычками и
    прилипание у всех блоков — перебор, мешало прокрутке). Блоки чуть заходят друг на

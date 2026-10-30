@@ -1,0 +1,19 @@
+---
+import OfficeIcon from '../OfficeIcon.astro';
+import { item } from '../../lib/typo';
+
+/* Список длинных пунктов (фраза и больше): жирный знак слева, без линий, текст наборным
+   кеглем (правка №106). Короткие пункты в одну строку — `.list` (линии между пунктами). */
+interface Props { items: string[]; icon?: string }
+const { items, icon = 'check' } = Astro.props;
+---
+
+<ul class="ilist">
+  {items.map((t) => <li><span class="ilist__ico"><OfficeIcon name={icon} /></span><span>{item(t)}</span></li>)}
+</ul>
+
+<style>
+  .ilist { display: grid; gap: 14px; max-width: var(--measure-text); }
+  .ilist li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 14px; align-items: start; line-height: var(--lh-body); }
+  .ilist__ico { padding-top: 0.15em; color: var(--c-ink); }
+</style>

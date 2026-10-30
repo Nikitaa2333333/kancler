@@ -56,7 +56,7 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
   .ph__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
   .ph__stat { display: grid; gap: 8px; }  /* без линии слева (№63) */
   .ph__stat-v { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h2); line-height: 1.05; letter-spacing: var(--tr-h2); white-space: nowrap; }  /* цветом текста (№98) */
-  .ph__stat-l { font-size: var(--fs-small); }
+  .ph__stat-l { max-width: 26ch; font-size: var(--fs-lead); line-height: 1.35; }  /* подпись к цифре — крупнее (№107) */
   @media (max-width: 860px) {
     .ph__frame { grid-template-columns: minmax(0, 1fr); }
     .ph__stat { width: auto; }

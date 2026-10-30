@@ -11,7 +11,8 @@ import CaseChart from '../../components/charts/CaseChart.astro';
 import MarkedImage from '../../components/charts/MarkedImage.astro';
 import Request from '../../components/sections/Request.astro';
 import { cases, type Case } from '../../data/cases';
-import { typo, item } from '../../lib/typo';
+import { typo } from '../../lib/typo';
+import IconList from '../../components/page/IconList.astro';
 import { u } from '../../lib/url';
 
 export function getStaticPaths() {
@@ -55,9 +56,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
                 <h2>{n > 0 && <span class="cs__n">{n}</span>}{typo(s.title)}</h2>
                 {s.text?.map((p) => <p>{typo(p)}</p>)}
                 {s.list && (
-                  <ul class="list cs__list">
-                    {s.list.map((li) => <li>{item(li)}</li>)}
-                  </ul>
+                  <IconList items={s.list} />
                 )}
               </section>
             );
@@ -109,12 +108,11 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
   .case { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 3fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
   .case__body { display: grid; gap: clamp(32px, 4vw, 48px); max-width: 780px; }
   .case__intro { display: grid; gap: 16px; }
-  .cs { display: grid; gap: 14px; padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid var(--line-subtle); }
+  .cs { display: grid; gap: 14px; }  /* без линий между разделами (№106) */
   .cs h2 { display: flex; align-items: baseline; gap: 14px; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); max-width: none; }
   /* номер шага — просто цифра рядом с заголовком, без подложки (правка №2, 28.10) */
   .cs__n { flex: none; min-width: 1.1em; }
   .cs p { max-width: var(--measure-text); }
-  .cs__list { gap: 12px; max-width: var(--measure-text); }
 
   .case__side { position: sticky; top: calc(var(--hdr-h) + 24px); }
   .side { display: grid; gap: 12px; justify-items: start; }

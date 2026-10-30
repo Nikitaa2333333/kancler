@@ -1,0 +1,68 @@
+---
+import { typo } from '../../lib/typo';
+
+/* Пример расчёта — «чек» (правка №89, общий компонент — №105): условия сверху, линия отрыва
+   пунктиром с полукруглыми вырезами, строки с ценой справа, «Итого» крупно, ниже — варианты.
+   Ставить в БЕЛУЮ секцию (`<Sec white>`): сам чек — плашка, вырезы — цветом фона секции. */
+interface Props {
+  subject: string;
+  params: string[];
+  rows?: [string, string][];
+  total: [string, string];
+  after?: [string, string][];
+}
+const { subject, params, rows = [], total, after = [] } = Astro.props;
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+---
+
+<div class="receipt">
+  <div class="receipt__part">
+    <p class="receipt__subj">{typo(subject)}</p>
+    <p class="receipt__params">{typo(cap(params.join(', ')))}</p>
+  </div>
+  <div class="receipt__cut" aria-hidden="true"></div>
+  <div class="receipt__part">
+    {rows.length > 0 && (
+      <ul class="receipt__rows">
+        {rows.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
+      </ul>
+    )}
+    <p class={`receipt__total ${rows.length ? '' : 'receipt__total--only'}`}><span>{typo(total[0])}</span><b>{typo(total[1])}</b></p>
+  </div>
+  {after.length > 0 && (
+    <>
+      <div class="receipt__cut" aria-hidden="true"></div>
+      <div class="receipt__part">
+        <ul class="receipt__rows receipt__rows--after">
+          {after.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
+        </ul>
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+  .receipt { --cut: var(--c-white-card); max-width: 680px; border-radius: var(--r-md); background: var(--c-band); }
+  .receipt__part { display: grid; gap: 14px; padding: clamp(22px, 2.6vw, 34px); }
+  .receipt__cut { position: relative; height: 0; margin: 0 22px; border-top: 2px dashed var(--line-subtle); }
+  .receipt__cut::before, .receipt__cut::after { content: ''; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--cut); }
+  .receipt__cut::before { left: -34px; }
+  .receipt__cut::after { right: -34px; }
+  .receipt__subj { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  .receipt__params { font-size: var(--fs-lead); line-height: 1.45; }
+  .receipt__rows { display: grid; gap: 12px; }
+  .receipt__rows li, .receipt__total { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; font-size: var(--fs-lead); line-height: 1.35; }
+  /* <b> — цена в строке чека, не выделение во фразе */
+  .receipt__rows b { flex: none; font-weight: var(--w-semibold); white-space: nowrap; }
+  .receipt__total { margin-top: 6px; padding-top: 14px; border-top: 2px solid var(--c-ink); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); letter-spacing: var(--tr-h3); }
+  .receipt__total--only { margin-top: 0; padding-top: 0; border-top: 0; }
+  .receipt__total b { font-weight: var(--w-display); white-space: nowrap; }
+  @media (max-width: 560px) {
+    .receipt__part { padding: 20px 18px; }
+    .receipt__cut { margin: 0 14px; }
+    .receipt__cut::before { left: -26px; }
+    .receipt__cut::after { right: -26px; }
+    .receipt__rows li { display: grid; gap: 2px; }
+    .receipt__rows--after b { white-space: normal; }
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+/* Жирные «канцелярские» знаки к пунктам услуг (правка №56, 30.10; референс пользователя —
+   набор офисных пиктограмм: папка, скрепка, стрелка, звезда-клякса). Толстая линия 2.4px,
+   прямые концы, один цвет — текста. Знак предметный, по смыслу пункта, не абстракция. */
+interface Props { name: string }
+const { name } = Astro.props;
+/* звезда-клякса: 12 лучей */
+const star = Array.from({ length: 24 }, (_, i) => {
+  const a = (Math.PI / 12) * i - Math.PI / 2;
+  const r = i % 2 ? 6.2 : 10.5;
+  return `${(12 + r * Math.cos(a)).toFixed(2)},${(12 + r * Math.sin(a)).toFixed(2)}`;
+}).join(' ');
+const paths: Record<string, string> = {
+  folder: '<path d="M2.5 5.5h6.5l2 2.5h10.5v11.5h-19z"/><path d="M2.5 11h19"/>',
+  percent: '<circle cx="7" cy="7" r="2.6" fill="currentColor" stroke="none"/><circle cx="17" cy="17" r="2.6" fill="currentColor" stroke="none"/><path d="M19 4.5 5 19.5"/>',
+  clip: '<path d="M16.5 7v9a4.5 4.5 0 0 1-9 0V6a3 3 0 0 1 6 0v9.5a1.5 1.5 0 0 1-3 0V8"/>',
+  upload: '<circle cx="12" cy="12" r="10.5" fill="currentColor" stroke="none"/><path d="M12 17.5V7.5M7.5 11.5 12 7l4.5 4.5" stroke="var(--icon-bg, #fff)"/>',
+  trend: '<path d="M2.5 18.5l6.5-6.5 4 4 8-8"/><path d="M15 8h6v6"/>',
+  swap: '<path d="M3.5 8h15M14.5 4l4 4-4 4"/><path d="M20.5 16h-15M9.5 12l-4 4 4 4"/>',
+  star: `<polygon points="${star}" fill="currentColor" stroke="none"/>`,
+  calendar: '<path d="M3 5.5h18v15.5H3z"/><path d="M3 10.5h18M8 2.5v5M16 2.5v5"/><path d="M13.5 14h4v4h-4z" fill="currentColor" stroke="none"/>',
+  check: '<circle cx="12" cy="12" r="9.5"/><path d="m7.5 12.5 3 3 6-7"/>',
+  split: '<path d="M3 4h8v16H3z" fill="currentColor" stroke="none"/><path d="M14 5.2h6.8v13.6H14z"/>',
+  ruble: '<circle cx="12" cy="12" r="10.5" fill="currentColor" stroke="none"/><path d="M10 18V6.5h3.8a3 3 0 0 1 0 6H8M8 15.5h6" stroke="var(--icon-bg, #fff)"/>',
+  doc: '<path d="M5 2.5h9.5l4.5 4.5v14.5H5z"/><path d="M14.5 2.5V7H19M8.5 12h7M8.5 16h7"/>',
+};
+---
+
+<svg class="oicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" focusable="false" set:html={paths[name]} />
+
+<style>
+  .oicon { display: block; width: 100%; height: auto; overflow: visible; }
+</style>

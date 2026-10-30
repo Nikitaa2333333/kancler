@@ -140,8 +140,10 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req h2 { color: var(--c-white); }
   .req__band {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: clamp(28px, 5vw, 80px);
+    /* форма — узкая колонка рядом с заголовком, а не на всю правую половину (№161) */
+    grid-template-columns: minmax(0, 440px) minmax(0, 480px);
+    justify-content: start;
+    gap: clamp(28px, 6vw, 96px);
     align-items: start;
   }
   .req__info { display: grid; gap: 16px; align-content: start; }

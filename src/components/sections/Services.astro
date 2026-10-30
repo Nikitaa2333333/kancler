@@ -32,7 +32,7 @@ const tones = ['blue', 'sand', 'sage'];
 <style>
   /* соседи — блоки со своими полями, поэтому свой отступ почти нулевой: без дыры над
      заголовком и под плашками (правки №52, №75) */
-  .svc { padding-block: var(--block-gap); }
+  .svc { padding-block: var(--block-gap); margin-inline: var(--hero-frame); }  /* та же линия, что у остальных секций (№157) */
   .svc h2 { margin-bottom: var(--head-gap); max-width: 20ch; font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); }
   .svc__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
   .svc__card {

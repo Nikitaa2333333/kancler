@@ -106,6 +106,11 @@ function audit({ vw, palette }) {
     const bg = hex(s.backgroundColor);
     if (bg && !palette.includes(bg) && !el.matches('input, textarea, mark, .btn, .btn *, a.btn')) add('C', el, `фон ${bg}: ${short(el)}`);
     const sh = s.boxShadow.match(/(-?[\d.]+)px (-?[\d.]+)px ([\d.]+)px/); if (sh && parseFloat(sh[3]) > 0 && !el.matches(':focus')) add('S', el, 'тень: ' + short(el));
+    // P — мелкая подложка другого цвета внутри цветной плашки (чип, пилюля, квадратик с цифрой, №124)
+    if (bg && !el.matches('.sec, section, .btn, .btn *, input, textarea, button, .req, .req *, mark') && el.getBoundingClientRect().width >= 16) {
+      const pb = bgOf(el.parentElement);
+      if (bg !== pb && pb !== '#ffffff' && !isPlate(el)) add('P', el, `подложка ${bg} на плашке ${pb}: ${short(el) || el.className}`);
+    }
     if (isPlate(el) && !el.matches('.sec, section, .btn, input, textarea, button, .req')) {
       const own = hex(s.backgroundColor);
       const parentBg = bgOf(el.parentElement);

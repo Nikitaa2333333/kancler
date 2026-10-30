@@ -110,8 +110,8 @@ const icons: Record<string, { color: string; svg: string }> = {
   }
   .adv__track::-webkit-scrollbar { display: none; }
   .adv__track > li {
-    flex: 0 0 clamp(290px, 26vw, 340px);
-    min-height: clamp(400px, 34vw, 460px);  /* карточки вытянуты в высоту, крупнее (правка №54); на телефоне — по содержимому */
+    flex: 0 0 clamp(310px, 30vw, 400px);
+    min-height: clamp(440px, 38vw, 520px);  /* крупнее (№126) */  /* карточки вытянуты в высоту, крупнее (правка №54); на телефоне — по содержимому */
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
@@ -133,7 +133,7 @@ const icons: Record<string, { color: string; svg: string }> = {
   .adv__person p { display: grid; gap: 2px; font-size: 14px; line-height: 1.25; }
   /* <b> — имя на отдельной строке, не выделение внутри фразы */
   .adv__person b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: 17px; }
-  .adv__ava { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--c-tint); font-family: var(--ff-display); font-weight: var(--w-display); font-size: 19px; }
+  .adv__ava { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--c-ink); font-family: var(--ff-display); font-weight: var(--w-display); font-size: 19px; }  /* обводка вместо подложки (№124) */
   /* мессенджеры — круги внахлёст в один ряд; разделяет их кольцо цвета карточки (рамка), тени нет */
   .adv__msg { display: flex; }
   .adv__msg li + li { margin-left: -18px; }

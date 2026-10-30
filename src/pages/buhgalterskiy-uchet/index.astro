@@ -142,7 +142,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     --edge: calc(var(--hero-frame) + max(var(--gutter), (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2));
     margin-inline: calc(-1 * var(--edge)); padding: 0 var(--edge) 4px; scroll-padding-inline: var(--edge); }
   .scope::-webkit-scrollbar { display: none; }
-  .scope__item { flex: 0 0 clamp(260px, 26vw, 330px); scroll-snap-align: start; display: grid; gap: 10px; align-content: start; padding: clamp(22px, 2.2vw, 30px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .scope__item { flex: 0 0 clamp(320px, 36vw, 460px); scroll-snap-align: start; display: grid; gap: 10px; align-content: start; padding: clamp(22px, 2.2vw, 30px); border-radius: var(--r-lg); background: var(--card-bg); }
   @media (max-width: 560px) { .scope__item { flex-basis: 86%; } }  /* на телефоне шире, без «столбика» текста (№121) */
   .scope__item h4 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
 
@@ -165,8 +165,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tcard__vol li { padding: 7px 0; }
   .tcard__vol li + li { border-top: 1px solid var(--line-subtle); }
   /* цена — не крупнее текста, в небольшой плашке (№100) */
-  .tcard__price { align-self: flex-start; margin-top: auto; padding: 8px 16px; border-radius: 999px; background: var(--c-tint); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
-  .tcard--custom .tcard__price { background: var(--c-white-card); }
+  /* цена внизу карточки: без подложки (второй цвет в плашке = плашка в плашке, №124), черта сверху */
+  .tcard__price { margin-top: auto; padding-top: 12px; border-top: 2px solid var(--c-ink); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
 
   .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); line-height: 1.4; }
   .notes--one { display: block; }

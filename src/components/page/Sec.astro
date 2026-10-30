@@ -10,13 +10,15 @@ interface Props {
   title?: string;
   lead?: string;
   white?: boolean;
+  /** фоновая плашка-акцент (вопросы-ответы, №145) — остальные секции без плашки (№144) */
+  plate?: boolean;
   action?: { label: string; href: string };
 }
-const { id, title, lead, white = false, action } = Astro.props;
+const { id, title, lead, white = false, plate = false, action } = Astro.props;
 const hid = id ? `${id}-title` : undefined;
 ---
 
-<section class={`sec sec--block ${white ? 'sec--white' : ''}`} id={id} aria-labelledby={hid}>
+<section class={`sec sec--block ${white ? 'sec--white' : ''} ${plate ? 'sec--plate' : ''}`} id={id} aria-labelledby={hid}>
   <div class="wrap">
     {(title || lead) && (
       <div class="sx__head">

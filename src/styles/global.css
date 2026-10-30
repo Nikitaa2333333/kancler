@@ -76,6 +76,9 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 .sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
 /* секции подряд — один белый лист: без двойного отступа (дыра, правки №115, №144) */
 .sec--block + .sec--block { margin-top: 0; padding-top: 0; }
+/* исключение — плашка-акцент: частые вопросы (№145); соседи отделены обычным зазором */
+.sec--plate { background: var(--c-band); --card-bg: var(--c-white-card); }
+.sec--block + .sec--plate, .sec--plate + .sec--block, .req + .sec--plate { margin-top: var(--block-gap); padding-top: var(--section-gap); }
 
 /* Наложение блоков — простое (решение пользователя 23.10.2026: «папки» с язычками и
    прилипание у всех блоков — перебор, мешало прокрутке). Блоки чуть заходят друг на

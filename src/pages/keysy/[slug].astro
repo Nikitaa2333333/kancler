@@ -11,7 +11,7 @@ import CaseChart from '../../components/charts/CaseChart.astro';
 import MarkedImage from '../../components/charts/MarkedImage.astro';
 import Request from '../../components/sections/Request.astro';
 import { cases, type Case } from '../../data/cases';
-import { typo } from '../../lib/typo';
+import { typo, item } from '../../lib/typo';
 import { u } from '../../lib/url';
 
 export function getStaticPaths() {
@@ -56,7 +56,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
                 {s.text?.map((p) => <p>{typo(p)}</p>)}
                 {s.list && (
                   <ul class="list cs__list">
-                    {s.list.map((li) => <li>{typo(li)}</li>)}
+                    {s.list.map((li) => <li>{item(li)}</li>)}
                   </ul>
                 )}
               </section>

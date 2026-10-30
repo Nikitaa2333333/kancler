@@ -134,7 +134,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     z-index: 1;
     margin: var(--block-gap) var(--hero-frame) 0;
     border-radius: var(--r-lg);
-    background: var(--c-tint);
+    background: var(--c-band);  /* тот же цвет, что у всех плашек (правка №82) */
   }
   .req__band {
     display: grid;
@@ -147,7 +147,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__lead { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 40ch; }
   .req__form { display: grid; gap: 12px; }
   .req__field { display: grid; gap: 6px; }
-  /* серая обводка поля остаётся (правка №23) */
+  /* белые поля без обводки (правка №81, 30.10; №23 отменена), рамка — только при фокусе и ошибке */
   .req__field input,
   .req__field textarea {
     width: 100%;
@@ -158,7 +158,6 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     background: var(--c-white-card);
     font-size: 17px;
     font-weight: var(--w-body);
-    box-shadow: inset 0 0 0 1px var(--line-faint);
     transition: border-color .2s, box-shadow .2s;
   }
   .req__field textarea { min-height: 112px; resize: vertical; }

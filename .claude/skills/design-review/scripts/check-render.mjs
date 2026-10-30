@@ -45,7 +45,7 @@ function loadPlaywright() {
 }
 
 /* Палитра (tokens.css → «ПАЛИТРА — СВОД»). Фоны вне списка — находка C. */
-const PALETTE = ['#ffffff', '#f3f1ec', '#e9e5dc', '#0062ad', '#004a85', '#e3eaf6', '#f1e7d6', '#e2eadc', '#ffe96f', '#2b2833', '#1a1a1a'];
+const PALETTE = ['#ffffff', '#f2eeeb', '#e9e5dc', '#0062ad', '#004a85', '#e3eaf6', '#f1e7d6', '#e2eadc', '#78e08f', '#141414', '#1a1a1a'];
 
 function audit({ vw, palette }) {
   const out = [];
@@ -118,7 +118,7 @@ function audit({ vw, palette }) {
     if (!vis(el) || skip(el) || el.closest('a.btn, .btn, button, label, input, .req__err, mark')) return;
     if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) return;
     const c = hex(cs(el).color); const op = parseFloat(cs(el).opacity);
-    if (c && !['#2b2833', '#ffffff', '#1a1a1a'].includes(c)) add('T', el, `цвет ${c}: ${short(el)}`);
+    if (c && !['#141414', '#ffffff', '#1a1a1a'].includes(c)) add('T', el, `цвет ${c}: ${short(el)}`);
     else if (op < 0.95 && !el.closest('[data-reveal], .probs')) add('T', el, `полупрозрачный текст: ${short(el)}`);
   });
 

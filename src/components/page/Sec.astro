@@ -3,7 +3,8 @@ import { typo } from '../../lib/typo';
 
 /* Секция внутренней страницы — та же плашка-блок, что на главной (.sec--block),
    белые чередуются через white. Заголовок, лид; необязательная кнопка — внизу блока
-   (правка №73, 30.10: «Все кейсы» стоит под карточками, как на главной). */
+   (правка №73, 30.10: «Все кейсы» стоит под карточками, как на главной); с №119 — ссылка
+   с галочкой (`.mlink`), не кнопка. */
 interface Props {
   id?: string;
   title?: string;
@@ -26,7 +27,7 @@ const hid = id ? `${id}-title` : undefined;
       </div>
     )}
     <slot />
-    {action && <a class="btn sx__action" href={action.href}>{typo(action.label)}</a>}
+    {action && <a class="mlink sx__action" href={action.href}>{typo(action.label)}</a>}
   </div>
 </section>
 
@@ -41,6 +42,6 @@ const hid = id ? `${id}-title` : undefined;
   }
   .sx__titles { display: grid; gap: 16px; }
   .sx__titles h2 { max-width: 30ch; }
-  .sx__action { margin-top: var(--head-gap); }
+  .sx__action { margin-top: var(--head-gap); font-size: var(--fs-lead); }
   .sx__lead { max-width: var(--measure-text); font-size: var(--fs-lead); }
 </style>

@@ -60,7 +60,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       </ul>
       <IconNote icon="trend">{typo(buh.result.note)}</IconNote>
       <!-- ссылка не внутри текста, а отдельной кнопкой под ним (правка №93) -->
-      <a class="btn btn--light btn--sm note-link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
+      <a class="mlink note-link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
     </Sec>
 
     <Process />
@@ -171,7 +171,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .notes--one { display: block; }
   .tables { display: grid; gap: clamp(48px, 6vw, 72px); margin-top: clamp(48px, 6vw, 80px); }
 
-  .note-link { margin: 16px 0 0 46px; }
+  .note-link { margin: 12px 0 0 46px; font-size: var(--fs-lead); }
 
   .more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(22px, 2.4vw, 32px) clamp(24px, 4vw, 64px); }
   .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; }

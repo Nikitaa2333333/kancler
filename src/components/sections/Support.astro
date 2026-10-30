@@ -1,0 +1,20 @@
+---
+import { support } from '../../data/home';
+import Sec from '../page/Sec.astro';
+import IconList from '../page/IconList.astro';
+import Programs from './Programs.astro';
+/* «Параметры сопровождения» и программы — ответы клиента в доке «Структура главной» (№152) */
+---
+
+<Sec id="soprovozhdenie" title={support.title} lead={support.lead}>
+  <div class="sup">
+    <IconList items={support.items} />
+    <Programs />
+  </div>
+</Sec>
+
+<style>
+  .sup { display: grid; gap: clamp(32px, 4vw, 56px); }
+  .sup :global(.ilist) { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; gap: 14px clamp(24px, 4vw, 64px); }
+  @media (max-width: 760px) { .sup :global(.ilist) { grid-template-columns: minmax(0, 1fr); } }
+</style>

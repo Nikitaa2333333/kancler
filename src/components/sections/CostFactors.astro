@@ -25,5 +25,6 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 <style>
   .cost__head { display: grid; gap: 12px; margin-bottom: clamp(20px, 2.4vw, 32px); }
   /* «Бухгалтерское сопровождение» — бирка над заголовком (правка №96) */
-  .cost__tag { justify-self: start; padding: 6px 14px; border-radius: 999px; background: var(--c-tint); font-size: var(--fs-small); font-weight: var(--w-semibold); }
+  /* бирка-«марка»: прямоугольник со срезанным уголком, как у жирных знаков (№113) */
+  .cost__tag { justify-self: start; padding: 7px 18px 7px 14px; background: var(--c-tint); clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); font-size: var(--fs-small); font-weight: var(--w-semibold); }
 </style>

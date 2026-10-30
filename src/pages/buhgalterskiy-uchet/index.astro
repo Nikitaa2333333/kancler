@@ -9,6 +9,7 @@ import PriceTable from '../../components/page/PriceTable.astro';
 import Faq from '../../components/page/Faq.astro';
 import FactorGrid from '../../components/page/FactorGrid.astro';
 import IconNote from '../../components/page/IconNote.astro';
+import Receipt from '../../components/page/Receipt.astro';
 import OfficeIcon from '../../components/OfficeIcon.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
 import Process from '../../components/sections/Process.astro';
@@ -94,27 +95,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     </Sec>
 
     <Sec id="primer" title={buh.example.title} white>
-      <!-- пример расчёта — «чек»: условия сверху, линия отрыва с вырезами по краям, строки
-           с ценой справа, итог крупно (правка №89, 30.10) -->
-      <div class="receipt">
-        <div class="receipt__part">
-          <p class="receipt__subj">{typo(buh.example.subject)}</p>
-          <p class="receipt__params">{typo(cap(buh.example.params.join(', ')))}</p>
-        </div>
-        <div class="receipt__cut" aria-hidden="true"></div>
-        <div class="receipt__part">
-          <ul class="receipt__rows">
-            {buh.example.rows.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
-          </ul>
-          <p class="receipt__total"><span>{typo(buh.example.total[0])}</span><b>{typo(buh.example.total[1])}</b></p>
-        </div>
-        <div class="receipt__cut" aria-hidden="true"></div>
-        <div class="receipt__part">
-          <ul class="receipt__rows receipt__rows--after">
-            {buh.example.after.map(([k, v]) => <li><span>{typo(k)}</span><b>{typo(v)}</b></li>)}
-          </ul>
-        </div>
-      </div>
+      <Receipt subject={buh.example.subject} params={buh.example.params} rows={buh.example.rows as [string, string][]} total={buh.example.total as [string, string]} after={buh.example.after as [string, string][]} />
     </Sec>
 
     <Sec id="dop" title={buh.more.title}>
@@ -191,32 +172,6 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tables { display: grid; gap: clamp(48px, 6vw, 72px); margin-top: clamp(48px, 6vw, 80px); }
 
   .note-link { margin: 16px 0 0 46px; }
-
-  /* чек (№89): белая лента на плашке, линия отрыва пунктиром с полукруглыми вырезами */
-  /* чек — плашка на белой секции (не плашка в плашке), вырезы — цветом фона секции */
-  .receipt { --cut: var(--c-white-card); max-width: 680px; border-radius: var(--r-md); background: var(--c-band); }
-  .receipt__part { display: grid; gap: 14px; padding: clamp(22px, 2.6vw, 34px); }
-  .receipt__cut { position: relative; height: 0; margin: 0 22px; border-top: 2px dashed var(--line-subtle); }
-  .receipt__cut::before, .receipt__cut::after { content: ''; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--cut); }
-  .receipt__cut::before { left: -34px; }
-  .receipt__cut::after { right: -34px; }
-  .receipt__subj { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); }
-  .receipt__params { font-size: var(--fs-lead); line-height: 1.45; }
-  .receipt__rows { display: grid; gap: 12px; }
-  .receipt__rows li, .receipt__total { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; font-size: var(--fs-lead); line-height: 1.35; }
-  /* <b> — цена в строке чека, не выделение во фразе */
-  .receipt__rows b { flex: none; font-size: var(--fs-h5); font-weight: var(--w-semibold); white-space: nowrap; }
-  .receipt__total { margin-top: 6px; padding-top: 14px; border-top: 2px solid var(--c-ink); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); letter-spacing: var(--tr-h3); }
-  .receipt__total b { font-weight: var(--w-display); white-space: nowrap; }
-  .receipt__rows--after b { font-size: var(--fs-lead); }
-  @media (max-width: 560px) {
-    .receipt__part { padding: 20px 18px; }
-    .receipt__cut { margin: 0 14px; }
-    .receipt__cut::before { left: -26px; }
-    .receipt__cut::after { right: -26px; }
-    .receipt__rows li { display: grid; gap: 2px; }
-    .receipt__rows--after b { white-space: normal; }
-  }
 
   .more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(22px, 2.4vw, 32px) clamp(24px, 4vw, 64px); }
   .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; }

@@ -81,7 +81,7 @@ const last = head.length - 1;
     .pt tr { display: grid; padding: 14px 0; }
     .pt tbody th { order: 1; }
     .pt tbody td.pt__price { order: 2; }
-    .pt tbody td:not(.pt__price) { order: 3; }
+    .pt tbody td:not(.pt__price) { order: 3; margin-top: 6px; line-height: 1.3; }  /* пояснение — с отступом от цены, плотно (№116) */
     .pt tbody tr + tr, .pt tfoot tr { border-top: 1px solid var(--line-subtle); }
     .pt tfoot tr:first-child { border-top: 2px solid var(--c-ink); }
     .pt th, .pt td, .pt tbody tr + tr > *, .pt tfoot tr > *, .pt tfoot tr:first-child > * { border: 0; padding: 0; }

@@ -45,7 +45,7 @@ function loadPlaywright() {
 }
 
 /* Палитра (tokens.css → «ПАЛИТРА — СВОД»). Фоны вне списка — находка C. */
-const PALETTE = ['#ffffff', '#f3f1ec', '#e9e5dc', '#2f4a7f', '#22375f', '#e3eaf6', '#f1e7d6', '#e2eadc', '#ffe96f', '#2b2833', '#1a1a1a'];
+const PALETTE = ['#ffffff', '#f3f1ec', '#e9e5dc', '#0062ad', '#004a85', '#e3eaf6', '#f1e7d6', '#e2eadc', '#ffe96f', '#2b2833', '#1a1a1a'];
 
 function audit({ vw, palette }) {
   const out = [];

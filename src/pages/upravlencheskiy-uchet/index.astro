@@ -82,19 +82,21 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
 </Base>
 
 <style>
-  .blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
+  .blocks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
   /* три направления — плашки с крупной цифрой (№111) */
-  .blk { display: flex; flex-direction: column; gap: 12px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  /* компактнее внутри (№140) */
+  .blk { display: flex; flex-direction: column; gap: 8px; padding: clamp(18px, 1.8vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
   /* знак вместо одинокой цифры, номер — внутри заголовка (№133, №135) */
-  .blk__ico { display: block; width: 40px; margin-bottom: 4px; color: var(--c-ink); --icon-bg: var(--card-bg); }
+  .blk__ico { display: block; width: 30px; margin-bottom: 2px; color: var(--c-ink); --icon-bg: var(--card-bg); }
   .blk h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  .blk p { line-height: 1.45; }
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
   .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
   .seq { display: grid; align-content: start; }  /* без линии под заголовком секции (№98) */
-  .seq h3 { margin-bottom: 20px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
+  .seq h3 { margin-bottom: 8px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; }
-  .seq li { display: grid; padding: 14px 0; }
+  .seq li { display: grid; padding: 10px 0; }
   .seq li + li { border-top: 1px solid var(--line-subtle); }
   /* номер внутри заголовка «1. …», заголовок плотнее, отступ до описания больше (№133) */
   .seq h4 { font-family: var(--ff-body); font-size: var(--fs-lead); font-weight: var(--w-semibold); letter-spacing: 0; line-height: 1.25; }

@@ -46,11 +46,11 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
     gap: 24px;
-    padding: clamp(32px, 5vw, 72px) clamp(20px, 4vw, 56px);
+    padding: clamp(24px, 4vw, 64px) clamp(18px, 3.6vw, 52px);  /* компактнее (№140) */
     border-radius: var(--r-lg);
     background: var(--c-band);
   }
-  .ph__copy { display: grid; gap: clamp(14px, 1.6vw, 20px); justify-items: start; max-width: 860px; }
+  .ph__copy { display: grid; gap: clamp(12px, 1.4vw, 18px); justify-items: start; max-width: 860px; }
   h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); max-width: 22ch; }
   .ph__lead { max-width: 40ch; font-size: var(--fs-h5); line-height: 1.4; }  /* крупнее, как на главной (правка №62) */
   .ph__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }

@@ -103,7 +103,7 @@ export const advantages = {
     { title: 'Профответственность застрахована', text: 'Ответственность за ошибки в учёте застрахована', draft: true, guarantee: 'Компенсируем штраф и пени из-за нашей ошибки' },
     { title: 'Понятные отчёты', text: 'Цифры, графики и выводы без бухгалтерского языка', chips: ['ОДДС', 'ОПиУ', 'Баланс', 'Маржа по объекту'] },
     { title: 'Личный бухгалтер', text: 'Один специалист, который знает ваш бизнес', person: true },
-    { title: 'На связи в мессенджерах', text: 'Отвечаем в рабочее время', messengers: ['Telegram', 'WhatsApp', 'Макс'] },
+    { title: 'На связи в мессенджерах', text: 'Отвечаем в рабочее время, с 8:00 до 20:00', messengers: ['Telegram', 'WhatsApp', 'Макс'] },
     { title: 'Защита данных по объектам', text: 'Документы и цифры по вашим объектам видит только команда, которая ведёт учёт', draft: true },
   ] as { title: string; text: string; draft?: boolean; chips?: string[]; guarantee?: string; person?: boolean; messengers?: string[] }[],
 };

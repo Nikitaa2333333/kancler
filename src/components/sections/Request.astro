@@ -9,51 +9,55 @@ const { topic = 'Главная' } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
 ---
 
-<!-- Форма как на сайте КТМ (правка №5, 28.10): слева подводка и контакты, справа крупные
-     белые поля прямо на плашке и большая круглая кнопка (без карточки-в-плашке, №15). -->
-<section class="sec sec--flush-top req" id="zayavka" aria-labelledby="req-title">
-  <div class="wrap">
-    <div class="req__band">
-      <div class="req__info">
-        <h2 id="req-title">{typo(request.title)}</h2>
-        <p class="req__lead">{typo(request.lead)}</p>
-        <p class="req__note">{typo(request.note)}</p>
-        <div class="req__contacts">
-          {company.phone && <a class="req__big" href={`tel:${company.phoneHref}`}>{company.phone}</a>}
-          <a class="req__mail" href={`mailto:${company.leadEmail}`}>{company.leadEmail}</a>
-          <p>{typo(`${company.hours}, ${company.region}`)}</p>
-          <p>{typo(company.remote)}</p>
-        </div>
-      </div>
+<!-- Форма как на сайте КТМ. 30.10 (правки №20–25): плашка той же ширины, что все блоки
+     (поле --hero-frame по краям); вторая строка подводки — тем же кеглем, что первая; почта и
+     часы ушли вниз строкой, чтобы не отодвигать форму; проверка полей с подсказкой под полем
+     и маска телефона, как на КТМ; согласие — одной компактной строкой. -->
+<section class="sec req" id="zayavka" aria-labelledby="req-title">
+  <div class="wrap req__band">
+    <div class="req__info">
+      <h2 id="req-title">{typo(request.title)}</h2>
+      <p class="req__lead">{typo(request.lead)}</p>
+      <p class="req__lead">{typo(request.note)}</p>
+    </div>
 
-      <form class="req__form" data-form data-endpoint={endpoint} novalidate>
-        <label class="req__field">
-          <span class="sr-only">{request.fields.name}</span>
-          <input type="text" name="name" autocomplete="name" placeholder="Ваше имя" required />
-        </label>
-        <label class="req__field">
-          <span class="sr-only">{request.fields.phone}</span>
-          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="Телефон, +7" required />
-        </label>
-        <label class="req__field">
-          <span class="sr-only">{request.fields.comment}</span>
-          <textarea name="comment" rows="3" placeholder="Коротко о задаче"></textarea>
-        </label>
-        <input type="hidden" name="topic" value={topic} />
-        <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <button class="btn req__submit" type="submit">{request.submit}</button>
-        <label class="req__consent">
-          <input type="checkbox" name="consent" required />
-          <span>{typo(request.consent)}</span>
-        </label>
-        {(company.telegram || company.whatsapp) && (
-          <div class="req__alt">
-            {company.telegram && <a class="btn btn--light" href={company.telegram} rel="noopener">Telegram</a>}
-            {company.whatsapp && <a class="btn btn--light" href={company.whatsapp} rel="noopener">WhatsApp</a>}
-          </div>
-        )}
-        <p class="req__status" data-status role="status" aria-live="polite"></p>
-      </form>
+    <form class="req__form" data-form data-endpoint={endpoint} novalidate>
+      <label class="req__field">
+        <span class="sr-only">{request.fields.name}</span>
+        <input type="text" name="name" autocomplete="name" placeholder="Ваше имя" required aria-describedby="req-err-name" />
+        <span class="req__err" id="req-err-name" data-err="name"></span>
+      </label>
+      <label class="req__field">
+        <span class="sr-only">{request.fields.phone}</span>
+        <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="req-err-phone" />
+        <span class="req__err" id="req-err-phone" data-err="phone"></span>
+      </label>
+      <label class="req__field">
+        <span class="sr-only">{request.fields.comment}</span>
+        <textarea name="comment" rows="3" placeholder="Коротко о задаче"></textarea>
+      </label>
+      <input type="hidden" name="topic" value={topic} />
+      <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <button class="btn req__submit" type="submit">{request.submit}</button>
+      <label class="req__consent">
+        <input type="checkbox" name="consent" required aria-describedby="req-err-consent" />
+        <span>{typo(request.consent)}</span>
+      </label>
+      <span class="req__err" id="req-err-consent" data-err="consent"></span>
+      {(company.telegram || company.whatsapp) && (
+        <div class="req__alt">
+          {company.telegram && <a class="btn btn--light" href={company.telegram} rel="noopener">Telegram</a>}
+          {company.whatsapp && <a class="btn btn--light" href={company.whatsapp} rel="noopener">WhatsApp</a>}
+        </div>
+      )}
+      <p class="req__status" data-status role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="req__contacts">
+      {company.phone && <a href={`tel:${company.phoneHref}`}>{company.phone}</a>}
+      <a href={`mailto:${company.leadEmail}`}>{company.leadEmail}</a>
+      <span>{typo(company.hours)}</span>
+      <span>{typo(`${company.region}, ${company.remote.toLowerCase()}`)}</span>
     </div>
   </div>
 </section>
@@ -63,14 +67,51 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   if (form) {
     const status = form.querySelector<HTMLElement>('[data-status]')!;
     const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const nameEl = form.elements.namedItem('name') as HTMLInputElement;
+    const phoneEl = form.elements.namedItem('phone') as HTMLInputElement;
+    const consentEl = form.elements.namedItem('consent') as HTMLInputElement;
+
+    /* маска телефона +7 (999) 123-45-67; вставленный номер с 8 или +7 в начале тоже понимаем */
+    const digits = (v: string) => {
+      let d = v.replace(/\D/g, '');
+      if (v.trim().startsWith('+7')) d = d.slice(1);
+      if (d.length > 10 && (d[0] === '8' || d[0] === '7')) d = d.slice(1);
+      return d.slice(0, 10);
+    };
+    const mask = (d: string) => {
+      if (!d) return '';
+      let out = '+7 (' + d.slice(0, 3);
+      if (d.length >= 3) out += ') ' + d.slice(3, 6);
+      if (d.length >= 6) out += '-' + d.slice(6, 8);
+      if (d.length >= 8) out += '-' + d.slice(8, 10);
+      return out;
+    };
+    phoneEl.addEventListener('input', () => { phoneEl.value = mask(digits(phoneEl.value)); });
+    phoneEl.addEventListener('focus', () => { if (!phoneEl.value) phoneEl.value = '+7 ('; });
+    phoneEl.addEventListener('blur', () => { if (!digits(phoneEl.value)) phoneEl.value = ''; });
+
+    const rules: [HTMLInputElement, string, () => string][] = [
+      [nameEl, 'name', () => (nameEl.value.trim().length < 2 ? 'Как к вам обращаться?' : '')],
+      [phoneEl, 'phone', () => (digits(phoneEl.value).length < 10 ? 'Введите номер полностью' : '')],
+      [consentEl, 'consent', () => (consentEl.checked ? '' : 'Без согласия мы не сможем обработать заявку')],
+    ];
+    const check = (el: HTMLInputElement, key: string, fn: () => string) => {
+      const msg = fn();
+      form.querySelector<HTMLElement>(`[data-err="${key}"]`)!.textContent = msg;
+      el.toggleAttribute('aria-invalid', !!msg);
+      return !msg;
+    };
+    /* подсказка появляется после первой попытки отправить и гаснет, как только поле исправлено */
+    let tried = false;
+    rules.forEach(([el, key, fn]) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => { if (tried) check(el, key, fn); }));
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = new FormData(form);
       if (data.get('website')) return;
-      const name = String(data.get('name') || '').trim();
-      const phone = String(data.get('phone') || '').trim();
-      if (!name || phone.replace(/\D/g, '').length < 10) { status.textContent = 'Укажите имя и телефон.'; return; }
-      if (!data.get('consent')) { status.textContent = 'Нужно согласие на обработку персональных данных.'; return; }
+      tried = true;
+      const bad = rules.filter(([el, key, fn]) => !check(el, key, fn));
+      if (bad.length) { bad[0][0].focus(); status.textContent = ''; return; }
       const endpoint = form.dataset.endpoint;
       if (!endpoint) { status.textContent = 'Приём заявок пока не подключён.'; return; }
       btn.disabled = true;
@@ -79,9 +120,10 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
         await fetch(endpoint, {
           method: 'POST', mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ name, phone, comment: String(data.get('comment') || '').trim(), topic: String(data.get('topic') || ''), page: location.href }),
+          body: JSON.stringify({ name: nameEl.value.trim(), phone: phoneEl.value, comment: String(data.get('comment') || '').trim(), topic: String(data.get('topic') || ''), page: location.href }),
         });
         form.reset();
+        tried = false;
         status.textContent = 'Заявка отправлена. Мы свяжемся с вами.';
       } catch {
         status.textContent = 'Не получилось отправить. Попробуйте ещё раз.';
@@ -91,25 +133,34 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
 </script>
 
 <style>
-  /* поверх последнего прилипшего блока — свой непрозрачный фон */
-  .req { position: relative; z-index: 1; background: var(--c-paper); margin-top: var(--block-gap); }
+  /* та же геометрия, что у .sec--block: поле --hero-frame по краям, скругление r-lg (№20) */
+  .req {
+    position: relative;
+    z-index: 1;
+    margin: var(--block-gap) var(--hero-frame) 0;
+    border-radius: var(--r-lg);
+    background: var(--c-tint);
+  }
   .req__band {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
     gap: clamp(28px, 5vw, 80px);
     align-items: start;
-    padding: clamp(28px, 5vw, 72px);
-    border-radius: var(--r-lg);
-    background: var(--c-tint);
   }
   .req__info { display: grid; gap: 16px; align-content: start; }
   .req__info h2 { max-width: 14ch; }
   .req__lead { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 40ch; }
-  .req__note { max-width: 40ch; }
-  .req__contacts { display: grid; gap: 6px; justify-items: start; margin-top: 12px; padding-top: 20px; border-top: 1px solid var(--line-subtle); }
-  .req__big, .req__mail { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); letter-spacing: var(--tr-h4); color: var(--c-primary); }
-  /* поля прямо на синей плашке — без внутренней карточки и без теней (правка №15, 28.10) */
+  .req__contacts {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 32px;
+    font-size: var(--fs-small);
+  }
+  .req__contacts a { font-weight: var(--w-semibold); color: var(--c-primary); }
   .req__form { display: grid; gap: 12px; }
+  .req__field { display: grid; gap: 6px; }
+  /* серая обводка поля остаётся (правка №23) */
   .req__field input,
   .req__field textarea {
     width: 100%;
@@ -127,15 +178,21 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__field input::placeholder, .req__field textarea::placeholder { color: rgb(43 40 51 / 0.5); }
   .req__field input:focus,
   .req__field textarea:focus { outline: none; border-color: var(--c-primary); box-shadow: 0 0 0 4px rgb(47 74 127 / 0.12); }
+  .req__field input[aria-invalid] { border-color: var(--c-warn); box-shadow: none; }
+  .req__err { display: block; padding-left: 20px; font-size: var(--fs-small); font-weight: var(--w-medium); color: var(--c-warn); }
+  .req__err:empty { display: none; }
   .req__submit {
     margin-top: 6px;
     transition: background-color .2s, transform .15s;
   }
   .req__submit:hover { transform: translateY(-1px); }
   .req__submit:active { transform: translateY(1px); }
-  .req__consent { display: flex; align-items: flex-start; gap: 10px; font-size: var(--fs-small); }
-  .req__consent input { flex: none; width: 18px; height: 18px; margin-top: 2px; accent-color: var(--c-primary); }
+  /* согласие — одна короткая строка под кнопкой (№25) */
+  .req__consent { display: flex; align-items: center; gap: 8px; padding-left: 20px; font-size: 14px; line-height: 1.3; }
+  .req__consent input { flex: none; width: 16px; height: 16px; margin: 0; accent-color: var(--c-primary); }
+  .req__consent input[aria-invalid] { outline: 2px solid var(--c-warn); outline-offset: 2px; }
   .req__alt { display: flex; flex-wrap: wrap; gap: 10px; }
-  .req__status { min-height: 1.5em; font-size: var(--fs-small); font-weight: var(--w-medium); }
-  @media (max-width: 860px) { .req__band { grid-template-columns: minmax(0, 1fr); padding: 28px 16px 20px; } }
+  .req__status { font-size: var(--fs-small); font-weight: var(--w-medium); }
+  .req__status:empty { display: none; }
+  @media (max-width: 860px) { .req__band { grid-template-columns: minmax(0, 1fr); } }
 </style>

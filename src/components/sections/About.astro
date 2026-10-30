@@ -43,16 +43,12 @@ import { u } from '../../lib/url';
     border-radius: var(--r-lg);
   }
   .about__photo img { width: 100%; height: 100%; object-fit: cover; }
+  /* текст рядом с фото, без плашки (правка №27, 30.10; прежний приём «Архимеда» снят) */
   .about__card {
-    position: relative;
-    z-index: 1;
-    margin-left: calc(-1 * clamp(56px, 7vw, 112px));
     display: flex;
     flex-direction: column;
     gap: clamp(20px, 2.4vw, 32px);
-    padding: clamp(24px, 3vw, 40px);
-    border-radius: var(--r-lg);
-    background: var(--card-bg, var(--c-white-card));
+    padding-left: clamp(28px, 4vw, 64px);
   }
   .about__name {
     font-family: var(--ff-display);
@@ -70,6 +66,6 @@ import { u } from '../../lib/url';
   .about__facts b { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h6); line-height: var(--lh-h6); }
   @media (max-width: 860px) {
     .about__grid { grid-template-columns: minmax(0, 1fr); }
-    .about__card { margin: -70px 12px 0; }
+    .about__card { padding: 28px 0 0; }
   }
 </style>

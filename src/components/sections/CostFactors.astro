@@ -3,7 +3,7 @@ import { cost } from '../../data/home';
 import { typo } from '../../lib/typo';
 
 /* В едином стиле со страницами услуг (правка №18, 28.10.2026): вместо таблицы — сетка
-   факторов с крупным номером, заголовком антиквой и пояснением, линия сверху, без плашек.
+   факторов: заголовок антиквой и пояснение, линия сверху, без плашек; номера сняты (№26).
    Текст клиента разделён по скобке, как было; пояснение — с заглавной буквы. */
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 ---
@@ -17,9 +17,8 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
     <!-- Колонка «Управленческий учёт» появится, когда клиент пришлёт текст («ДУМАЕМ»). -->
     <ol class="cost__grid">
-      {cost.accounting.rows.map(([factor, why], i) => (
+      {cost.accounting.rows.map(([factor, why]) => (
         <li>
-          <span class="cost__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <h3>{typo(factor)}</h3>
           <p>{typo(cap(why))}</p>
         </li>
@@ -33,7 +32,6 @@ const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   .cost__sub { font-size: var(--fs-lead); font-weight: var(--w-semibold); color: var(--c-primary); }
   .cost__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 3vw, 44px) clamp(20px, 3vw, 40px); }
   .cost__grid li { display: grid; align-content: start; gap: 10px; padding-top: clamp(18px, 2vw, 24px); border-top: 1px solid var(--line-subtle); }
-  .cost__n { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1; color: var(--c-primary); }
   .cost__grid h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   @media (max-width: 980px) { .cost__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .cost__grid { grid-template-columns: minmax(0, 1fr); } }

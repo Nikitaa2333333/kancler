@@ -7,7 +7,6 @@ import { typo } from '../../lib/typo';
   <div class="wrap probs__grid">
     <div class="probs__side">
       <h2 id="probs-title">{typo(problems.title)}</h2>
-      <a class="btn" href="#zayavka">{typo(problems.cta)}</a>
     </div>
 
     <!-- Приём КТМ (SloganScroll): пункты серые, пока до них не докрутили, и
@@ -16,6 +15,8 @@ import { typo } from '../../lib/typo';
     <ul class="probs__lines" data-lines>
       {problems.items.map((t) => <li>{typo(t)}</li>)}
     </ul>
+    <!-- кнопка под списком, а не рядом с заголовком (правка №33, 30.10) -->
+    <a class="btn probs__cta" href="#zayavka">{typo(problems.cta)}</a>
   </div>
 </section>
 
@@ -69,8 +70,10 @@ import { typo } from '../../lib/typo';
     opacity: calc(0.2 + var(--p, 0) * 0.8);
     transition: opacity .15s linear;
   }
+  .probs__cta { grid-column: 2; justify-self: start; margin-top: 8px; }
   @media (max-width: 860px) {
     .probs__grid { grid-template-columns: minmax(0, 1fr); }
     .probs__side { position: static; }
+    .probs__cta { grid-column: auto; }
   }
 </style>

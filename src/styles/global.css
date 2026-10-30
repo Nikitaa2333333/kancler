@@ -68,12 +68,14 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 .sec--block {
   margin: var(--block-gap) var(--hero-frame) 0;
   border-radius: var(--r-lg);
-  background: var(--c-band);
-  --card-bg: var(--c-white-card);
+  /* правка №144 (30.10): от фоновых плашек секций отходим — секции белые, плашками
+     остаются только карточки внутри (--card-bg), первый экран, форма и подвал */
+  background: transparent;
+  --card-bg: var(--c-band);
 }
 .sec--white { background: var(--c-white-card); --card-bg: var(--c-band); }
-/* две белые секции подряд — один белый лист: без двойного отступа (дыра, правка №115) */
-.sec--white + .sec--white { margin-top: 0; padding-top: 0; }
+/* секции подряд — один белый лист: без двойного отступа (дыра, правки №115, №144) */
+.sec--block + .sec--block { margin-top: 0; padding-top: 0; }
 
 /* Наложение блоков — простое (решение пользователя 23.10.2026: «папки» с язычками и
    прилипание у всех блоков — перебор, мешало прокрутке). Блоки чуть заходят друг на

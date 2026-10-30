@@ -24,11 +24,16 @@ import { u } from '../../lib/url';
   .prog__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   .prog__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px 48px; }
   .prog__row img { display: block; width: auto; max-width: 100%; height: calc(var(--h) * 1px); }
+  /* телефон — крупные логотипы лентой с горизонтальной прокруткой, узкий край и зазор (№155) */
   @media (max-width: 760px) {
-    .prog__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 28px 20px; }
-    .prog__row li:not(.prog__wide) { order: -1; }
-    .prog__wide { grid-column: 1 / -1; }
-    .prog__row img { height: calc(var(--h) * 0.85px); }
-    .prog__wide img { height: 46px; }
+    .prog__row {
+      display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 28px;
+      overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+      margin-inline: calc(-1 * var(--gutter)); padding: 4px calc(var(--hero-frame) + 10px);
+      scroll-padding-inline: calc(var(--hero-frame) + 10px);
+    }
+    .prog__row::-webkit-scrollbar { display: none; }
+    .prog__row li { flex: none; scroll-snap-align: start; }
+    .prog__row img { height: calc(var(--h) * 1px); max-width: none; }
   }
 </style>

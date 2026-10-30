@@ -69,8 +69,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
            карточке: под названием — для кого, ниже — объём строками, цена — внизу карточки -->
       <div class="tcards">
         {buh.tariffs.rows.map(([name, who, volume, price]) => (
-          <article class="tcard">
-            <h3>{typo(name)}</h3>
+          <article class={`tcard ${price.startsWith('по') ? 'tcard--custom' : ''}`}>
+            <h3>{typo(name.replace(/[«»]/g, ''))}</h3>
             <p class="tcard__who">{typo(who)}</p>
             <ul class="tcard__vol">
               {volume.split(', ').map((v) => <li>{typo(cap(v))}</li>)}
@@ -173,12 +173,18 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
   .tcard { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
   .tcard h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  /* «для кого» — крупно и впритык к названию (№99) */
+  .tcard h3 + .tcard__who { margin-top: -6px; font-size: var(--fs-lead); font-weight: var(--w-semibold); }
+  /* «Индивидуальный» — своим цветом (тон услуги), чтобы отличался (№99) */
+  .tcard--custom { background: var(--c-tone-blue); }
   /* один кегль у «для кого» и у объёма (№91) */
   .tcard__who, .tcard__vol { line-height: 1.4; }
   .tcard__vol { display: grid; }
   .tcard__vol li { padding: 7px 0; }
   .tcard__vol li + li { border-top: 1px solid var(--line-subtle); }
-  .tcard__price { margin-top: auto; padding-top: 8px; font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); line-height: 1.1; letter-spacing: var(--tr-h3); }
+  /* цена — не крупнее текста, в небольшой плашке (№100) */
+  .tcard__price { align-self: flex-start; margin-top: auto; padding: 8px 16px; border-radius: 999px; background: var(--c-tint); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
+  .tcard--custom .tcard__price { background: var(--c-white-card); }
 
   .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); line-height: 1.4; }
   .notes--one { display: block; }
@@ -220,7 +226,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .more__price { margin-top: 6px; font-size: var(--fs-h5); font-weight: var(--w-semibold); line-height: 1.25; }
   .more__per, .more__unit { font-size: var(--fs-small); font-weight: var(--w-body); }
   .more__unit { margin-top: 2px; }
-  .more__split { display: flex; flex-wrap: wrap; gap: 0 28px; }
+  .more__split { display: grid; gap: 0; }  /* «без НДС / с НДС» — плотно друг под другом (№101) */
+  .more__split .more__price + .more__price { margin-top: 0; }
 
   @media (max-width: 1100px) {
     .tcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }

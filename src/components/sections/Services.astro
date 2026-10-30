@@ -1,27 +1,21 @@
 ---
 import { services } from '../../data/home';
-import Shapes from '../Shapes.astro';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 
-/* у каждой услуги свой цвет плашки и свой чертёж (правка №39, 30.10) */
-const looks = [
-  { tone: 'blue', shape: 'ledger' },
-  { tone: 'sand', shape: 'chart' },
-  { tone: 'sage', shape: 'contracts' },
-] as const;
+/* у каждой услуги свой цвет плашки (правка №39, 30.10); чертежи сняты (№50) */
+const tones = ['blue', 'sand', 'sage'];
 ---
 
 <!-- Главный блок сайта (правки №32, №39): заголовок прямо на фоне страницы; три услуги —
-     крупные плашки разного цвета с линейным чертежом, кнопка прижата к низу. -->
+     крупные плашки разного цвета, кнопка прижата к низу. -->
 <section class="sec svc" id="uslugi" aria-labelledby="svc-title">
   <div class="wrap">
     <h2 id="svc-title">{typo(services.title)}</h2>
 
     <div class="svc__grid">
       {services.cards.map((c, i) => (
-        <article class={`svc__card svc__card--${looks[i % 3].tone}`}>
-          <div class="svc__art"><Shapes kind={looks[i % 3].shape} /></div>
+        <article class={`svc__card svc__card--${tones[i % 3]}`}>
           <h3>{typo(c.title)}</h3>
           <p class="svc__text">{typo(c.text)}</p>
           <ul class="list svc__list">
@@ -41,8 +35,8 @@ const looks = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 18px;
-    min-height: clamp(500px, 44vw, 600px);
+    gap: 20px;
+    min-height: clamp(420px, 36vw, 500px);
     padding: clamp(28px, 3vw, 44px);
     border-radius: var(--r-lg);
     background: var(--tone);
@@ -52,8 +46,6 @@ const looks = [
   .svc__card--blue { --tone: #e3eaf6; }
   .svc__card--sand { --tone: #f1e7d6; }
   .svc__card--sage { --tone: #e2eadc; }
-  /* чертёж — в правом верхнем углу, заливки чертежа светлее плашки */
-  .svc__art { align-self: flex-end; width: clamp(120px, 11vw, 160px); margin: -8px -8px 4px 0; --c-sage-soft: rgb(255 255 255 / 0.7); }
   .svc__card h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
   .svc__text { font-size: var(--fs-lead); line-height: 1.45; }
   .svc__list { gap: 10px; }
@@ -61,7 +53,6 @@ const looks = [
   @media (max-width: 1100px) {
     .svc__grid { grid-template-columns: minmax(0, 1fr); }
     .svc__card { min-height: 0; }
-    .svc__art { width: 100px; }
     .svc__card .btn { margin-top: 8px; }
     .svc__text { max-width: 46ch; }
   }

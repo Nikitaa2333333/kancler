@@ -9,7 +9,9 @@ const { topic = 'Главная' } = Astro.props;
 const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
 ---
 
-<!-- Форма как на сайте КТМ. 30.10 (правки №20–25): плашка той же ширины, что все блоки
+<!-- Правка №47 (30.10): подводка «Опишите задачу…» и строка контактов (почта, часы, регион)
+     с плашки сняты — остаётся только «Первая консультация бесплатна…».
+     Форма как на сайте КТМ. 30.10 (правки №20–25): плашка той же ширины, что все блоки
      (поле --hero-frame по краям); вторая строка подводки — тем же кеглем, что первая; почта и
      часы ушли вниз строкой, чтобы не отодвигать форму; проверка полей с подсказкой под полем
      и маска телефона, как на КТМ; согласие — одной компактной строкой. -->
@@ -17,7 +19,6 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   <div class="wrap req__band">
     <div class="req__info">
       <h2 id="req-title">{typo(request.title)}</h2>
-      <p class="req__lead">{typo(request.lead)}</p>
       <p class="req__lead">{typo(request.note)}</p>
     </div>
 
@@ -53,12 +54,6 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
       <p class="req__status" data-status role="status" aria-live="polite"></p>
     </form>
 
-    <div class="req__contacts">
-      {company.phone && <a href={`tel:${company.phoneHref}`}>{company.phone}</a>}
-      <a href={`mailto:${company.leadEmail}`}>{company.leadEmail}</a>
-      <span>{typo(company.hours)}</span>
-      <span>{typo(`${company.region}, ${company.remote.toLowerCase()}`)}</span>
-    </div>
   </div>
 </section>
 
@@ -150,14 +145,6 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__info { display: grid; gap: 16px; align-content: start; }
   .req__info h2 { max-width: 14ch; }
   .req__lead { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 40ch; }
-  .req__contacts {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 32px;
-    font-size: var(--fs-small);
-  }
-  .req__contacts a { font-weight: var(--w-semibold); color: var(--c-primary); }
   .req__form { display: grid; gap: 12px; }
   .req__field { display: grid; gap: 6px; }
   /* серая обводка поля остаётся (правка №23) */

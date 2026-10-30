@@ -11,19 +11,24 @@ import { u } from '../../lib/url';
   <h3 class="prog__title">{typo(support.programsTitle)}</h3>
   <ul class="prog__row">
     {support.programs.map((p) => (
-      <li><img src={u(p.logo)} alt={p.name} style={`--h:${p.h}`} loading="lazy" decoding="async" /></li>
+      <li class={p.wide ? 'prog__wide' : ''}><img src={u(p.logo)} alt={p.name} style={`--h:${p.h}`} loading="lazy" decoding="async" /></li>
     ))}
   </ul>
 </div>
 
 <style>
-  /* логотипы крупно, без плашек и подписей — как ряд партнёров на сайте КТМ (правка №153) */
+  /* логотипы крупно, без плашек и подписей — как ряд партнёров на сайте КТМ (правки №153, №154):
+     высота у каждого своя (--h), чтобы на глаз были одного веса; длинные «Контур» на телефоне
+     занимают строку целиком */
   .prog { display: grid; gap: clamp(20px, 2.4vw, 32px); }
   .prog__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .prog__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: clamp(28px, 4vw, 64px) clamp(36px, 5vw, 80px); }
-  .prog__row img { display: block; width: auto; height: calc(var(--h) * 1.9px); max-width: 100%; }
+  .prog__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px 48px; }
+  .prog__row img { display: block; width: auto; max-width: 100%; height: calc(var(--h) * 1px); }
   @media (max-width: 760px) {
-    .prog__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: start; gap: 32px 24px; }
-    .prog__row img { height: calc(var(--h) * 1.25px); }
+    .prog__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 28px 20px; }
+    .prog__row li:not(.prog__wide) { order: -1; }
+    .prog__wide { grid-column: 1 / -1; }
+    .prog__row img { height: calc(var(--h) * 0.85px); }
+    .prog__wide img { height: 46px; }
   }
 </style>

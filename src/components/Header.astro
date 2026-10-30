@@ -74,9 +74,9 @@ import { u } from '../lib/url';
     top: 0;
     left: 0;
     right: 0;
-    /* без обводки, на белом градиенте (решение пользователя 23.10.2026) */
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.9) 25%, rgb(255 255 255 / 0.78) 45%, rgb(255 255 255 / 0.6) 62%, rgb(255 255 255 / 0.4) 76%, rgb(255 255 255 / 0.2) 88%, rgb(255 255 255 / 0) 100%);
-    padding-bottom: 28px;
+    /* сплошной белый фон: текст страницы больше не просвечивает сквозь меню (правка №156) */
+    background: var(--c-paper);
+    box-shadow: 0 1px 0 var(--line-faint);
   }
   .hdr__bar {
     display: flex;

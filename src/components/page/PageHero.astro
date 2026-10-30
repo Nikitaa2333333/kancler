@@ -48,7 +48,7 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
     gap: 24px;
-    padding: clamp(24px, 4vw, 64px) clamp(18px, 3.6vw, 52px);  /* компактнее (№140) */
+    padding: clamp(24px, 4vw, 64px) max(18px, var(--edge-in));  /* компактнее (№140); по линии текста (№164) */
     border-radius: var(--r-lg);
     background: var(--c-band);
   }

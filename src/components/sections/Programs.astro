@@ -20,10 +20,12 @@ import { u } from '../../lib/url';
   /* логотипы крупно, без плашек и подписей — как ряд партнёров на сайте КТМ (правки №153, №154):
      высота у каждого своя (--h), чтобы на глаз были одного веса; длинные «Контур» на телефоне
      занимают строку целиком */
-  .prog { display: grid; gap: clamp(20px, 2.4vw, 32px); }
+  .prog { display: grid; gap: 16px; }
   .prog__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .prog__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px 48px; }
-  .prog__row img { display: block; width: auto; max-width: 100%; height: calc(var(--h) * 1px); }
+  /* компьютер: 4 одинаковые ячейки, логотип вписан в ячейку — один оптический вес (№160) */
+  .prog__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: clamp(24px, 3vw, 48px); }
+  .prog__row li { display: grid; place-items: center start; height: 80px; }
+  .prog__row img { display: block; width: auto; max-width: 100%; max-height: 100%; height: calc(var(--h) * 0.72px); }
   /* телефон — крупные логотипы лентой с горизонтальной прокруткой, узкий край и зазор (№155) */
   @media (max-width: 760px) {
     .prog__row {
@@ -33,7 +35,7 @@ import { u } from '../../lib/url';
       scroll-padding-inline: calc(var(--hero-frame) + 10px);
     }
     .prog__row::-webkit-scrollbar { display: none; }
-    .prog__row li { flex: none; scroll-snap-align: start; }
+    .prog__row li { flex: none; height: auto; scroll-snap-align: start; }
     .prog__row img { height: calc(var(--h) * 1px); max-width: none; }
   }
 </style>

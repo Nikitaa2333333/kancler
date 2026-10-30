@@ -133,6 +133,11 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .pack__rows b { flex: none; font-weight: var(--w-semibold); white-space: nowrap; }
 
   .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--card-gap); align-items: start; }
+  /* на ПК два коротких примера столбиком слева, длинный третий — справа, без одинокой карточки (№163) */
+  @media (min-width: 900px) {
+    .examples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .examples > :global(:nth-child(3)) { grid-column: 2; grid-row: 1 / span 2; }
+  }
 
   .factors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); max-width: 1000px; font-size: var(--fs-lead); line-height: 1.4; }
   .factors li { padding: 12px 0; }

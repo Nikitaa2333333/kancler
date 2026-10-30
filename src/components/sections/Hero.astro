@@ -59,8 +59,8 @@ import { u } from '../../lib/url';
     display: grid;
     gap: clamp(14px, 1.6vw, 20px);
     justify-items: start;
-    max-width: 600px;
-    padding: clamp(32px, 4vw, 56px);
+    max-width: calc(600px + var(--edge-in));
+    padding: clamp(32px, 4vw, 56px) clamp(32px, 4vw, 56px) clamp(32px, 4vw, 56px) var(--edge-in);  /* по линии текста (№164) */
   }
   h1 {
     font-size: var(--fs-h1);

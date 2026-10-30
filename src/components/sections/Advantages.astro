@@ -102,9 +102,11 @@ const icons: Record<string, { color: string; svg: string }> = {
     scroll-snap-type: x mandatory;
     /* --edge — расстояние от края окна до текста блока (поле блока + отступ .wrap) */
     --edge: calc(var(--hero-frame) + max(var(--gutter), (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2));
+    /* --pad — где встаёт первая карточка: у края плашки-секции, а не по тексту (№138) */
+    --pad: calc(var(--hero-frame) + max(0px, (100vw - 2 * var(--hero-frame) - var(--page-max)) / 2 - var(--gutter)));
     margin-inline: calc(-1 * var(--edge));
-    padding-inline: var(--edge);
-    scroll-padding-inline: var(--edge);
+    padding-inline: var(--pad);
+    scroll-padding-inline: var(--pad);
     padding-bottom: 8px;
     scrollbar-width: none;
   }

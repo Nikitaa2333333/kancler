@@ -93,6 +93,8 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 /* Карточки-плашки — до того же края, что и плашки-секции (правка №130): сетка карточек
    выходит за поле .wrap, а текст внутри карточки встаёт по линии заголовка секции. */
 .bleed { margin-inline: calc(-1 * var(--gutter)); }
+/* блок без своей плашки (услуги на главной): карточки до поля --hero-frame, а не до края экрана (№138) */
+.sec:not(.sec--block) .bleed { margin-inline: calc(var(--hero-frame) - var(--gutter)); }
 .bleed > * { padding-inline: var(--gutter) !important; }
 
 /* — Метка секции: мелкий кегль + semibold, без капса и разрядки — */

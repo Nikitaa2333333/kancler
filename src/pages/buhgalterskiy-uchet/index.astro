@@ -12,6 +12,7 @@ import IconNote from '../../components/page/IconNote.astro';
 import Receipt from '../../components/page/Receipt.astro';
 import OfficeIcon from '../../components/OfficeIcon.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
+import Support from '../../components/sections/Support.astro';
 import Process from '../../components/sections/Process.astro';
 import Request from '../../components/sections/Request.astro';
 import { buh } from '../../data/buh';
@@ -63,6 +64,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <!-- ссылка не внутри текста, а отдельной кнопкой под ним (правка №93) -->
       <a class="mlink note-link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
     </Sec>
+
+    <Support />
 
     <Process />
 

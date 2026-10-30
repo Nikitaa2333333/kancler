@@ -90,6 +90,11 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 .sec--stack { position: sticky; top: var(--stick-top, var(--hdr-h)); }
 @media (prefers-reduced-motion: reduce) { .sec--stack { position: relative; top: auto; } }
 
+/* Карточки-плашки — до того же края, что и плашки-секции (правка №130): сетка карточек
+   выходит за поле .wrap, а текст внутри карточки встаёт по линии заголовка секции. */
+.bleed { margin-inline: calc(-1 * var(--gutter)); }
+.bleed > * { padding-inline: var(--gutter) !important; }
+
 /* — Метка секции: мелкий кегль + semibold, без капса и разрядки — */
 .label {
   font-family: var(--ff-body);

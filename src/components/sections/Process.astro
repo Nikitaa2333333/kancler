@@ -1,6 +1,7 @@
 ---
 import { process as proc } from '../../data/home';
 import { typo } from '../../lib/typo';
+import OfficeIcon from '../OfficeIcon.astro';
 ---
 
 <section class="sec sec--block sec--white" id="kak-rabotaem" aria-labelledby="proc-title">
@@ -24,7 +25,7 @@ import { typo } from '../../lib/typo';
     <a class="btn proc__cta" href="#zayavka">{typo(proc.cta)}</a>
 
     <div class="proc__guarantee">
-      <svg class="proc__shield" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 7 10v12c0 11 7.3 19.6 17 22 9.7-2.4 17-11 17-22V10L24 4Z" fill="var(--c-primary)"/><path d="m16 24 6 6 11-12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="proc__shield"><OfficeIcon name="shield" /></span>
       <h3>{typo(proc.guarantee.title)}</h3>
       <p>{typo(proc.guarantee.text)}</p>
     </div>
@@ -63,7 +64,7 @@ import { typo } from '../../lib/typo';
     font-weight: var(--w-semibold);
   }
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
-  /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46 и вернули в №60, 30.10) */
+  /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46, вернули в №60, перерисован в стиле знаков услуг — №79) */
   .proc__guarantee {
     display: grid;
     grid-template-columns: auto minmax(0, 6fr) minmax(0, 5fr);
@@ -73,7 +74,7 @@ import { typo } from '../../lib/typo';
     padding-top: clamp(28px, 3.4vw, 44px);
     border-top: 1px solid var(--line-subtle);
   }
-  .proc__shield { width: clamp(56px, 6vw, 80px); height: auto; }
+  .proc__shield { display: block; width: clamp(56px, 6vw, 80px); color: var(--c-ink); }  /* фирменный жирный знак (правка №79) */
   .proc__guarantee h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 16ch; }
   .proc__guarantee p { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 40ch; }
   @media (max-width: 860px) { .proc__guarantee { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 16px; } }

@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
+import Crumbs from '../../components/page/Crumbs.astro';
 import Sec from '../../components/page/Sec.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
 import Request from '../../components/sections/Request.astro';
@@ -13,7 +14,6 @@ import { cases, casesPage } from '../../data/cases';
   <Header />
   <main>
     <PageHero
-      crumbs={[{ label: 'Кейсы' }]}
       title={casesPage.title}
       actions={[{ label: 'Получить консультацию', href: '#zayavka' }]}
       stat={{ value: '≈ 46 млн ₽', label: 'вернули в оборот строительной компании — кейс 3' }}
@@ -23,5 +23,6 @@ import { cases, casesPage } from '../../data/cases';
     </Sec>
     <Request topic="Кейсы" />
   </main>
+  <Crumbs items={[{ label: 'Кейсы' }]} />
   <Footer />
 </Base>

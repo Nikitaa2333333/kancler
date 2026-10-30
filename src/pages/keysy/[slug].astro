@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
+import Crumbs from '../../components/page/Crumbs.astro';
 import Sec from '../../components/page/Sec.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
 import Figures from '../../components/charts/Figures.astro';
@@ -27,7 +28,6 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
   <Header />
   <main>
     <PageHero
-      crumbs={[{ label: 'Кейсы', href: '/keysy/' }]}
       title={c.title}
     >
       <ul class="tags">
@@ -98,6 +98,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
 
     <Request topic={`Кейс: ${c.title}`} />
   </main>
+  <Crumbs items={[{ label: 'Кейсы', href: '/keysy/' }]} />
   <Footer />
 </Base>
 

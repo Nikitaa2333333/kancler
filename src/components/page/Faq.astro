@@ -1,7 +1,7 @@
 ---
 import { typo } from '../../lib/typo';
 
-/* Вопрос — ответ на <details>, линии между вопросами (как таблицы цен). */
+/* Вопрос — ответ на <details>, линии только между вопросами. */
 interface Props { items: { q: string; a: string }[] }
 const { items } = Astro.props;
 ---
@@ -16,8 +16,8 @@ const { items } = Astro.props;
 </div>
 
 <style>
-  .faq { border-bottom: 1px solid var(--line-subtle); }
-  details { border-top: 1px solid var(--line-subtle); }
+  /* линии только МЕЖДУ вопросами: ни над первым, ни под последним (правка №72) */
+  details + details { border-top: 1px solid var(--line-subtle); }
   summary {
     list-style: none;
     cursor: pointer;

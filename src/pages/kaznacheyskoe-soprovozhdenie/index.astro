@@ -10,7 +10,7 @@ import CaseCards from '../../components/page/CaseCards.astro';
 import Request from '../../components/sections/Request.astro';
 import { kazna } from '../../data/kazna';
 import { cases } from '../../data/cases';
-import { typo } from '../../lib/typo';
+import { typo, item } from '../../lib/typo';
 import { u } from '../../lib/url';
 
 /* Порядок блоков — как в файле клиента. Кейс 3 (казначейский счёт, возврат НДС) —
@@ -32,7 +32,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <div class="tariffs">
         {kazna.monthly.tariffs.map((t) => (
           <article class="tariff">
-            <h3>{typo(`«${t.name}»`)}</h3>
+            <h3>{typo(t.name)}</h3>
             <p class="tariff__for">{typo(t.for)}</p>
             <dl class="tariff__params">
               {t.params.map(([k, v]) => (
@@ -42,7 +42,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
             <p class="tariff__price">{typo(t.price)}</p>
             <p class="tariff__inc">Включено:</p>
             <ul class="list">
-              {t.included.map((i) => <li>{typo(i)}</li>)}
+              {t.included.map((i) => <li>{item(i)}</li>)}
             </ul>
           </article>
         ))}
@@ -63,7 +63,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <div class="packs">
         {kazna.packages.items.map((p) => (
           <article class="pack">
-            <h3>{typo(`«${p.name}»`)}</h3>
+            <h3>{typo(p.name)}</h3>
             <p class="pack__for">{typo(p.for)}</p>
             <PriceTable head={['Состав', 'Стоимость']} rows={p.rows} foot={[['Итого', p.total]]} />
           </article>
@@ -78,7 +78,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
             <div class="ex__head">
               <h3>{typo(e.name)}</h3>
               <ul class="list">
-                {e.params.map((p) => <li>{typo(p)}</li>)}
+                {e.params.map((p) => <li>{item(p)}</li>)}
               </ul>
             </div>
             {e.rows.length > 0 ? (
@@ -137,7 +137,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .ex--wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(20px, 3vw, 48px); align-items: start; }
   /* итог примера — крупно, без подложки (плашка в плашке запрещена, №98) */
   .ex__total { margin-top: 8px; padding-top: 12px; border-top: 2px solid var(--c-ink); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); }
-  .ex__total span { font-family: var(--ff-body); font-size: var(--fs-body); font-weight: var(--w-semibold); }
+  .ex__total span { font-family: inherit; font-size: inherit; font-weight: inherit; }  /* один шрифт в строке итога (№103) */
 
   /* факторы — без номеров и линий, крупно (как на главной, №98) */
   .factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px clamp(24px, 3vw, 48px); }
@@ -149,5 +149,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     .factors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 860px) { .packs { grid-template-columns: minmax(0, 1fr); } }
+  /* параметры тарифа на телефоне: подпись над значением, не две узкие колонки (№104) */
+  @media (max-width: 560px) { .tariff__params div { grid-template-columns: minmax(0, 1fr); gap: 2px; } .tariff__params dd { text-align: left; } }
   @media (max-width: 560px) { .factors { grid-template-columns: minmax(0, 1fr); } }
 </style>

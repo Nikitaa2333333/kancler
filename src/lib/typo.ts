@@ -4,6 +4,14 @@
 const NBSP = ' ';
 const SHORT = /(^|[\s(«"“—–-])([A-Za-zА-Яа-яЁё]{1,2})\s+(?=\S)/g;
 
+/* Пункт перечисления: с заглавной буквы, без «;» и «,» в конце (правило списков, №102).
+   Слова не меняем — только регистр первой буквы и хвостовой знак. */
+export function item(s: string): string {
+  if (!s) return s;
+  const t = s.trim().replace(/[;,]\s*$/, '');
+  return typo(t.charAt(0).toUpperCase() + t.slice(1));
+}
+
 export function typo(s: string): string {
   if (!s) return s;
   // два прохода: «и в», «у нас в» — после первой склейки второе слово ещё свободно

@@ -22,6 +22,8 @@
  *  W  кнопка переносится на две строки
  *  G  дыра: между соседними блоками > 200 px пустоты (1280)
  *  K  надзаголовок над H1 первого экрана
+ *  U  пункт списка со строчной буквы или с «;» в конце (функция item() в lib/typo.ts)
+ *  Q  кавычки «» в заголовке карточки тарифа/пакета
  */
 import { createRequire } from 'node:module';
 import { existsSync } from 'node:fs';
@@ -142,6 +144,15 @@ function audit({ vw, palette }) {
     const lines = new Set([...range.getClientRects()].map((r) => Math.round(r.top)));
     if (lines.size > 1 && b.getBoundingClientRect().height > lh * 2) add('W', b, short(b));
   });
+
+  // U — пункт списка со строчной / с «;»
+  document.querySelectorAll('main li').forEach((li) => {
+    if (!vis(li) || skip(li) || li.closest('nav, .faq')) return;
+    const t = (li.textContent || '').replace(/\s+/g, ' ').trim();
+    if (/^[a-zа-яё]/.test(t) || /;$/.test(t)) add('U', li, short(li));
+  });
+  // Q — кавычки в заголовках карточек
+  document.querySelectorAll('main article h3').forEach((h) => { if (vis(h) && !skip(h) && /^«.*»$/.test(h.textContent.trim())) add('Q', h, short(h)); });
 
   // K — надзаголовок над H1
   const h1 = document.querySelector('h1');

@@ -1,0 +1,29 @@
+---
+/* Знак «Канцлера» (№194, 02.11.2026): буква «К», нижняя нога уходит росчерком-подписью под
+   букву. Градиент — тёмно-синий → голубой (палитра сайта). light — белый знак на синем. */
+interface Props { light?: boolean }
+const { light } = Astro.props;
+const id = `lg${Math.random().toString(36).slice(2, 8)}`;
+const stroke = light ? '#fff' : `url(#${id})`;
+---
+
+<svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+  {!light && (
+    <defs>
+      <linearGradient id={id} x1="4" y1="2" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#003563" />
+        <stop offset="1" stop-color="#3fa0e6" />
+      </linearGradient>
+    </defs>
+  )}
+  <g fill="none" stroke={stroke} stroke-linecap="round">
+    <path d="M7 3.5v19" stroke-width="4.6" />
+    <path d="M9.5 15.5C15 14 19.5 10 23.5 3.5" stroke-width="4" />
+    <path d="M11 15c5 2 8 6 10.2 10.8 1.1 2.3 3.4 2.9 6.3 1.6" stroke-width="3.4" />
+    <path d="M27.5 27.4C21 31 12 30.6 4.5 28.4" stroke-width="1.6" />
+  </g>
+</svg>
+
+<style>
+  .logo-mark { display: block; width: 1.3em; height: 1.3em; flex: none; }
+</style>

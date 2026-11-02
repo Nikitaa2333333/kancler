@@ -58,6 +58,8 @@ const tones = ['blue', 'sand', 'sky'];
   .svc__list li + li { border-top: 1px solid var(--line-subtle); }  /* линии только между пунктами (правка №87) */
   .svc__ico { color: var(--c-heading); --icon-bg: var(--tone); }
   .svc__card .btn { margin-top: auto; }
+  /* телефон: плашки услуг до края экрана, как остальные (№190) */
+  @media (max-width: 760px) { .svc { margin-inline: 0; } .svc .bleed { margin-inline: calc(-1 * var(--gutter)); } }
   @media (max-width: 1100px) {
     .svc__grid { grid-template-columns: minmax(0, 1fr); }
     .svc__card { min-height: 0; }

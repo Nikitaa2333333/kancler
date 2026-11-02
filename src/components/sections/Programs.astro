@@ -8,12 +8,13 @@ import { u } from '../../lib/url';
 ---
 
 <div class="prog">
-  <h3 class="prog__title">{typo(support.programsTitle)}</h3>
   <ul class="prog__row">
     {support.programs.map((p) => (
       <li class={p.wide ? 'prog__wide' : ''}><img src={u(p.logo)} alt={p.name} style={`--h:${p.h}`} loading="lazy" decoding="async" /></li>
     ))}
   </ul>
+  <!-- подпись — Manrope, под логотипами, не заголовком (№188) -->
+  <p class="prog__title">{typo(support.programsTitle)}</p>
 </div>
 
 <style>
@@ -21,7 +22,7 @@ import { u } from '../../lib/url';
      высота у каждого своя (--h), чтобы на глаз были одного веса; длинные «Контур» на телефоне
      занимают строку целиком */
   .prog { display: grid; gap: 16px; }
-  .prog__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+  .prog__title { font-size: var(--fs-body); font-weight: var(--w-semibold); line-height: 1.4; }
   /* компьютер: 4 одинаковые ячейки, логотип вписан в ячейку — один оптический вес (№160) */
   .prog__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: clamp(24px, 3vw, 48px); }
   .prog__row li { display: grid; place-items: center start; height: 80px; }

@@ -27,6 +27,19 @@ const paths: Record<string, string> = {
   plus: '<circle cx="12" cy="12" r="10.5" fill="currentColor" stroke="none"/><path d="M12 7v10M7 12h10" stroke="var(--icon-bg, #fff)"/>',
   briefcase: '<path d="M2.5 7.5h19v13h-19z" fill="currentColor" stroke="none"/><path d="M8.5 7.5V4h7v3.5"/><path d="M2.5 13h19" stroke="var(--icon-bg, #fff)"/>',
   calc: '<path d="M4.5 2.5h15v19h-15z"/><path d="M8 6.5h8v3H8z" fill="currentColor" stroke="none"/><path d="M8 13.5h1.5M11.25 13.5h1.5M14.5 13.5H16M8 17.5h1.5M11.25 17.5h1.5M14.5 17.5H16"/>',
+  /* №183 (02.11): свой знак на каждый смысл, без повторов на главной */
+  crane: '<path d="M6 21.5V2.5M6 5h15M6 2.5 9.5 5M16.5 5v5"/><path d="M14.5 10h4v3.5h-4z" fill="currentColor" stroke="none"/><path d="M2.5 21.5h7"/>',
+  docCheck: '<path d="M5 2.5h9.5l4.5 4.5v14.5H5z"/><path d="M14.5 2.5V7H19"/><path d="m8.5 14 2.5 2.5 4.5-5"/>',
+  roller: '<path d="M3 3h14v5.5H3z" fill="currentColor" stroke="none"/><path d="M17 5.75h3.5v6.5H11V15"/><path d="M9.25 15h3.5v6.5h-3.5z" fill="currentColor" stroke="none"/>',
+  compass: '<circle cx="12" cy="4.5" r="2"/><path d="M11 6.5 5.5 21.5M13 6.5l5.5 15M7.6 15.5h8.8"/>',
+  key: '<circle cx="7" cy="12" r="4.5"/><path d="M11.5 12h10M18 12v4.5M21.5 12v3.5"/>',
+  layers: '<path d="M12 2.5 22 7.5 12 12.5 2 7.5z" fill="currentColor" stroke="none"/><path d="m2 12 10 5 10-5M2 16.5l10 5 10-5"/>',
+  restore: '<path d="M20 12.5a8 8 0 1 1-2.6-6.4"/><path d="M20.5 2.5V7H16"/><path d="M12 8v4.5l3 2"/>',
+  wallet: '<path d="M2.5 7h19v14h-19z"/><path d="M15 12h6.5v4H15z" fill="currentColor" stroke="none"/><path d="M5 7l11-4.5V7"/>',
+  chart: '<path d="M2.5 21.5h19"/><path d="M4.5 12h3.5v7H4.5zM10.25 7.5h3.5V19h-3.5zM16 3h3.5v16H16z" fill="currentColor" stroke="none"/>',
+  coins: '<circle cx="9" cy="9" r="6.5"/><path d="M14.8 6.3a6.5 6.5 0 1 1-8.5 8.5"/><path d="M9 6v6"/>',
+  alert: '<path d="M12 2 22.5 21h-21z" fill="currentColor" stroke="none"/><path d="M12 9v5.5M12 17v.5" stroke="var(--icon-bg, #fff)"/>',
+  team: '<circle cx="12" cy="6.5" r="3.2" fill="currentColor" stroke="none"/><circle cx="4.8" cy="9" r="2.4" fill="currentColor" stroke="none"/><circle cx="19.2" cy="9" r="2.4" fill="currentColor" stroke="none"/><path d="M6.5 21v-3a5.5 5.5 0 0 1 11 0v3z" fill="currentColor" stroke="none"/><path d="M1.5 20v-2.5A3.5 3.5 0 0 1 5 14M22.5 20v-2.5A3.5 3.5 0 0 0 19 14"/>',
   doc: '<path d="M5 2.5h9.5l4.5 4.5v14.5H5z"/><path d="M14.5 2.5V7H19M8.5 12h7M8.5 16h7"/>',
 };
 ---

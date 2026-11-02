@@ -2,6 +2,7 @@
 import { hero } from '../../data/home';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
+import OfficeIcon from '../OfficeIcon.astro';
 ---
 
 <!-- Первый экран «плашкой», как в шаблоне Avenir (решение 23.10.2026): фото внутри
@@ -20,7 +21,15 @@ import { u } from '../../lib/url';
         <a class="btn btn--light" href="#keysy">{typo(hero.secondary)}</a>
       </div>
       <ul class="hero__facts">
-        {hero.facts.map((f) => <li>{typo(f)}</li>)}
+        {hero.facts.map((f) => (
+          <li>
+            <span class="hero__fico">
+              <OfficeIcon name={f.icon} />
+              {f.badge && <b class="hero__badge">{f.badge}</b>}
+            </span>
+            <span class="hero__ftext">{typo(f.text)}</span>
+          </li>
+        ))}
       </ul>
     </div>
   </div>
@@ -75,10 +84,12 @@ import { u } from '../../lib/url';
   .hero__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }  /* кнопки ближе (№127) */
   /* Телефон — как на сайте КТМ (правка №10, 28.10): сначала фото во всю ширину, низ фото
      плавно уходит в фон страницы, текст ниже на фоне. Компьютер не трогаем (утверждён). */
-  /* три плашки под кнопками (№174) */
-  .hero__facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-  @media (min-width: 761px) { .hero__facts { flex-wrap: nowrap; width: max-content; } }  /* три плашки в одну строку */
-  .hero__facts li { padding: 8px 14px; border-radius: var(--r-md, 12px); background: var(--c-white); color: var(--c-heading); font-weight: var(--w-semibold); font-size: 14px; line-height: 1.25; white-space: nowrap; }
+  /* три квадрата с крупными знаками (№185) */
+  .hero__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 132px)); gap: 8px; margin-top: 8px; }
+  .hero__facts li { display: grid; align-content: start; gap: 10px; padding: 14px; border-radius: var(--r-lg); background: rgb(255 255 255 / 0.86); }
+  .hero__fico { position: relative; display: block; width: 44px; color: var(--c-heading); }
+  .hero__badge { position: absolute; inset: 0; display: grid; place-items: center; color: var(--c-white); font-size: 10.5px; font-weight: 700; letter-spacing: -0.02em; }
+  .hero__ftext { font-size: 14px; font-weight: var(--w-semibold); line-height: 1.25; color: var(--c-ink); }
   @media (max-width: 760px) {
     .hero { padding: var(--hdr-h) 0 0; }
     .hero__frame { display: block; aspect-ratio: auto; border-radius: 0; background: var(--c-paper); overflow: visible; }
@@ -89,6 +100,8 @@ import { u } from '../../lib/url';
     }
     .hero__copy { position: relative; z-index: 1; max-width: none; margin-top: -56px; padding: 0 var(--gutter) 8px; }
     .hero__actions { width: 100%; }
+    .hero__facts { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; margin-top: 16px; }
+    .hero__facts li { background: var(--c-band); padding: 12px; }  /* на белом фоне телефона — голубые квадраты (№185) */
     .hero__actions .btn { flex: 1 1 100%; }
   }
 </style>

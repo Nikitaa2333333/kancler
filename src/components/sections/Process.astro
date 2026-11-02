@@ -55,17 +55,15 @@ import OfficeIcon from '../OfficeIcon.astro';
   }
   /* номер шага — цифрой прямо в заголовке, без слова «Шаг» (правка №128) */
   .proc__n { margin-right: 0.4em; }
-  /* №176: номер крупно синим, между шагами стрелки (круг-подложка = плашка в плашке, не ставим) */
+  /* №187: вёрстка шагов — как была (№176 «поплыло»); путь — синие кружки со стрелкой на стыке
+     карточек (на телефоне лента листается вбок, стрелки не нужны) */
+  .proc__n { color: var(--c-heading); }
   .proc__grid li { position: relative; }
-  .proc__grid h3 { display: grid; gap: 10px; }
-  .proc__n { display: block; color: var(--c-heading); font-size: 2em; line-height: 1; }
   @media (min-width: 1101px) {
-    .proc__grid { gap: 30px; }
     .proc__grid li:not(:last-child)::after {
-      content: ''; position: absolute; top: 50%; right: -25px; width: 20px; height: 20px; transform: translateY(-50%);
-      background: var(--c-heading);
-      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
-              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+      content: ''; position: absolute; z-index: 1; top: 50%; right: calc(-14px - var(--card-gap) / 2); width: 28px; height: 28px; transform: translateY(-50%);
+      border-radius: 50%; box-shadow: 0 0 0 4px var(--c-paper);
+      background: var(--c-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.8'%3E%3Cpath d='M5 12h13M12.5 6.5 18 12l-5.5 5.5'/%3E%3C/svg%3E") center / 16px no-repeat;
     }
   }
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }

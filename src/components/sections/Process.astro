@@ -55,6 +55,19 @@ import OfficeIcon from '../OfficeIcon.astro';
   }
   /* номер шага — цифрой прямо в заголовке, без слова «Шаг» (правка №128) */
   .proc__n { margin-right: 0.4em; }
+  /* №176: номер крупно синим, между шагами стрелки (круг-подложка = плашка в плашке, не ставим) */
+  .proc__grid li { position: relative; }
+  .proc__grid h3 { display: grid; gap: 10px; }
+  .proc__n { display: block; color: var(--c-heading); font-size: 2em; line-height: 1; }
+  @media (min-width: 1101px) {
+    .proc__grid { gap: 30px; }
+    .proc__grid li:not(:last-child)::after {
+      content: ''; position: absolute; top: 50%; right: -25px; width: 20px; height: 20px; transform: translateY(-50%);
+      background: var(--c-heading);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+              mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6'%3E%3Cpath d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+  }
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
   /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46, вернули в №60, перерисован в стиле знаков услуг — №79) */
   .proc__guarantee {
@@ -66,7 +79,7 @@ import OfficeIcon from '../OfficeIcon.astro';
   }
   /* щит — внутри заголовка, на уровне текста: высотой со строчную, перед первым словом (№123) */
   /* щит над заголовком, текст под заголовком — левый край ровный (№159) */
-  .proc__shield { display: block; width: clamp(44px, 4vw, 56px); color: var(--c-ink); }
+  .proc__shield { display: block; width: clamp(44px, 4vw, 56px); color: var(--c-heading); }
   .proc__guarantee h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 24ch; }
   .proc__guarantee p { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 56ch; }
   @media (max-width: 860px) { .proc__guarantee { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 16px; } }

@@ -12,7 +12,7 @@ interface Props {
   actions?: Action[];
   stat?: { value: string; label: string };
   /** цвет услуги — как её плашка в «Услугах» на главной (№146) */
-  tone?: 'blue' | 'sand' | 'sage';
+  tone?: 'blue' | 'sand' | 'sky';
 }
 const { title, lead, actions = [], stat, tone } = Astro.props;
 const href = (h: string) => (h.startsWith('#') ? h : u(h));

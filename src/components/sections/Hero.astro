@@ -19,6 +19,9 @@ import { u } from '../../lib/url';
         <a class="btn" href="#zayavka">{typo(hero.primary)}</a>
         <a class="btn btn--light" href="#keysy">{typo(hero.secondary)}</a>
       </div>
+      <ul class="hero__facts">
+        {hero.facts.map((f) => <li>{typo(f)}</li>)}
+      </ul>
     </div>
   </div>
 </section>
@@ -72,6 +75,10 @@ import { u } from '../../lib/url';
   .hero__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }  /* кнопки ближе (№127) */
   /* Телефон — как на сайте КТМ (правка №10, 28.10): сначала фото во всю ширину, низ фото
      плавно уходит в фон страницы, текст ниже на фоне. Компьютер не трогаем (утверждён). */
+  /* три плашки под кнопками (№174) */
+  .hero__facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  @media (min-width: 761px) { .hero__facts { flex-wrap: nowrap; width: max-content; } }  /* три плашки в одну строку */
+  .hero__facts li { padding: 8px 14px; border-radius: var(--r-md, 12px); background: var(--c-white); color: var(--c-heading); font-weight: var(--w-semibold); font-size: 14px; line-height: 1.25; white-space: nowrap; }
   @media (max-width: 760px) {
     .hero { padding: var(--hdr-h) 0 0; }
     .hero__frame { display: block; aspect-ratio: auto; border-radius: 0; background: var(--c-paper); overflow: visible; }

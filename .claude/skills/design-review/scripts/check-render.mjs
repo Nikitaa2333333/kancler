@@ -16,7 +16,7 @@
  *  P  плашка внутри плашки (цветной скруглённый блок внутри цветного блока)
  *  S  тень (box-shadow с размытием) — тени запрещены
  *  C  цвет фона не из палитры (tokens.css, свод палитры)
- *  T  текст не цветом графита/белого (синий, серый) вне кнопок и ссылок-кнопок
+ *  T  текст не цветом графита/белого/синего заголовков (серый, посторонние цвета)
  *  H  заголовок пункта не крупнее своего текста
  *  L  ссылка внутри фразы абзаца — ссылки выносим отдельной кнопкой/строкой
  *  W  кнопка переносится на две строки
@@ -45,7 +45,7 @@ function loadPlaywright() {
 }
 
 /* Палитра (tokens.css → «ПАЛИТРА — СВОД»). Фоны вне списка — находка C. */
-const PALETTE = ['#ffffff', '#f2eeeb', '#e9e5dc', '#004a85', '#003563', '#e3eaf6', '#f1e7d6', '#e2eadc', '#78e08f', '#141414', '#1a1a1a'];
+const PALETTE = ['#ffffff', '#f2eeeb', '#edf2f8', '#d9e4f1', '#004a85', '#003563', '#e3eaf6', '#f1e7d6', '#d6e9f6', '#a8d5f5', '#141414', '#1a1a1a'];  // №168: холодная палитра, зелёный снят
 
 function audit({ vw, palette }) {
   const out = [];
@@ -107,7 +107,7 @@ function audit({ vw, palette }) {
     if (bg && !palette.includes(bg) && !el.matches('input, textarea, mark, .btn, .btn *, a.btn')) add('C', el, `фон ${bg}: ${short(el)}`);
     const sh = s.boxShadow.match(/(-?[\d.]+)px (-?[\d.]+)px ([\d.]+)px/); if (sh && parseFloat(sh[3]) > 0 && !el.matches(':focus')) add('S', el, 'тень: ' + short(el));
     // P — мелкая подложка другого цвета внутри цветной плашки (чип, пилюля, квадратик с цифрой, №124)
-    if (bg && !el.matches('.sec, section, .btn, .btn *, input, textarea, button, .req, .req *, mark') && el.getBoundingClientRect().width >= 16) {
+    if (bg && !el.matches('.sec, section, .btn, .btn *, input, textarea, button, .req, .req *, mark, .hero__facts li') && el.getBoundingClientRect().width >= 16) {
       const pb = bgOf(el.parentElement);
       if (bg !== pb && pb !== '#ffffff' && !isPlate(el)) add('P', el, `подложка ${bg} на плашке ${pb}: ${short(el) || el.className}`);
     }
@@ -123,7 +123,7 @@ function audit({ vw, palette }) {
     if (!vis(el) || skip(el) || el.closest('a.btn, .btn, button, label, input, .req__err, mark')) return;
     if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) return;
     const c = hex(cs(el).color); const op = parseFloat(cs(el).opacity);
-    if (c && !['#141414', '#ffffff', '#1a1a1a'].includes(c)) add('T', el, `цвет ${c}: ${short(el)}`);
+    if (c && !['#141414', '#ffffff', '#1a1a1a', '#004a85'].includes(c)) add('T', el, `цвет ${c}: ${short(el)}`);
     else if (op < 0.95 && !el.closest('[data-reveal], .probs')) add('T', el, `полупрозрачный текст: ${short(el)}`);
   });
 

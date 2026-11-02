@@ -27,6 +27,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--w-display);
   text-wrap: balance;
   text-transform: none;
+  color: var(--c-heading);  /* заголовки и подзаголовки — синим (№168) */
 }
 h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); }
 h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: var(--measure-head); }
@@ -77,7 +78,7 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 /* секции подряд — один белый лист: без двойного отступа (дыра, правки №115, №144) */
 .sec--block + .sec--block, .sec--block + script + .sec--block { margin-top: 0; padding-top: 0; }  /* скрипт компонента между секциями не должен ломать правило (дыра, №151) */
 /* исключение — плашка-акцент: частые вопросы (№145); соседи отделены обычным зазором */
-.sec--plate { background: var(--c-band); --card-bg: var(--c-white-card); }
+.sec--plate { background: var(--c-beige); --card-bg: var(--c-white-card); }  /* немного бежевого (№168) */
 .sec--block + .sec--plate, .sec--plate + .sec--block, .req + .sec--plate { margin-top: var(--block-gap); padding-top: var(--section-gap); }
 
 /* Наложение блоков — простое (решение пользователя 23.10.2026: «папки» с язычками и
@@ -192,3 +193,6 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
 }
+
+/* на синих плашках (форма, подвал) заголовки — цветом текста плашки, не синим (№168) */
+.req :is(h1, h2, h3, h4), .ftr :is(h1, h2, h3, h4, p) { color: inherit; }

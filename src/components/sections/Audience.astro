@@ -1,10 +1,11 @@
 ---
 import { audience } from '../../data/home';
 import { typo } from '../../lib/typo';
-import AudienceUI from '../AudienceUI.astro';
+import OfficeIcon from '../OfficeIcon.astro';
 
-/* мини-интерфейсы вместо чертежей: финансы, не стройка (клиент + пользователь, 26.10.2026) */
-const kinds = ['objects', 'ks2', 'margin', 'contracts'] as const;
+/* мини-интерфейсы с цифрами (86 %, «3 из 3») сняты — непонятно, откуда цифры (№173);
+   остались плашки с типами клиентов и знаком */
+const icons = ['briefcase', 'check', 'calc', 'trend'];
 ---
 
 <section class="sec sec--block aud" id="dlya-kogo" aria-labelledby="aud-title">
@@ -19,11 +20,11 @@ const kinds = ['objects', 'ks2', 'margin', 'contracts'] as const;
     <ul class="aud__grid bleed">
       {audience.cards.map((c, i) => (
         <li>
+          <span class="aud__ico"><OfficeIcon name={icons[i]} /></span>
           <div class="aud__text">
             <h3>{typo(c.title)}</h3>
             <p>{typo(c.text)}</p>
           </div>
-          <div class="aud__art"><AudienceUI kind={kinds[i]} /></div>
         </li>
       ))}
     </ul>
@@ -53,7 +54,6 @@ const kinds = ['objects', 'ks2', 'margin', 'contracts'] as const;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    min-height: clamp(320px, 28vw, 400px);
     padding: clamp(22px, 2.4vw, 32px);
     border-radius: var(--r-lg);
     /* лёгкий градиент: сверху цвет карточки, книзу едва зеленоватый */
@@ -61,9 +61,7 @@ const kinds = ['objects', 'ks2', 'margin', 'contracts'] as const;
   }
   .aud__text { display: grid; gap: 14px; }
   .aud__text p { line-height: 1.35; }
-  /* чертёж крупно, на всю ширину карточки, прижат к низу */
-  /* виджет на всю ширину карточки, прижат к низу, без своей подложки */
-  .aud__art { flex: 1; display: grid; align-items: end; padding-top: 24px; }
+  .aud__ico { display: block; width: 36px; margin-bottom: clamp(16px, 2vw, 28px); color: var(--c-heading); --icon-bg: var(--card-bg); }
   .aud__grid h3 { font-size: var(--fs-h5); font-weight: var(--w-display-sm); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
   @media (max-width: 1100px) { .aud__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 520px) { .aud__grid { grid-template-columns: minmax(0, 1fr); } }

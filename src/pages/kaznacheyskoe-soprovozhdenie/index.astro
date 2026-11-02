@@ -6,7 +6,6 @@ import PageHero from '../../components/page/PageHero.astro';
 import Crumbs from '../../components/page/Crumbs.astro';
 import Sec from '../../components/page/Sec.astro';
 import PriceTable from '../../components/page/PriceTable.astro';
-import CaseCards from '../../components/page/CaseCards.astro';
 import OfficeIcon from '../../components/OfficeIcon.astro';
 import Receipt from '../../components/page/Receipt.astro';
 import IconList from '../../components/page/IconList.astro';
@@ -18,18 +17,19 @@ import { u } from '../../lib/url';
 
 /* Порядок блоков — как в файле клиента. Кейс 3 (казначейский счёт, возврат НДС) —
    по теме страницы. */
-const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 ---
 
 <Base title={kazna.seo.title} description={kazna.seo.description}>
   <Header />
   <main>
     <PageHero
-      tone="sage"
+      tone="sky"
       title={kazna.hero.title}
       lead={kazna.hero.lead}
       actions={[{ label: kazna.hero.primary, href: '#zayavka' }, { label: kazna.hero.secondary, href: '#zayavka', light: true }]}
-      stat={{ value: 'от 45 000 ₽/мес.', label: 'сопровождение одного контракта без аванса' }}
+      /* №171: цена сразу на первом экране — «от 2 000 ₽ за платёж», как у конкурентов (со встречи
+         с заказчицей; звучали и 20–25 тыс. — уточнить). Пакетные тарифы — ниже по странице */
+      stat={{ value: 'от 2 000 ₽', label: 'за платёж' }}
     />
 
     <Sec id="tarify" title={kazna.monthly.title} lead={kazna.monthly.lead} white>
@@ -93,10 +93,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       </ul>
     </Sec>
 
-    <Sec id="keys" title="Кейс по теме" white action={{ label: 'Все кейсы', href: u('/keysy/') }}>
-      <CaseCards items={related} />
-    </Sec>
-
+    <!-- кейс про возмещение НДС к казначейству не относится — снят, остался на бухучёте (№169) -->
     <Request topic={kazna.topic} />
   </main>
   <Crumbs items={[{ label: 'Казначейское сопровождение' }]} />
@@ -106,7 +103,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 <style>
   .tariffs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
   .tariff { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
-  .tariff__ico { display: block; width: 32px; color: var(--c-ink); --icon-bg: var(--card-bg); }
+  .tariff__ico { display: block; width: 32px; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .tariff h3, .pack h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   .tariff h3 + .tariff__for, .pack h3 + .pack__for { margin-top: -6px; font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.4; }
   /* таблица параметров — обе колонки по левому краю, без дыр (№108) */
@@ -125,7 +122,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .packs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
   .pack { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
   /* знак — внутри заголовка, на уровне текста, без отдельной строки (№148) */
-  .pack__ico { display: inline-block; width: 0.95em; margin-right: 0.35em; vertical-align: -0.12em; color: var(--c-ink); --icon-bg: var(--card-bg); }
+  .pack__ico { display: inline-block; width: 0.95em; margin-right: 0.35em; vertical-align: -0.12em; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .pack__rows { display: grid; margin-bottom: 8px; }
   .pack__rows li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 8px 0; line-height: 1.35; }
   .pack__rows li + li { border-top: 1px solid var(--line-subtle); }

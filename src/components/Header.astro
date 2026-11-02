@@ -87,8 +87,9 @@ import { u } from '../lib/url';
   .hdr__logo {
     font-family: var(--ff-display);
     font-weight: var(--w-display);
-    font-size: 22px;
-    letter-spacing: -0.02em;
+    font-size: clamp(26px, 2.2vw, 32px);  /* название крупнее, синим (№178) */
+    letter-spacing: -0.025em;
+    color: var(--c-heading);
     text-decoration: none;
     line-height: 1;
   }

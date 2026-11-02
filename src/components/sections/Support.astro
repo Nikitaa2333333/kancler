@@ -1,22 +1,25 @@
 ---
 import { support } from '../../data/home';
+import { item } from '../../lib/typo';
 import Sec from '../page/Sec.astro';
-import IconList from '../page/IconList.astro';
 import Programs from './Programs.astro';
-/* «Параметры сопровождения» и программы — ответы клиента в доке «Структура главной» (№152) */
+/* «Параметры сопровождения» и программы — ответы клиента в доке «Структура главной» (№152).
+   №177: галочки заменены плашками — каждый пункт отдельной плашкой, сетка 3×3 */
 ---
 
 <Sec id="soprovozhdenie" title={support.title} lead={support.lead}>
   <div class="sup">
-    <IconList items={support.items} />
+    <ul class="sup__list">
+      {support.items.map((t) => <li>{item(t)}</li>)}
+    </ul>
     <Programs />
   </div>
 </Sec>
 
 <style>
   .sup { display: grid; gap: clamp(32px, 4vw, 56px); }
-  /* 9 пунктов — сетка 3×3, строки выровнены, зазоры общие (№160) */
-  .sup :global(.ilist) { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; gap: 20px clamp(24px, 3vw, 40px); }
-  @media (max-width: 980px) { .sup :global(.ilist) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 760px) { .sup :global(.ilist) { grid-template-columns: minmax(0, 1fr); } }
+  .sup__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .sup__list li { padding: clamp(18px, 2vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.35; }
+  @media (max-width: 980px) { .sup__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 760px) { .sup__list { grid-template-columns: minmax(0, 1fr); } }
 </style>

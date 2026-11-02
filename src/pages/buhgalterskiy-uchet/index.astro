@@ -37,7 +37,9 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       title={buh.hero.title}
       lead={buh.hero.lead}
       actions={[{ label: buh.hero.cta, href: '#zayavka' }, { label: 'Смотреть тарифы', href: '#tarify', light: true }]}
-      stat={{ value: 'от 18 000 ₽/мес.', label: 'базовый тариф «Подрядчик. УСН»' }}
+      /* №171: «от 18 000» — цена пакетных тарифов; на первом экране — от 2 900 ₽/мес.
+         Подпись — наша, формулировку пришлёт заказчица */
+      stat={{ value: 'от 2 900 ₽/мес.', label: 'бухгалтерское сопровождение' }}
     />
 
     <Sec id="cena" title={buh.price.title} white>
@@ -46,8 +48,9 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <h3 class="subhead">{typo(buh.scope.title)}</h3>
       <!-- плашки с горизонтальной прокруткой (правка №94, 30.10) -->
       <ul class="scope">
-        {buh.scope.items.map((it) => (
+        {buh.scope.items.map((it, i) => (
           <li class="scope__item">
+            <span class="scope__ico"><OfficeIcon name={['doc', 'swap', 'upload', 'folder', 'briefcase'][i % 5]} /></span>
             <h4>{typo(it.title)}</h4>
             <p>{typo(it.text)}</p>
           </li>
@@ -58,7 +61,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
     <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead}>
       <ul class="checks">
-        {buh.result.items.map((it) => <li><span class="checks__ico"><OfficeIcon name="check" /></span><span>{typo(it)}</span></li>)}
+        {buh.result.items.map((it, i) => <li><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'calc', 'doc'][i % 4]} /></span><span>{typo(it)}</span></li>)}
       </ul>
       <IconNote icon="trend">{typo(buh.result.note)}</IconNote>
       <!-- ссылка не внутри текста, а отдельной кнопкой под ним (правка №93) -->
@@ -160,11 +163,12 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   /* «Что получает заказчик»: галочка слева на уровне первой строки, текст крупный (№67) */
   .checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px clamp(24px, 4vw, 56px); max-width: 920px; }  /* в ширине текста, пункты плотно (№162) */
   .checks li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 16px; align-items: start; font-size: var(--fs-lead); line-height: 1.45; }
-  .checks__ico { padding-top: 0.1em; color: var(--c-ink); }
+  .checks__ico { padding-top: 0.1em; color: var(--c-heading); }  /* знаки вместо галочек, синие (№179) */
+  .scope__ico { display: block; width: 30px; margin-bottom: 6px; color: var(--c-heading); --icon-bg: var(--card-bg); }
 
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */
   .tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: var(--card-gap); }  /* все карточки одного размера (№136) */
-  .tcard__ico { display: block; width: 32px; color: var(--c-ink); --icon-bg: var(--card-bg); }
+  .tcard__ico { display: block; width: 32px; color: var(--c-heading); --icon-bg: var(--card-bg); }  /* цветовой акцент тарифов — синие знак и цена (№179) */
   .tcard { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
   .tcard h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   /* «для кого» — крупно и впритык к названию (№99) */
@@ -178,7 +182,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tcard__vol li + li { border-top: 1px solid var(--line-subtle); }
   /* цена — не крупнее текста, в небольшой плашке (№100) */
   /* цена внизу карточки — просто текстом: без подложки (№124) и без жирной черты (№136) */
-  .tcard__price { margin-top: auto; padding-top: 8px; font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
+  .tcard__price { margin-top: auto; padding-top: 8px; font-size: var(--fs-h6); font-weight: var(--w-semibold); line-height: 1.3; color: var(--c-heading); }
 
   .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); line-height: 1.4; }
   .notes--one { display: block; }
@@ -186,12 +190,13 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
   .note-link { margin: 12px 0 0 46px; font-size: var(--fs-lead); }
 
-  .more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px clamp(24px, 4vw, 56px); max-width: 920px; }
-  .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; }
-  .more__ico { padding-top: 0.15em; color: var(--c-ink); }
+  /* доп. услуги — плашками, цена синим (№179) */
+  .more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; padding: clamp(18px, 2vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .more__ico { padding-top: 0.15em; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .more__body { display: grid; }
   .more h3 { font-family: var(--ff-body); font-weight: var(--w-semibold); font-size: var(--fs-lead); line-height: 1.35; letter-spacing: 0; }
-  .more__price { margin-top: 6px; font-size: var(--fs-h5); font-weight: var(--w-semibold); line-height: 1.25; }
+  .more__price { margin-top: 6px; font-size: var(--fs-h5); font-weight: var(--w-semibold); line-height: 1.25; color: var(--c-heading); }
   .more__per, .more__unit { font-size: var(--fs-small); font-weight: var(--w-body); }
   .more__unit { margin-top: 2px; }
   .more__split { display: grid; gap: 0; }  /* «без НДС / с НДС» — плотно друг под другом (№101) */
@@ -201,10 +206,11 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     .tcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 860px) {
-    .checks, .more { grid-template-columns: minmax(0, 1fr); }
+    .checks { grid-template-columns: minmax(0, 1fr); }
+    .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {
-    .tcards { grid-template-columns: minmax(0, 1fr); }
+    .tcards, .more { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 760px) { .adv__track, .scope { --pad: var(--hero-frame); } }
 </style>

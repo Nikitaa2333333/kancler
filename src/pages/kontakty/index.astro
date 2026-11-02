@@ -19,7 +19,8 @@ const facts = [
   { k: 'Часы работы', v: company.hours },
   { k: 'Регион', v: company.region },
   { k: 'Формат работы', v: company.remote },
-  { k: 'Основатель', v: company.founder.name },
+  /* ФИО основателя на сайте не выводим (№170): компания продаёт себя как команду; сведения об
+     основателе — позже, в согласованной форме */
   company.legalName && { k: 'Юрлицо', v: company.legalName },
   company.inn && { k: 'ИНН', v: company.inn },
   company.ogrn && { k: 'ОГРН', v: company.ogrn },

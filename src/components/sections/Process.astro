@@ -2,6 +2,8 @@
 import { process as proc } from '../../data/home';
 import { typo } from '../../lib/typo';
 import OfficeIcon from '../OfficeIcon.astro';
+/* знак шага — в уголке карточки, в круге с обводкой (№193) */
+const stepIcons = ['phone', 'search', 'docCheck', 'split', 'calendar'];
 ---
 
 <section class="sec sec--block sec--white" id="kak-rabotaem" aria-labelledby="proc-title">
@@ -13,6 +15,7 @@ import OfficeIcon from '../OfficeIcon.astro';
     <ol class="proc__grid bleed">
       {proc.steps.map((s, i) => (
         <li>
+          <span class="proc__ico"><OfficeIcon name={stepIcons[i % stepIcons.length]} grad /></span>
           <h3><span class="proc__n">{i + 1}</span>{typo(s.title)}</h3>
           <p>{typo(s.text)}</p>
         </li>
@@ -57,7 +60,10 @@ import OfficeIcon from '../OfficeIcon.astro';
   .proc__n { margin-right: 0.4em; }
   /* №187: вёрстка шагов — как была (№176 «поплыло»); путь — синие кружки со стрелкой на стыке
      карточек (на телефоне лента листается вбок, стрелки не нужны) */
-  .proc__n { color: var(--c-heading); }
+  /* цифра — цветом заголовка, не выделяем (№193); знак — в правом верхнем углу, в круге с обводкой */
+  .proc__ico { position: absolute; top: -14px; right: 14px; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--c-paper); border: 1.5px solid var(--line-subtle); --icon-bg: var(--c-paper); }
+  .proc__ico :global(.oicon) { width: 20px; }
+  .proc__grid { padding-top: 14px; }  /* место под знак, выходящий за верх карточки */
   .proc__grid li { position: relative; }
   @media (min-width: 1101px) {
     .proc__grid li:not(:last-child)::after {

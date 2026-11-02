@@ -1,11 +1,7 @@
 ---
 import { audience } from '../../data/home';
 import { typo } from '../../lib/typo';
-import OfficeIcon from '../OfficeIcon.astro';
-
-/* мини-интерфейсы с цифрами (86 %, «3 из 3») сняты — непонятно, откуда цифры (№173);
-   остались плашки с типами клиентов и знаком */
-const icons = ['crane', 'docCheck', 'roller', 'compass'];  // свой знак на каждый тип клиента (№183)
+/* мини-интерфейсы с цифрами сняты (№173); знаки тоже сняты — «иконка на иконке» (№192) */
 ---
 
 <section class="sec sec--block aud" id="dlya-kogo" aria-labelledby="aud-title">
@@ -18,9 +14,8 @@ const icons = ['crane', 'docCheck', 'roller', 'compass'];  // свой знак 
     </div>
 
     <ul class="aud__grid bleed">
-      {audience.cards.map((c, i) => (
+      {audience.cards.map((c) => (
         <li>
-          <span class="aud__ico"><OfficeIcon name={icons[i]} /></span>
           <div class="aud__text">
             <h3>{typo(c.title)}</h3>
             <p>{typo(c.text)}</p>
@@ -61,12 +56,6 @@ const icons = ['crane', 'docCheck', 'roller', 'compass'];  // свой знак 
   }
   .aud__text { display: grid; gap: 14px; }
   .aud__text p { line-height: 1.35; }
-  /* компактно: знак, заголовок, текст — без пустоты (№186) */
-  .aud__ico { display: block; width: 40px; color: var(--c-heading); --icon-bg: var(--card-bg); }
-  @media (max-width: 520px) {
-    .aud__grid li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; align-items: start; padding: 20px; }
-    .aud__text { gap: 6px; }
-  }
   .aud__grid h3 { font-size: var(--fs-h5); font-weight: var(--w-display-sm); line-height: var(--lh-h5); letter-spacing: var(--tr-h5); }
   @media (max-width: 1100px) { .aud__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 520px) { .aud__grid { grid-template-columns: minmax(0, 1fr); } }

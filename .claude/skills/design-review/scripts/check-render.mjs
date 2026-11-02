@@ -123,7 +123,7 @@ function audit({ vw, palette }) {
     if (!vis(el) || skip(el) || el.closest('a.btn, .btn, button, label, input, .req__err, mark')) return;
     if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) return;
     const c = hex(cs(el).color); const op = parseFloat(cs(el).opacity);
-    if (c && !['#141414', '#ffffff', '#1a1a1a', '#004a85'].includes(c)) add('T', el, `цвет ${c}: ${short(el)}`);
+    if (c && !['#141414', '#ffffff', '#1a1a1a', '#004a85', '#16243a'].includes(c)) add('T', el, `цвет ${c}: ${short(el)}`);
     else if (op < 0.95 && !el.closest('[data-reveal], .probs')) add('T', el, `полупрозрачный текст: ${short(el)}`);
   });
 

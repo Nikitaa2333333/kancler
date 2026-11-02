@@ -6,8 +6,6 @@ import PageHero from '../../components/page/PageHero.astro';
 import Crumbs from '../../components/page/Crumbs.astro';
 import Sec from '../../components/page/Sec.astro';
 import CaseCards from '../../components/page/CaseCards.astro';
-import Figures from '../../components/charts/Figures.astro';
-import CaseChart from '../../components/charts/CaseChart.astro';
 import MarkedImage from '../../components/charts/MarkedImage.astro';
 import Request from '../../components/sections/Request.astro';
 import { cases, type Case } from '../../data/cases';
@@ -34,12 +32,9 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
       <p class="tags">{typo(c.tags.join(' · '))}</p>
     </PageHero>
 
-    {c.figures && (
-      <Sec id="cifry" title="Главное в цифрах">
-        <Figures items={c.figures} />
-      </Sec>
-    )}
-
+    <!-- «Главное в цифрах», «Что показали цифры» и выводы под слайдами сняты (№180, Вадим 02.11.2026:
+         «оставить тот объём, который я прописал», ИИ «излишне накидывает»). Данные figures /
+         charts / mark / result остались в cases.ts, на страницу не выводятся. -->
     <Sec white>
       <div class="case">
         <div class="case__body">
@@ -71,21 +66,9 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
       </div>
     </Sec>
 
-    {c.charts && (
-      <Sec id="grafiki" title="Что показали цифры" lead="Графики собраны по данным со слайдов, которые мы готовили по проекту.">
-        <div class="charts">
-          {c.charts.map((ch) => (
-            <div class={ch.kind === 'share' || ch.kind === 'area' || c.charts!.length === 1 ? 'charts__wide' : ''}>
-              <CaseChart c={ch} />
-            </div>
-          ))}
-        </div>
-      </Sec>
-    )}
-
-    <Sec title="Материалы проекта" lead="Слайды и документы из работы по кейсу. Главное подсвечено маркером, нажмите на картинку, чтобы открыть её целиком." white={!!c.charts}>
+    <Sec title="Материалы проекта">
       <div class={`gallery ${c.images.length === 2 ? 'gallery--two' : ''}`}>
-        {c.images.map((im) => <MarkedImage im={im} />)}
+        {c.images.map((im) => <MarkedImage im={{ ...im, mark: undefined, result: undefined }} />)}
       </div>
     </Sec>
 
@@ -117,8 +100,6 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
   .side__label { font-size: var(--fs-small); font-weight: var(--w-semibold); }
   .side__link { font-size: var(--fs-lead); margin-bottom: 8px; }
 
-  .charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); align-items: start; }
-  .charts__wide { grid-column: 1 / -1; }
   .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3vw, 40px) var(--card-gap); }
   .gallery--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -126,6 +107,5 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
     .case { grid-template-columns: minmax(0, 1fr); }
     .case__side { position: static; }
   }
-  @media (max-width: 860px) { .charts { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 640px) { .gallery, .gallery--two { grid-template-columns: minmax(0, 1fr); } }
 </style>

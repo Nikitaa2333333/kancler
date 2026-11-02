@@ -2,19 +2,27 @@
 import { problems } from '../../data/home';
 import { typo } from '../../lib/typo';
 import OfficeIcon from '../OfficeIcon.astro';
+import { u } from '../../lib/url';
+
+/* art — проба иллюстраций вместо знаков (№195, страница /proba-illyustracii/):
+   '3d' или '2d', картинки public/images/ill/<art>-<n>.webp, фон вырезан */
+interface Props { art?: '3d' | '2d'; id?: string; title?: string }
+const { art, id = 'problemy', title = problems.title } = Astro.props;
 
 /* №175 (02.11.2026): было сухим сплошным текстом с проявлением по прокрутке — теперь
    пункты разделены карточками со знаком. Слова клиента не менялись. */
 const icons = ['key', 'swap', 'layers', 'restore', 'wallet', 'chart'];  // без повторов с другими блоками (№183)
 ---
 
-<section class="sec sec--block sec--white probs" id="problemy" aria-labelledby="probs-title">
+<section class={`sec sec--block sec--white probs ${art ? "probs--art" : ""}`} id={id} aria-labelledby={`${id}-title`}>
   <div class="wrap">
-    <h2 id="probs-title" class="probs__title">{typo(problems.title)}</h2>
+    <h2 id={`${id}-title`} class="probs__title">{typo(title)}</h2>
     <ul class="probs__grid bleed">
       {problems.items.map((t, i) => (
         <li>
-          <span class="probs__ico"><OfficeIcon name={icons[i % icons.length]} /></span>
+          {art
+            ? <img class="probs__art" src={u(`/images/ill/${art}-${i + 1}.webp`)} alt="" width="320" height="320" loading="lazy" decoding="async" />
+            : <span class="probs__ico"><OfficeIcon name={icons[i % icons.length]} /></span>}
           <p>{typo(t)}</p>
         </li>
       ))}
@@ -36,11 +44,15 @@ const icons = ['key', 'swap', 'layers', 'restore', 'wallet', 'chart'];  // бе�
   }
   .probs__ico { display: block; width: 36px; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .probs__grid p { font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.35; max-width: 30ch; }
+  /* иллюстрации: крупно сверху карточки; на телефоне — слева от текста */
+  .probs__art { display: block; width: clamp(96px, 9vw, 128px); height: auto; margin: -6px 0 0 -6px; }
   .probs__cta { margin-top: clamp(20px, 2.4vw, 32px); }
   @media (max-width: 1000px) { .probs__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   /* телефон: знак слева от текста, плашки до края, как «Для кого» (№186) */
   @media (max-width: 560px) {
     .probs__grid { grid-template-columns: minmax(0, 1fr); }
     .probs__grid li { grid-template-columns: 36px minmax(0, 1fr); align-items: center; padding: 18px 20px; }
+    .probs--art .probs__grid li { grid-template-columns: 76px minmax(0, 1fr); padding: 12px 20px 12px 12px; }
+    .probs__art { width: 76px; margin: 0; }
   }
 </style>

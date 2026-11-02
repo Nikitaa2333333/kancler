@@ -2,17 +2,14 @@
 import { company, nav } from '../data/company';
 import { typo } from '../lib/typo';
 import { u } from '../lib/url';
-import Logo from './Logo.astro';
 ---
 
 <!-- Узкая шапка на всю ширину, всегда закреплена, на белом градиенте без обводки
      (решения пользователя 23.10.2026). -->
 <header class="hdr">
   <div class="wrap hdr__bar">
-    <!-- логотип: знак-росчерк + название (№194; проба №189 «слабо») -->
-    <a class="hdr__logo" href={u('/')} aria-label={`${company.name} — на главную`}>
-      <Logo />{company.name}
-    </a>
+    <!-- знак-росчерк снят (№196), осталось название; компонент Logo.astro оставлен -->
+    <a class="hdr__logo" href={u('/')} aria-label={`${company.name} — на главную`}>{company.name}</a>
 
     <nav class="hdr__nav" aria-label="Основное меню">
       <ul class="hdr__links">

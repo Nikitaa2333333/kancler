@@ -107,8 +107,8 @@ const icons: Record<string, { color: string; svg: string }> = {
     scroll-snap-align: start;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: clamp(18px, 1.8vw, 24px);  /* компактнее внутри (№139) */
+    gap: var(--card-in);
+    padding: var(--card-pad);  /* единые поля (№206) */
     border-radius: var(--r-lg);
     background: var(--card-bg, var(--c-white-card));
   }

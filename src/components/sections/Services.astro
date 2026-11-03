@@ -41,7 +41,7 @@ const tones = ['blue', 'sand', 'sky'];
     align-items: flex-start;
     gap: 20px;
     /* высота по содержимому, без пустоты над кнопкой (№167) */
-    padding: clamp(28px, 3vw, 44px);
+    padding: var(--card-pad);
     border-radius: var(--r-xl);
     background: var(--tone);
     transition: transform .3s var(--ease, ease);
@@ -51,6 +51,8 @@ const tones = ['blue', 'sand', 'sky'];
   .svc__card--sand { --tone: var(--c-tone-sand); }
   .svc__card--sky { --tone: var(--c-tone-sky); }
   .svc__card h3 { font-size: var(--fs-h3); font-weight: var(--w-display); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
+  @media (max-width: 760px) { .svc { margin-inline: 0; } }  /* край на телефоне — как у всех плашек, 6 px (№206) */
+  .svc__card h3 + .svc__text { margin-top: calc(var(--card-in) - 20px); }  /* заголовок → текст ближе, чем поле (№206) */
   .svc__text { font-size: var(--fs-lead); line-height: 1.45; }
   /* пункты без тире: знак + текст, тонкие линии между строками, крупно и плотно (№56) */
   .svc__list { align-self: stretch; display: grid; }
@@ -59,7 +61,6 @@ const tones = ['blue', 'sand', 'sky'];
   .svc__ico { color: var(--c-heading); --icon-bg: var(--tone); }
   .svc__card .btn { margin-top: auto; }
   /* телефон: плашки услуг до края экрана, как остальные (№190) */
-  @media (max-width: 760px) { .svc { margin-inline: 0; } .svc .bleed { margin-inline: calc(-1 * var(--gutter)); } }
   @media (max-width: 1100px) {
     .svc__grid { grid-template-columns: minmax(0, 1fr); }
     .svc__card { min-height: 0; }

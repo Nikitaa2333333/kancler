@@ -116,7 +116,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     <Sec id="dop" title={buh.more.title}>
       <!-- №88: плюсик, название, сразу под ним цена крупно, ещё плотнее — единица мелко;
            короткая единица — через косую черту в строке цены; «без НДС / с НДС» — две колонки -->
-      <ul class="more">
+      <ul class="more bleed">
         {more.map(({ it, short, parts }) => (
             <li>
               <span class="more__ico"><OfficeIcon name="plus" /></span>
@@ -173,7 +173,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     --pad: var(--edge);  /* на компьютере — по линии текста; на телефоне узко (№149, №157) */
     margin-inline: calc(-1 * var(--edge)); padding: 0 var(--pad) 4px; scroll-padding-inline: var(--pad); }
   .scope::-webkit-scrollbar { display: none; }
-  .scope__item { flex: 0 0 clamp(320px, 36vw, 460px); scroll-snap-align: start; display: grid; gap: 8px; align-content: start; padding: clamp(18px, 1.8vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .scope__item { flex: 0 0 clamp(320px, 36vw, 460px); scroll-snap-align: start; display: grid; gap: 8px; align-content: start; padding: var(--card-pad); border-radius: var(--r-lg); background: var(--card-bg); }
   @media (max-width: 560px) { .scope__item { flex-basis: 86%; } }  /* на телефоне шире, без «столбика» текста (№121) */
   /* на компьютере — сеткой в линию текста, без выезда за край экрана (№162) */
   @media (min-width: 761px) {
@@ -190,7 +190,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */
   .tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: var(--card-gap); }  /* все карточки одного размера (№136) */
   .tcard__ico { display: block; width: 32px; color: var(--c-heading); --icon-bg: var(--card-bg); }  /* цветовой акцент тарифов — синие знак и цена (№179) */
-  .tcard { display: flex; flex-direction: column; gap: 14px; padding: clamp(24px, 2.4vw, 32px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .tcard { display: flex; flex-direction: column; gap: 14px; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   .tcard h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   /* «для кого» — крупно и впритык к названию (№99) */
   .tcard h3 + .tcard__who { margin-top: -6px; font-size: var(--fs-lead); font-weight: var(--w-semibold); }
@@ -224,7 +224,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
   /* доп. услуги — плашками, цена синим (№179) */
   .more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
-  .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; padding: clamp(18px, 2vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); }
+  .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; padding: var(--card-pad); border-radius: var(--r-lg); background: var(--card-bg); }
   .more__ico { padding-top: 0.15em; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .more__body { display: grid; }
   .more h3 { font-family: var(--ff-body); font-weight: var(--w-semibold); font-size: var(--fs-lead); line-height: 1.35; letter-spacing: 0; }

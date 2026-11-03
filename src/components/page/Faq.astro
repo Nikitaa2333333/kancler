@@ -6,7 +6,7 @@ interface Props { items: { q: string; a: string }[] }
 const { items } = Astro.props;
 ---
 
-<div class="faq">
+<div class="faq bleed">
   {items.map((it, i) => (
     <details open={i === 0}>
       <summary><span>{typo(it.q)}</span><span class="faq__mark" aria-hidden="true"></span></summary>
@@ -45,7 +45,7 @@ const { items } = Astro.props;
 <style>
   /* №202: как у Яндекса 360 — каждый вопрос отдельной плашкой, плюс в белом квадратике */
   .faq { display: grid; gap: 8px; max-width: 920px; }
-  details { border-radius: var(--r-xl); background: var(--c-band); }
+  details { padding: 0 var(--card-px); border-radius: var(--r-xl); background: var(--c-band); }  /* единые поля (№206) */
   summary {
     list-style: none;
     cursor: pointer;
@@ -53,7 +53,7 @@ const { items } = Astro.props;
     justify-content: space-between;
     align-items: center;
     gap: 24px;
-    padding: clamp(16px, 1.8vw, 22px) clamp(18px, 2vw, 28px);
+    padding: var(--card-pt) 0;
     font-family: var(--ff-display);
     font-weight: var(--w-display);
     font-size: var(--fs-h5);
@@ -67,5 +67,6 @@ const { items } = Astro.props;
   .faq__mark::after { transform: rotate(90deg); }
   .faq:not(.js) details[open] .faq__mark::after, .faq.js details.is-open .faq__mark::after { transform: rotate(0); }
   .faq__a { overflow: hidden; }
-  details p { max-width: var(--measure-text); padding: 0 clamp(18px, 2vw, 28px) clamp(18px, 2vw, 24px); }
+  details p { max-width: var(--measure-text); padding-bottom: var(--card-pb); }
+  details:not([open]) summary { padding-bottom: var(--card-pt); }
 </style>

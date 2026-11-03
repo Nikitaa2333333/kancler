@@ -12,7 +12,7 @@ import OfficeIcon from '../OfficeIcon.astro';
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__frame">
     <picture>
-      <source media="(max-width: 760px)" srcset={u('/images/hero-ill-m.webp')} width="814" height="778" />
+      <source media="(max-width: 760px)" srcset={u('/images/hero-ill-m.webp')} width="922" height="769" />
       <img class="hero__img" src={u('/images/hero-ill.webp')} alt="" width="1536" height="864" fetchpriority="high" decoding="async" />
     </picture>
     <div class="hero__shade" aria-hidden="true"></div>
@@ -97,7 +97,7 @@ import OfficeIcon from '../OfficeIcon.astro';
     .hero__img { position: relative; inset: auto; z-index: auto; height: auto; aspect-ratio: auto; object-fit: cover; }
     .hero__shade {
       display: block;
-      inset: 0 0 auto; z-index: 0; aspect-ratio: 814 / 778;
+      inset: 0 0 auto; z-index: 0; aspect-ratio: 922 / 769;
       background: linear-gradient(180deg, rgb(233 241 250 / 0) 60%, var(--c-paper) 100%);
     }
     .hero__copy { position: relative; z-index: 1; max-width: none; margin-top: -24px; padding: 0 var(--gutter) 8px; }

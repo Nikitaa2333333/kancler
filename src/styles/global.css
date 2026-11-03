@@ -159,6 +159,11 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 .btn--sm { min-height: 44px; padding: 8px 20px; font-size: 15px; }
 /* На телефоне крупные кнопки — во всю ширину (правка №14, 28.10.2026) */
 @media (max-width: 560px) { .btn:not(.btn--sm) { width: 100%; } }
+/* телефон: отдельно стоящие кнопки — до тех же 6 px от края экрана, что и плашки (№258);
+   .wrap стоит на поле секции (hero-frame + gutter). Первый экран главной — в Hero.astro */
+@media (max-width: 560px) {
+  .wrap > .btn:not(.btn--sm), .side > .btn:not(.btn--sm) { width: calc(100% + 2 * var(--gutter)); margin-inline: calc(-1 * var(--gutter)); }
+}
 
 /* Ссылка «Подробнее ›» — синяя, жирнее текста, с аккуратной галочкой справа, без
    подчёркивания; при наведении галочка чуть сдвигается (правка №119, референс mailganer.com).

@@ -5,7 +5,8 @@ import { typo } from '../../lib/typo';
    пунктиром с полукруглыми вырезами, строки с ценой справа, «Итого» крупно, ниже — варианты.
    Ставить в БЕЛУЮ секцию (`<Sec white>`): сам чек — плашка, вырезы — цветом фона секции. */
 interface Props {
-  subject: string;
+  /** пусто — заголовок стоит над чеком снаружи (примеры казначейства, №260) */
+  subject?: string;
   params: string[];
   rows?: [string, string][];
   total: [string, string];
@@ -17,7 +18,7 @@ const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 <div class="receipt">
   <div class="receipt__part">
-    <p class="receipt__subj">{typo(subject)}</p>
+    {subject && <p class="receipt__subj">{typo(subject)}</p>}
     <p class="receipt__params">{typo(cap(params.join(', ')))}</p>
   </div>
   <div class="receipt__cut" aria-hidden="true"></div>

@@ -90,7 +90,10 @@ import { u } from '../../lib/url';
       <!-- примеры — «чеком», как на бухучёте (№105) -->
       <div class="examples">
         {kazna.examples.items.map((e) => (
-          <Receipt subject={e.name} params={e.params} rows={e.rows} total={[e.rows.length ? 'Итого' : 'Стоимость', e.total]} />
+          <div class="ex">
+            <h3 class="ex__title">{typo(e.name)}</h3>
+            <Receipt params={e.params} rows={e.rows} total={[e.rows.length ? 'Итого' : 'Стоимость', e.total]} />
+          </div>
         ))}
       </div>
     </Sec>
@@ -148,11 +151,14 @@ import { u } from '../../lib/url';
   .pack__rows b { flex: none; font-weight: var(--w-semibold); white-space: nowrap; }
 
   /* примеры разделены заметно — чтобы не сливались в один (№246) */
+  /* заголовок примера — над плашкой, отдельно (№260) */
+  .ex { display: grid; gap: 12px; align-content: start; }
+  .ex__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(28px, 3vw, 40px) var(--card-gap); align-items: start; }
   /* на ПК два коротких примера столбиком слева, длинный третий — справа, без одинокой карточки (№163) */
   @media (min-width: 900px) {
     .examples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .examples > :global(:nth-child(3)) { grid-column: 2; grid-row: 1 / span 2; }
+    .examples > :nth-child(3) { grid-column: 2; grid-row: 1 / span 2; }
   }
 
   .factors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); max-width: 1000px; font-size: var(--fs-lead); line-height: 1.4; }

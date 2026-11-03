@@ -60,7 +60,9 @@ import { u } from '../../lib/url';
   }
   .proc__grid h3, .proc__grid p { color: var(--c-white); }
   .proc__grid p { opacity: 1; }
-  .proc__art { display: block; width: 78%; max-width: 200px; height: auto; margin: 8px auto -6px; align-self: end; }
+  .proc__art { display: block; width: 78%; max-width: 200px; height: auto; margin: 8px auto -6px; align-self: end;
+    /* картинка на своём тёмном фоне (почти цвет плашки), края мягко гаснут — без вырезки (№257) */
+    -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
   /* номер шага — цифрой прямо в заголовке, без слова «Шаг» (правка №128) */
   /* №187: вёрстка шагов — как была (№176 «поплыло»); путь — синие кружки со стрелкой на стыке
      карточек (на телефоне лента листается вбок, стрелки не нужны) */

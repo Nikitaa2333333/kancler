@@ -7,7 +7,7 @@ interface Props { items: { title: string; text: string }[] }
 const { items } = Astro.props;
 ---
 
-<ul class="fg">
+<ul class="fg bleed">
   {items.map((f) => (
     <li>
       <h3>{typo(f.title)}</h3>
@@ -22,5 +22,5 @@ const { items } = Astro.props;
   .fg li { display: grid; align-content: start; gap: 8px; padding: clamp(18px, 2vw, 24px); border-radius: var(--r-xl); background: var(--card-bg); }
   .fg h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   @media (max-width: 980px) { .fg { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 560px) { .fg { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+  @media (max-width: 560px) { .fg { grid-template-columns: minmax(0, 1fr); } }  /* на телефоне — до края и плотно, как «Параметры» (№205) */
 </style>

@@ -61,7 +61,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
     <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead}>
       <ul class="checks">
-        {buh.result.items.map((it, i) => <li><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'calc', 'doc'][i % 4]} /></span><span>{typo(it)}</span></li>)}
+        {buh.result.items.map((it, i) => <li><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'chart', 'check'][i % 4]} /></span><span>{typo(it)}</span></li>)}
       </ul>
       <IconNote icon="trend">{typo(buh.result.note)}</IconNote>
       <!-- ссылка не внутри текста, а отдельной кнопкой под ним (правка №93) -->
@@ -211,14 +211,17 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .notes { display: grid; gap: 8px; margin-top: 20px; max-width: var(--measure-text); font-size: var(--fs-small); line-height: 1.4; }
   .notes--one { display: block; }
   /* пилюля-переключатель цен (№203) */
-  .tabs { display: none; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; margin-bottom: clamp(20px, 2.4vw, 32px); padding: 4px; border-radius: 999px; background: var(--c-band); }
-  .tabs.is-on { display: flex; }
-  .tabs button { padding: 10px 18px; border: 0; border-radius: 999px; background: transparent; color: var(--c-ink); font: inherit; font-size: 15px; font-weight: var(--w-semibold); cursor: pointer; }
-  .tabs button[aria-selected='true'] { background: var(--c-white); color: var(--c-heading); }
+  /* №218: переключатель — явно нажимаемые кнопки во всю ширину: активная синяя, остальные
+     с обводкой и реакцией на наведение */
+  .tabs { display: none; gap: 8px; margin-bottom: clamp(20px, 2.4vw, 32px); }
+  .tabs.is-on { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tabs button { min-height: 52px; padding: 10px 18px; border: 1.5px solid var(--line-subtle); border-radius: 999px; background: var(--c-white); color: var(--c-ink); font: inherit; font-size: 15px; font-weight: var(--w-semibold); line-height: 1.2; cursor: pointer; transition: border-color .2s, background-color .2s, color .2s; }
+  .tabs button:hover { border-color: var(--c-primary); color: var(--c-primary); }
+  .tabs button[aria-selected='true'] { border-color: var(--c-primary); background: var(--c-primary); color: var(--c-white); }
   .tpanel + .tpanel { margin-top: clamp(40px, 5vw, 64px); }
   .tabs.is-on ~ .tpanel + .tpanel { margin-top: 0; }
   /* телефон: пилюля в одну строку, листается вбок, а не столбик (№210) */
-  @media (max-width: 760px) { .tabs.is-on { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: calc(100% + var(--gutter)); margin-right: calc(-1 * var(--gutter)); } .tabs::-webkit-scrollbar { display: none; } .tabs button { flex: none; white-space: nowrap; } }
+  @media (max-width: 760px) { .tabs.is-on { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: calc(100% + var(--gutter)); margin-right: calc(-1 * var(--gutter)); } .tabs::-webkit-scrollbar { display: none; } .tabs button { flex: none; white-space: nowrap; } }
   .tables { display: grid; gap: clamp(48px, 6vw, 72px); margin-top: clamp(48px, 6vw, 80px); }
 
   .note-link { margin: 12px 0 0 46px; font-size: var(--fs-lead); }

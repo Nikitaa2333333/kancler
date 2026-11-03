@@ -36,6 +36,8 @@ import { u } from '../../lib/url';
       scroll-padding-inline: calc(var(--hero-frame) + 10px);
     }
     .prog__row::-webkit-scrollbar { display: none; }
+    /* белый градиент справа — видно, что ленту можно листать (№219) */
+    .prog__row { -webkit-mask: linear-gradient(90deg, #000 78%, transparent); mask: linear-gradient(90deg, #000 78%, transparent); }
     .prog__row li { flex: none; height: auto; scroll-snap-align: start; }
     .prog__row img { height: calc(var(--h) * 0.72px); max-width: none; }  /* как на компьютере — не на весь экран (№205) */
   }

@@ -16,7 +16,7 @@ import { u } from '../../lib/url';
     <ol class="proc__grid bleed">
       {proc.steps.map((s, i) => (
         <li>
-          <h3><span class="proc__n">{i + 1}</span>{typo(s.title)}</h3>
+          <h3>{`${i + 1}. `}{typo(s.title)}</h3>  <!-- «N. Заголовок» (№214) -->
           <p>{typo(s.text)}</p>
           <img class="proc__art" src={u(`/images/ill/step-${i + 1}.webp`)} alt="" width="480" height="480" loading="lazy" decoding="async" />
         </li>
@@ -62,7 +62,6 @@ import { u } from '../../lib/url';
   .proc__grid p { opacity: 1; }
   .proc__art { display: block; width: 78%; max-width: 200px; height: auto; margin: 8px auto -6px; align-self: end; }
   /* номер шага — цифрой прямо в заголовке, без слова «Шаг» (правка №128) */
-  .proc__n { margin-right: 0.4em; }
   /* №187: вёрстка шагов — как была (№176 «поплыло»); путь — синие кружки со стрелкой на стыке
      карточек (на телефоне лента листается вбок, стрелки не нужны) */
   .proc__grid li { position: relative; }

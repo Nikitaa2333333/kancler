@@ -58,7 +58,16 @@ import { u } from '../../lib/url';
     </Sec>
 
     <Sec id="buhgalteriya" title={kazna.accounting.title} lead={kazna.accounting.lead}>
-      <PriceTable head={kazna.accounting.head} rows={kazna.accounting.rows} />
+      <!-- №217: услуги — карточками, как тарифы и пакеты, а не таблицей -->
+      <ul class="acc bleed">
+        {kazna.accounting.rows.map(([name, what, price]) => (
+          <li class="acc__card">
+            <h3>{typo(name)}</h3>
+            <p class="acc__what">{typo(what)}</p>
+            <p class="pill-price">{typo(price)}</p>
+          </li>
+        ))}
+      </ul>
     </Sec>
 
     <Sec id="pakety" title={kazna.packages.title} white>
@@ -102,7 +111,7 @@ import { u } from '../../lib/url';
 
 <style>
   .tariffs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
-  .tariff { display: flex; flex-direction: column; gap: 14px; padding: var(--card-pad); border-radius: var(--r-lg); background: var(--card-bg); }
+  .tariff { display: flex; flex-direction: column; gap: 10px; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   .tariff__ico { display: block; width: 32px; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .tariff h3, .pack h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
   .tariff h3 + .tariff__for, .pack h3 + .pack__for { margin-top: -6px; font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.4; }
@@ -112,15 +121,23 @@ import { u } from '../../lib/url';
   .tariff__params div + div { border-top: 1px solid var(--line-subtle); }
   .tariff__params dt { font-size: var(--fs-small); line-height: 1.35; }
   .tariff__params dd { margin: 0; font-weight: var(--w-semibold); line-height: 1.35; }
-  .tariff__inc { margin-top: 4px; font-weight: var(--w-semibold); }
+  .tariff__inc { margin-top: 6px; font-weight: var(--w-semibold); }  /* без дыр (№217) */
+  .tariff__params { margin-top: 4px; }
   /* цена — пилюлей внизу карточки, как в тарифах бухучёта (№100) */
   /* цена внизу карточки — просто текстом, без подложки и черты (№124, №136) */
   .pill-price { margin-top: auto; padding-top: 8px; font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; }
-  .tariff .ilist { margin-bottom: 8px; }
+  .tariff .ilist { margin-bottom: 4px; }
+  .acc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  .acc__card { display: flex; flex-direction: column; gap: var(--card-in); padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
+  .acc__card h3 { font-family: var(--ff-body); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.3; letter-spacing: 0; }
+  .acc__what { font-size: var(--fs-small); line-height: 1.4; }
+  .acc__card .pill-price { color: var(--c-heading); }
+  @media (max-width: 1000px) { .acc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .acc { grid-template-columns: minmax(0, 1fr); } }
   .block-gap { margin-top: clamp(48px, 6vw, 80px); }
 
   .packs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
-  .pack { display: flex; flex-direction: column; gap: 14px; padding: var(--card-pad); border-radius: var(--r-lg); background: var(--card-bg); }
+  .pack { display: flex; flex-direction: column; gap: 10px; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   /* знак — внутри заголовка, на уровне текста, без отдельной строки (№148) */
   .pack__ico { display: inline-block; width: 0.95em; margin-right: 0.35em; vertical-align: -0.12em; color: var(--c-heading); --icon-bg: var(--card-bg); }
   .pack__rows { display: grid; margin-bottom: 8px; }

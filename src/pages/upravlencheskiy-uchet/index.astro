@@ -42,7 +42,7 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
     <Sec id="kak-rabotaem" title={upr.sequences.title} white>
       <!-- три последовательности — плашками в ряд, на телефоне листаются вбок (№142) -->
       <div class="seqs bleed">
-        {upr.sequences.items.map((s) => (
+        {upr.sequences.items.map((s, k) => (
           <div class="seq">
             <h3>{typo(s.title)}</h3>
             <ol>
@@ -53,6 +53,8 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
                 </li>
               ))}
             </ol>
+            <!-- картинка внизу карточки — вместо пустоты (№213) -->
+            <img class="seq__art" src={u(`/images/ill/seq-${k + 1}.webp`)} alt="" width="560" height="560" loading="lazy" decoding="async" />
           </div>
         ))}
       </div>
@@ -93,9 +95,10 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
   .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: stretch; }
-  .seq { display: grid; align-content: start; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
+  .seq { display: grid; grid-template-rows: auto auto 1fr; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   .seq h3 { margin-bottom: 8px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
-  .seq ol { display: grid; }
+  .seq ol { display: grid; align-content: start; }
+  .seq__art { display: block; align-self: end; justify-self: center; width: min(220px, 70%); height: auto; margin-top: 12px; }
   .seq li { display: grid; padding: 10px 0; }
   .seq li + li { border-top: 1px solid var(--line-subtle); }
   /* номер внутри заголовка «1. …», заголовок плотнее, отступ до описания больше (№133) */

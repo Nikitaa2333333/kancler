@@ -3,7 +3,7 @@ import type { Case } from '../../data/cases';
 import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 
-/* Карточки кейсов: картинка со слайда клиента сверху, заголовок, строка результата.
+/* Карточки кейсов: 3D-иллюстрация кейса сверху (№212), заголовок, строка результата.
    Используется на главной, в списке кейсов и внизу страниц услуг. */
 interface Props { items: Case[] }
 const { items } = Astro.props;
@@ -14,7 +14,7 @@ const { items } = Astro.props;
     <li class="cc__card">
       <a class="cc__link" href={u(`/keysy/${c.slug}/`)}>
         <div class="cc__img">
-          <img src={u(c.images[0].src)} alt="" width={c.images[0].w} height={c.images[0].h} loading="lazy" decoding="async" />
+          <img src={u(`/images/ill/case-${c.slug}.webp`)} alt="" width="560" height="560" loading="lazy" decoding="async" />
         </div>
         <div class="cc__body">
           <h3>{typo(c.title)}</h3>
@@ -32,8 +32,10 @@ const { items } = Astro.props;
      рамке, текст прямо на фоне блока; вся карточка — ссылка (кнопку «Читать кейс» сняли, №30) */
   .cc__link { display: flex; flex-direction: column; gap: 18px; width: 100%; }
   /* фото прямоугольные, без скругления; переход по картинке или тексту, без кнопки (правка №30, 30.10) */
-  .cc__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--c-white-card); box-shadow: 0 0 0 1px var(--line-faint); }
-  .cc__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transition: transform .4s; }
+  /* №212: обложка — 3D-иллюстрация кейса на плашке (слайды клиента — внутри кейса, «Материалы проекта»),
+     чтобы карточки не сливались со сканами документов */
+  .cc__img { display: grid; place-items: center; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--r-xl); background: var(--c-band); }
+  .cc__img img { width: 56%; height: auto; transition: transform .4s; }  /* квадрат в рамке 16:10 целиком */
   .cc__link:hover .cc__img img { transform: scale(1.03); }
   .cc__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
   .cc__body h3 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }

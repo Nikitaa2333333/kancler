@@ -51,9 +51,9 @@ import { u } from '../../lib/url';
   }
   .proc__grid li {
     display: grid;
-    gap: 10px;
+    gap: var(--card-in);
     grid-template-rows: auto auto 1fr;  /* картинка прижата к низу плашки */
-    padding: clamp(20px, 2vw, 28px);
+    padding: var(--card-pad);
     border-radius: var(--r-xl);
     background: var(--c-night);
     color: var(--c-white);

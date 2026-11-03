@@ -102,7 +102,7 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 @media (max-width: 760px) {
   .bleed { margin-inline: calc(-1 * var(--gutter)); }
   .sec:not(.sec--block) .bleed { margin-inline: calc(var(--hero-frame) - var(--gutter)); }
-  .bleed > * { padding-inline: var(--gutter) !important; }
+  .bleed > * { padding-inline: var(--card-px) !important; }  /* поля плашек едины (№206) */
 }
 
 /* — Метка секции: мелкий кегль + semibold, без капса и разрядки — */

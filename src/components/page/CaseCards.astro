@@ -30,6 +30,8 @@ const { items } = Astro.props;
      фон плашки — цвет фона иллюстрации */
   .cc { display: grid; gap: var(--card-gap); }
   .cc__card { display: flex; }
+  /* плашка — ссылка внутри li, поэтому поля .bleed на li не нужны: иначе плашка отступала от края (№240) */
+  .cc.bleed > .cc__card { padding-inline: 0 !important; }
   .cc__link { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: clamp(20px, 4vw, 64px); width: 100%; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--c-hero); }
   .cc__img { display: grid; place-items: center; aspect-ratio: 4 / 3; }
   .cc__img img { width: 82%; height: auto; transition: transform .4s; }

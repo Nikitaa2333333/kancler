@@ -12,16 +12,18 @@ interface Props {
   white?: boolean;
   /** фоновая плашка-акцент (вопросы-ответы, №145) — остальные секции без плашки (№144) */
   plate?: boolean;
+  /** список вплотную к описанию — без большой дыры под заголовком (№201) */
+  tight?: boolean;
   action?: { label: string; href: string };
 }
-const { id, title, lead, white = false, plate = false, action } = Astro.props;
+const { id, title, lead, white = false, plate = false, tight = false, action } = Astro.props;
 const hid = id ? `${id}-title` : undefined;
 ---
 
 <section class={`sec sec--block ${white ? 'sec--white' : ''} ${plate ? 'sec--plate' : ''}`} id={id} aria-labelledby={hid}>
   <div class="wrap">
     {(title || lead) && (
-      <div class="sx__head">
+      <div class={`sx__head ${tight ? 'sx__head--tight' : ''}`}>
         <div class="sx__titles">
           {title && <h2 id={hid}>{typo(title)}</h2>}
           {lead && <p class="lead sx__lead">{typo(lead)}</p>}
@@ -42,6 +44,7 @@ const hid = id ? `${id}-title` : undefined;
     gap: 20px;
     margin-bottom: var(--head-gap);
   }
+  .sx__head--tight { margin-bottom: clamp(16px, 1.8vw, 24px); }
   .sx__titles { display: grid; gap: 16px; }
   .sx__titles h2 { max-width: 30ch; }
   .sx__action { margin-top: var(--head-gap); font-size: var(--fs-lead); }

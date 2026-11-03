@@ -69,7 +69,11 @@ const last = head.length - 1;
   .pt thead th { font-size: var(--fs-small); font-weight: var(--w-semibold); padding-top: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--line-subtle); }
   .pt tbody th { font-size: var(--fs-lead); line-height: 1.35; }
   .pt tbody td { font-size: var(--fs-body); line-height: 1.4; }
-  .pt .pt__price { text-align: right; padding-right: 0; white-space: nowrap; }
+  .pt .pt__price { text-align: left; padding-right: 0; white-space: nowrap; }  /* всё по левому краю (№237) */
+  /* наведение на строку — мягкая подложка выезжает слева (№237) */
+  .pt tbody tr { background: linear-gradient(var(--c-band), var(--c-band)) no-repeat 0 0 / 0% 100%; transition: background-size .35s var(--ease, ease); }
+  .pt tbody tr:hover { background-size: 100% 100%; }
+  .pt tr > :first-child { padding-left: 12px; }
   /* цена — тем же кеглем, что название, жирнее (№100 отменяет крупную цену №90/№92) */
   .pt td.pt__price { font-size: var(--fs-lead); font-weight: var(--w-semibold); }
   .pt tfoot th, .pt tfoot td { font-size: var(--fs-lead); }

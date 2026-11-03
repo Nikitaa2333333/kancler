@@ -24,9 +24,10 @@ import { u } from '../../lib/url';
   .prog { display: grid; gap: 16px; }
   .prog__title { font-size: var(--fs-body); font-weight: var(--w-semibold); line-height: 1.4; }
   /* компьютер: 4 одинаковые ячейки, логотип вписан в ячейку — один оптический вес (№160) */
-  .prog__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: clamp(24px, 3vw, 48px); }
-  .prog__row li { display: grid; place-items: center start; height: 80px; }
-  .prog__row img { display: block; width: auto; max-width: 100%; max-height: 100%; height: calc(var(--h) * 0.72px); }
+  /* компьютер: логотипы вплотную друг к другу, по ширине своих картинок (№236) */
+  .prog__row { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(16px, 1.6vw, 24px); }
+  .prog__row li { display: grid; place-items: center start; height: 80px; flex: none; }
+  .prog__row img { display: block; width: auto; max-height: 100%; height: calc(var(--h) * 0.72px); }
   /* телефон — крупные логотипы лентой с горизонтальной прокруткой, узкий край и зазор (№155) */
   @media (max-width: 760px) {
     .prog__row {

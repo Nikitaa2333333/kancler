@@ -108,4 +108,6 @@ const more = nav.filter((n) => !services.includes(n));
     .ftr__nav { justify-content: start; }
     .ftr__big { font-size: var(--fs-h3); }
   }
+  /* телефон: меню подвала одной колонкой — «Компания» уезжала за экран (№252) */
+  @media (max-width: 560px) { .ftr__nav { grid-template-columns: minmax(0, 1fr); } }
 </style>

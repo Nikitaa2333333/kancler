@@ -10,7 +10,7 @@ const { im } = Astro.props;
 ---
 
 <figure class="mi" data-reveal>
-  <a class="mi__frame" href={u(im.src)} target="_blank" rel="noopener">
+  <a class="mi__frame" href={u(im.src)} target="_blank" rel="noopener" data-zoom aria-label={`Открыть крупно: ${im.alt}`}>
     <img src={u(im.src)} alt={im.alt} width={im.w} height={im.h} loading="lazy" decoding="async" />
     {im.mark?.map((m, i) => (
       <span class="mi__mark" style={`left:${m.x}%;top:${m.y}%;width:${m.w}%;height:${m.h}%;--i:${i}`} aria-hidden="true"></span>
@@ -22,9 +22,41 @@ const { im } = Astro.props;
   </figcaption>
 </figure>
 
+<script>
+  /* нажатие на картинку — открывается крупно поверх страницы (правка №242); без JS — в новой вкладке */
+  const open = (src: string, alt: string) => {
+    let d = document.querySelector<HTMLDialogElement>('dialog.zoom');
+    if (!d) {
+      d = document.createElement('dialog');
+      d.className = 'zoom';
+      d.innerHTML = '<button type="button" class="zoom__x" aria-label="Закрыть">×</button><img alt="">';
+      d.addEventListener('click', () => d!.close());
+      document.body.append(d);
+    }
+    const img = d.querySelector('img')!;
+    img.src = src; img.alt = alt;
+    d.showModal();
+  };
+  document.querySelectorAll<HTMLAnchorElement>('a[data-zoom]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || !('showModal' in HTMLDialogElement.prototype)) return;
+      e.preventDefault();
+      open(a.href, a.querySelector('img')?.alt ?? '');
+    });
+  });
+</script>
+
+<style is:global>
+  dialog.zoom { width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; background: rgb(20 24 32 / 0.97); cursor: zoom-out; }
+  dialog.zoom[open] { display: grid; place-items: center; overflow: auto; }
+  dialog.zoom::backdrop { background: rgb(20 24 32 / 0.6); }
+  dialog.zoom img { max-width: calc(100vw - 16px); max-height: calc(100dvh - 72px); width: auto; height: auto; background: var(--c-white); }
+  .zoom__x { position: fixed; top: 10px; right: 10px; width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--c-white); color: var(--c-ink); font-size: 28px; line-height: 1; cursor: pointer; }
+</style>
+
 <style>
   .mi { display: grid; gap: 14px; align-content: start; }
-  .mi__frame { position: relative; display: block; overflow: hidden; border-radius: var(--r-lg); background: var(--c-white-card); box-shadow: 0 1px 0 var(--line-faint); }
+  .mi__frame { position: relative; display: block; overflow: hidden; cursor: zoom-in;  /* без скругления (№242) */ background: var(--c-white-card); box-shadow: 0 1px 0 var(--line-faint); }
   .mi__frame img { width: 100%; height: auto; }
   .mi__mark {
     position: absolute; transform: scale(1.06, 1.25);

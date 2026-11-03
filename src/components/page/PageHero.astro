@@ -24,7 +24,7 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
       <h1 id="ph-title">{typo(title)}</h1>
       {lead && <p class="ph__lead">{typo(lead)}</p>}
       {actions.length > 0 && (
-        <div class="ph__actions">
+        <div class="ph__actions ph__actions--in">
           {actions.map((a) => <a class={`btn ${a.light ? 'btn--light' : ''}`} href={href(a.href)}>{typo(a.label)}</a>)}
         </div>
       )}
@@ -37,6 +37,12 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
       </div>
     )}
   </div>
+  {/* телефон: кнопки под плашкой, во всю её ширину (правка №241) */}
+  {actions.length > 0 && (
+    <div class="ph__actions ph__actions--out">
+      {actions.map((a) => <a class={`btn ${a.light ? 'btn--light' : ''}`} href={href(a.href)}>{typo(a.label)}</a>)}
+    </div>
+  )}
 </section>
 
 <style>
@@ -64,6 +70,11 @@ const href = (h: string) => (h.startsWith('#') ? h : u(h));
     .ph__stat { width: auto; }
     .ph__stat-v { font-size: var(--fs-h2); }
   }
-  /* кнопки на телефоне — во всю ширину (правка №14) */
-  @media (max-width: 560px) { .ph__actions, .ph__actions .btn { width: 100%; } }
+  /* кнопки на телефоне — во всю ширину (правка №14), вне плашки (№241) */
+  .ph__actions--out { display: none; }
+  @media (max-width: 560px) {
+    .ph__actions--in { display: none; }
+    .ph__actions--out { display: grid; gap: 8px; margin-top: 8px; }
+    .ph__actions--out .btn { width: 100%; }
+  }
 </style>

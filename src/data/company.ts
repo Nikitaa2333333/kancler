@@ -29,9 +29,9 @@ export const company = {
 /* Меню: страницы сайта (27.10.2026 появились страницы услуг и кейсов). Пути — без
    префикса, в шапке и подвале проходят через u(). */
 export const nav = [
-  { href: '/buhgalterskiy-uchet/', label: 'Бухгалтерия' },
+  { href: '/buhgalterskiy-uchet/', label: 'Бухгалтерское сопровождение' },  // полные названия — клиент (№234)
   { href: '/upravlencheskiy-uchet/', label: 'Управленческий учёт' },
-  { href: '/kaznacheyskoe-soprovozhdenie/', label: 'Казначейство' },
+  { href: '/kaznacheyskoe-soprovozhdenie/', label: 'Казначейское сопровождение' },
   { href: '/keysy/', label: 'Кейсы' },
   { href: '/kontakty/', label: 'Контакты' },
 ];

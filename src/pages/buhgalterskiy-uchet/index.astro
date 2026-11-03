@@ -217,7 +217,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tabs button[aria-selected='true'] { background: var(--c-white); color: var(--c-heading); }
   .tpanel + .tpanel { margin-top: clamp(40px, 5vw, 64px); }
   .tabs.is-on ~ .tpanel + .tpanel { margin-top: 0; }
-  @media (max-width: 560px) { .tabs { border-radius: var(--r-xl); } .tabs button { flex: 1 1 auto; } }
+  /* телефон: пилюля в одну строку, листается вбок, а не столбик (№210) */
+  @media (max-width: 760px) { .tabs.is-on { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: calc(100% + var(--gutter)); margin-right: calc(-1 * var(--gutter)); } .tabs::-webkit-scrollbar { display: none; } .tabs button { flex: none; white-space: nowrap; } }
   .tables { display: grid; gap: clamp(48px, 6vw, 72px); margin-top: clamp(48px, 6vw, 80px); }
 
   .note-link { margin: 12px 0 0 46px; font-size: var(--fs-lead); }

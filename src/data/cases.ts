@@ -282,6 +282,6 @@ export const cases: Case[] = [
         mark: [{ x: 9.6, y: 62.6, w: 39.6, h: 2.3 }],
         result: 'Возместить НДС в сумме 8 166 438 руб.' },
     ],
-    service: { label: 'Казначейское сопровождение', href: '/kaznacheyskoe-soprovozhdenie/' },
+    service: { label: 'Бухгалтерский учёт', href: '/buhgalterskiy-uchet/' },  // кейс — про бухгалтерию, не про казначейство (№211)
   },
 ];

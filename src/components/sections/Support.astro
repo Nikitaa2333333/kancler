@@ -7,7 +7,7 @@ import Programs from './Programs.astro';
    №177: галочки заменены плашками — каждый пункт отдельной плашкой, сетка 3×3 */
 ---
 
-<Sec id="soprovozhdenie" title={support.title} lead={support.lead}>
+<Sec id="soprovozhdenie" title={support.title} lead={support.lead} tight>
   <div class="sup">
     <ul class="sup__list bleed">
       {support.items.map((t) => <li>{item(t)}</li>)}
@@ -19,7 +19,7 @@ import Programs from './Programs.astro';
 <style>
   .sup { display: grid; gap: clamp(32px, 4vw, 56px); }
   .sup__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
-  .sup__list li { padding: clamp(18px, 2vw, 24px); border-radius: var(--r-lg); background: var(--card-bg); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.35; }
+  .sup__list li { padding: clamp(18px, 2vw, 24px); border-radius: var(--r-xl); background: var(--card-bg); font-size: var(--fs-lead); font-weight: var(--w-semibold); line-height: 1.35; }
   @media (max-width: 980px) { .sup__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 760px) { .sup__list { grid-template-columns: minmax(0, 1fr); } }
 </style>

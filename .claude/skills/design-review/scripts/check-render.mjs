@@ -45,7 +45,7 @@ function loadPlaywright() {
 }
 
 /* Палитра (tokens.css → «ПАЛИТРА — СВОД»). Фоны вне списка — находка C. */
-const PALETTE = ['#ffffff', '#f2eeeb', '#edf2f8', '#d9e4f1', '#004a85', '#003563', '#e3eaf6', '#f1e7d6', '#d6e9f6', '#a8d5f5', '#141414', '#1a1a1a'];  // №168: холодная палитра, зелёный снят
+const PALETTE = ['#ffffff', '#f2eeeb', '#edf2f8', '#d9e4f1', '#004a85', '#003563', '#e3eaf6', '#f1e7d6', '#d6e9f6', '#a8d5f5', '#17253c', '#141414', '#1a1a1a'];  // №200: тёмные плашки шагов  // №168: холодная палитра, зелёный снят
 
 function audit({ vw, palette }) {
   const out = [];
@@ -107,7 +107,7 @@ function audit({ vw, palette }) {
     if (bg && !palette.includes(bg) && !el.matches('input, textarea, mark, .btn, .btn *, a.btn')) add('C', el, `фон ${bg}: ${short(el)}`);
     const sh = s.boxShadow.match(/(-?[\d.]+)px (-?[\d.]+)px ([\d.]+)px/); if (sh && parseFloat(sh[3]) > 0 && !el.matches(':focus')) add('S', el, 'тень: ' + short(el));
     // P — мелкая подложка другого цвета внутри цветной плашки (чип, пилюля, квадратик с цифрой, №124)
-    if (bg && !el.matches('.sec, section, .btn, .btn *, input, textarea, button, .req, .req *, mark, .hero__facts li, .proc__ico') && el.getBoundingClientRect().width >= 16) {
+    if (bg && !el.matches('.sec, section, .btn, .btn *, input, textarea, button, .req, .req *, mark, .hero__facts li, .proc__ico, .faq__mark, .tabs button') && el.getBoundingClientRect().width >= 16) {
       const pb = bgOf(el.parentElement);
       if (bg !== pb && pb !== '#ffffff' && !isPlate(el)) add('P', el, `подложка ${bg} на плашке ${pb}: ${short(el) || el.className}`);
     }

@@ -27,7 +27,7 @@ import OfficeIcon from '../OfficeIcon.astro';
       <ul class="hero__facts">
         {hero.facts.map((f) => (
           <li>
-            <span class="hero__fico"><OfficeIcon name={f.icon} grad /></span>
+            <span class="hero__fico"><OfficeIcon name={f.icon} /></span>
             <span class="hero__ftext">{typo(f.text)}</span>
           </li>
         ))}
@@ -87,10 +87,11 @@ import OfficeIcon from '../OfficeIcon.astro';
   /* Телефон — как на сайте КТМ (правка №10, 28.10): сначала фото во всю ширину, низ фото
      плавно уходит в фон страницы, текст ниже на фоне. Компьютер не трогаем (утверждён). */
   /* знаки без плашек, крупно, с градиентом (№191) */
-  .hero__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 150px)); gap: 20px; margin-top: 12px; }
+  .hero__facts { display: grid; grid-template-columns: repeat(3, minmax(0, 170px)); gap: 24px; margin-top: 16px; }
   .hero__facts li { display: grid; align-content: start; gap: 10px; }
-  .hero__fico { display: block; width: 48px; --icon-bg: #fff; }
-  .hero__ftext { font-size: 14px; font-weight: var(--w-semibold); line-height: 1.25; color: var(--c-ink); }
+  /* №225: без градиента, крупнее, подпись крупнее и жирнее */
+  .hero__fico { display: block; width: clamp(48px, 4.4vw, 60px); color: var(--c-primary); --icon-bg: var(--c-hero); }
+  .hero__ftext { font-size: clamp(16px, 1.3vw, 18px); font-weight: 700; line-height: 1.25; color: var(--c-title); }
   @media (max-width: 760px) {
     .hero { padding: var(--hdr-h) 0 0; }
     .hero__frame { display: block; aspect-ratio: auto; border-radius: 0; background: var(--c-paper); overflow: visible; min-height: 0; }

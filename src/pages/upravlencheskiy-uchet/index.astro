@@ -93,7 +93,7 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
   .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: stretch; }
-  .seq { display: grid; align-content: start; padding: var(--card-pad); border-radius: var(--r-lg); background: var(--card-bg); }
+  .seq { display: grid; align-content: start; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   .seq h3 { margin-bottom: 8px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; }
   .seq li { display: grid; padding: 10px 0; }
@@ -107,7 +107,8 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
 
   @media (max-width: 1100px) { .blocks { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 860px) {
-    .seqs { display: flex; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    /* высота по своему тексту, без пустоты внизу (№209) */
+    .seqs { display: flex; align-items: flex-start; gap: var(--card-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .seqs::-webkit-scrollbar { display: none; }
     .seq { flex: 0 0 86%; scroll-snap-align: start; }
   }

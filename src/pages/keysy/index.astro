@@ -26,3 +26,8 @@ import { cases, casesPage } from '../../data/cases';
   <Crumbs items={[{ label: 'Кейсы' }]} />
   <Footer />
 </Base>
+
+<style>
+  /* кейсы сразу под первым экраном, без дыры (правка №243) */
+  :global(.ph + .sec--block) { padding-top: 12px; }
+</style>

@@ -12,8 +12,8 @@ export const company = {
   hours: 'с 8:00 до 20:00',
 
   /* Ждём от клиента (пользователь спросит) */
-  phone: '', // «+7 (XXX) XXX-XX-XX»
-  phoneHref: '', // «+7XXXXXXXXXX»
+  phone: '+7\u00a0(916)\u00a0487-96-08', // клиент, 04.11.2026
+  phoneHref: '+79164879608',
   telegram: '', // https://t.me/…
   whatsapp: '', // https://wa.me/…
 

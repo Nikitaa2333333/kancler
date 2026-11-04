@@ -71,7 +71,8 @@ import { u } from '../../lib/url';
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
   /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46, вернули в №60, перерисован в стиле знаков услуг — №79) */
   /* №268: полоса во всю ширину страницы, тёмно-синяя (--c-night, как шаги), отступы умеренные */
-  .proc__guarantee { margin-top: var(--block-gap); padding: clamp(36px, 4.5vw, 64px) var(--gutter); background: var(--c-night); color: var(--c-white); }
+  /* плашкой, как первый экран главной: поле от краёв экрана и скругление (№269) */
+  .proc__guarantee { margin: var(--block-gap) var(--hero-frame) 0; padding: clamp(36px, 4.5vw, 64px) var(--gutter); border-radius: var(--r-lg); background: var(--c-night); color: var(--c-white); }
   .proc__guar-in { display: grid; justify-items: center; gap: 14px; max-width: 900px; margin-inline: auto; text-align: center; }  /* по центру (№235) */
   .proc__shield { display: block; width: clamp(44px, 4vw, 56px); color: var(--c-white); --icon-bg: var(--c-night); }
   .proc__guarantee h2 { color: var(--c-white); font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 24ch; }

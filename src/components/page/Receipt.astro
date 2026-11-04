@@ -43,7 +43,7 @@ const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 </div>
 
 <style>
-  .receipt { --cut: var(--c-white-card); max-width: 680px; overflow: clip;  /* полукруги отрыва не выходят за край — иначе страница ходила вбок на телефоне (№247) */
+  .receipt { --cut: var(--c-white-card); max-width: 680px; margin-inline: auto; overflow: clip;  /* по центру (№276); полукруги отрыва не выходят за край — иначе страница ходила вбок на телефоне (№247) */
     border-radius: var(--r-md); background: var(--c-band); }
   .receipt__part { display: grid; gap: 14px; padding: clamp(22px, 2.6vw, 34px); }
   .receipt__cut { position: relative; height: 0; margin: 0 22px; border-top: 2px dashed var(--line-subtle); }
@@ -57,7 +57,8 @@ const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
   /* <b> — цена в строке чека, не выделение во фразе */
   .receipt__rows b { flex: none; font-weight: var(--w-semibold); white-space: nowrap; }
   /* итог — без жирной черты (№136, №150), отделён пунктиром отрыва и крупным кеглем */
-  .receipt__total { margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--line-subtle); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); letter-spacing: var(--tr-h3); }
+  /* №276: все разделители в чеке — пунктиром, одного вида; сплошная линия перед итогом снята */
+  .receipt__total { margin-top: 6px; padding-top: 14px; border-top: 2px dashed var(--line-subtle); font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h3); letter-spacing: var(--tr-h3); }
   .receipt__total--only { margin-top: 0; padding-top: 0; border-top: 0; }
   .receipt__total b { font-weight: var(--w-display); white-space: nowrap; }
   @media (max-width: 560px) {
@@ -68,6 +69,7 @@ const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
     .receipt__cut::before { left: -26px; }
     .receipt__cut::after { right: -26px; }
     .receipt__rows li { display: grid; gap: 2px; }
+    .receipt__total { flex-wrap: wrap; gap: 4px 16px; }  /* «Стоимость / от 45 000 руб./мес.» не впритык к краю */
     .receipt__rows--after b { white-space: normal; }
   }
 </style>

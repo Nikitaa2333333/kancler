@@ -71,8 +71,9 @@ const last = head.length - 1;
   .pt tbody td { font-size: var(--fs-body); line-height: 1.4; }
   .pt .pt__price { text-align: left; padding-right: 0; white-space: nowrap; }  /* всё по левому краю (№237) */
   /* наведение на строку — мягкая подложка выезжает слева (№237) */
-  .pt tbody tr { background: linear-gradient(var(--c-band), var(--c-band)) no-repeat 0 0 / 0% 100%; transition: background-size .35s var(--ease, ease); }
-  .pt tbody tr:hover { background-size: 100% 100%; }
+  /* наведение — строка просто подсвечивается, без выезда слева (№277, отменяет выезд №237) */
+  .pt tbody tr { transition: background-color .2s; }
+  .pt tbody tr:hover { background-color: var(--c-band); }
   .pt tr > :first-child { padding-left: 12px; }
   /* цена — тем же кеглем, что название, жирнее (№100 отменяет крупную цену №90/№92) */
   .pt td.pt__price { font-size: var(--fs-lead); font-weight: var(--w-semibold); }

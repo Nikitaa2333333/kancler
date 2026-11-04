@@ -86,11 +86,17 @@ import { u } from '../../lib/url';
       </div>
     </Sec>
 
-    <Sec id="primery" title={kazna.examples.title} white>
-      <!-- примеры — «чеком», как на бухучёте (№105) -->
-      <div class="examples">
-        {kazna.examples.items.map((e) => (
-          <div class="ex">
+    <Sec id="primery" title={kazna.examples.title} white center>
+      <!-- №279: примеры переключаются пилюлями «Пример 1 / 2 / 3», виден один чек по центру —
+           не сливаются. Без JS — все три друг под другом. Чек — как на бухучёте (№105) -->
+      <div class="examples" data-ex>
+        <div class="extabs" role="tablist" aria-label="Примеры расчёта">
+          {kazna.examples.items.map((e, i) => (
+            <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-ex-tab={String(i)}>{typo(e.name.replace(/^Пример \d+\.\s*/, ''))}</button>
+          ))}
+        </div>
+        {kazna.examples.items.map((e, i) => (
+          <div class="ex" data-ex-panel={String(i)}>
             <h3 class="ex__title">{typo(e.name)}</h3>
             <Receipt params={e.params} rows={e.rows} total={[e.rows.length ? 'Итого' : 'Стоимость', e.total]} />
           </div>
@@ -111,6 +117,19 @@ import { u } from '../../lib/url';
   <Crumbs items={[{ label: 'Казначейское сопровождение' }]} />
   <Footer />
 </Base>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ex]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-ex-tab]')];
+    const show = (id: string) => {
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.exTab === id)));
+      root.querySelectorAll<HTMLElement>('[data-ex-panel]').forEach((p) => { p.hidden = p.dataset.exPanel !== id; });
+    };
+    tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.exTab!)));
+    root.classList.add('is-on');
+    show('0');
+  });
+</script>
 
 <style>
   .tariffs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
@@ -150,16 +169,24 @@ import { u } from '../../lib/url';
   /* <b> — цена строки пакета, не выделение во фразе */
   .pack__rows b { flex: none; font-weight: var(--w-semibold); white-space: nowrap; }
 
-  /* примеры разделены заметно — чтобы не сливались в один (№246) */
-  /* заголовок примера — над плашкой, отдельно (№260) */
-  .ex { display: grid; gap: 12px; align-content: start; }
-  .ex__title { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  .examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(28px, 3vw, 40px) var(--card-gap); align-items: start; }
-  /* на ПК два коротких примера столбиком слева, длинный третий — справа, без одинокой карточки (№163) */
-  @media (min-width: 900px) {
-    .examples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .examples > :nth-child(3) { grid-column: 2; grid-row: 1 / span 2; }
+  /* №279: примеры — пилюли-переключатель по центру, один чек по центру; заголовок над чеком (№260) */
+  .examples { display: grid; gap: clamp(28px, 3vw, 40px); }
+  .extabs { display: none; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .examples.is-on .extabs { display: flex; }
+  .examples.is-on .ex[hidden] { display: none; }
+  .extabs button { min-height: 44px; padding: 8px 20px; border: 1.5px solid var(--c-band); border-radius: 999px; background: var(--c-band); color: var(--c-ink); font: inherit; font-size: 15px; font-weight: var(--w-semibold); line-height: 1.2; cursor: pointer; transition: border-color .2s, background-color .2s, color .2s; }
+  .extabs button:hover { border-color: var(--c-primary); color: var(--c-primary); }
+  .extabs button[aria-selected='true'] { border-color: var(--c-primary); background: var(--c-primary); color: var(--c-white); }
+  @media (max-width: 760px) {
+    /* телефон: пилюли лентой до краёв экрана, листаются вбок (как тарифы бухучёта, №248) */
+    .examples.is-on .extabs { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none;
+      --edge: calc(var(--hero-frame) + var(--gutter)); margin-inline: calc(-1 * var(--edge)); padding-inline: var(--edge); }
+    .extabs::-webkit-scrollbar { display: none; }
+    .extabs button { flex: none; white-space: nowrap; }
   }
+  .ex { display: grid; justify-items: center; gap: 14px; }
+  .ex > :global(.receipt) { width: 100%; }
+  .ex__title { max-width: 680px; text-align: center; font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
 
   .factors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(24px, 4vw, 64px); max-width: 1000px; font-size: var(--fs-lead); line-height: 1.4; }
   .factors li { padding: 12px 0; }

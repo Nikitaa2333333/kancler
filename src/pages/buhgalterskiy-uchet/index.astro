@@ -59,13 +59,16 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <IconNote icon="plus">{typo(buh.scope.note)}</IconNote>
     </Sec>
 
-    <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead}>
+    <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead} center>
+      <!-- №271: по центру, четыре пункта в ряд со знаком сверху, равные зазоры -->
       <ul class="checks">
         {buh.result.items.map((it, i) => <li><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'chart', 'check'][i % 4]} /></span><span>{typo(it)}</span></li>)}
       </ul>
-      <IconNote icon="trend">{typo(buh.result.note)}</IconNote>
-      <!-- ссылка не внутри текста, а отдельной кнопкой под ним (правка №93) -->
-      <a class="mlink note-link" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
+      <!-- оговорка — не пункт списка: отдельной строкой под ним, со ссылкой (правка №93, №271) -->
+      <div class="res-note">
+        <p>{typo(buh.result.note)}</p>
+        <a class="mlink" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
+      </div>
     </Sec>
 
     <Support />
@@ -109,7 +112,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       <div class="tpanel" data-panel="t3"><PriceTable caption={buh.control.title} head={buh.control.head} rows={buh.control.rows} /></div>
     </Sec>
 
-    <Sec id="primer" title={buh.example.title} white>
+    <Sec id="primer" title={buh.example.title} white center>
       <Receipt subject={buh.example.subject} params={buh.example.params} rows={buh.example.rows as [string, string][]} total={buh.example.total as [string, string]} after={buh.example.after as [string, string][]} />
     </Sec>
 
@@ -122,12 +125,15 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
               <span class="more__ico"><OfficeIcon name="plus" /></span>
               <div class="more__body">
                 <h3>{typo(it.title)}</h3>
-                {it.price && (parts.length > 1 ? (
-                  <div class="more__split">{parts.map((pp) => <p class="more__price">{typo(pp)}</p>)}</div>
-                ) : (
-                  <p class="more__price">{typo(it.price)}{short && <span class="more__per"> / {typo(it.unit)}</span>}</p>
-                ))}
-                {it.unit && !short && <p class="more__unit">{typo(it.unit)}</p>}
+                <!-- цена — якорем внизу плашки, во всех плашках ряда на одной линии (№274) -->
+                <div class="more__foot">
+                  {it.price && (parts.length > 1 ? (
+                    <div class="more__split">{parts.map((pp) => <p class="more__price">{typo(pp)}</p>)}</div>
+                  ) : (
+                    <p class="more__price">{typo(it.price)}{short && <span class="more__per"> / {typo(it.unit)}</span>}</p>
+                  ))}
+                  {it.unit && !short && <p class="more__unit">{typo(it.unit)}</p>}
+                </div>
               </div>
             </li>
         ))}
@@ -141,7 +147,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     <Request topic={buh.topic} />
 
     <!-- частые вопросы — после формы (правка №95) -->
-    <Sec id="voprosy" title={buh.faq.title}>
+    <Sec id="voprosy" title={buh.faq.title} center>
       <Faq items={buh.faq.items} />
     </Sec>
   </main>
@@ -177,14 +183,20 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   @media (max-width: 560px) { .scope__item { flex-basis: 86%; } }  /* на телефоне шире, без «столбика» текста (№121) */
   /* на компьютере — сеткой в линию текста, без выезда за край экрана (№162) */
   @media (min-width: 761px) {
-    .scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); overflow: visible; margin-inline: 0; padding: 0; }
+    /* №270: без дыры — две широкие плашки сверху и три поменьше снизу (как плитки главной) */
+    .scope { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding: 0; }
+    .scope__item { grid-column: span 2; }
+    .scope__item:nth-child(-n + 2) { grid-column: span 3; }
   }
   .scope__item h4 { font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
 
   /* «Что получает заказчик»: галочка слева на уровне первой строки, текст крупный (№67) */
-  .checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px clamp(24px, 4vw, 56px); max-width: 920px; }  /* в ширине текста, пункты плотно (№162) */
-  .checks li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 16px; align-items: start; font-size: var(--fs-lead); line-height: 1.45; }
-  .checks__ico { padding-top: 0.1em; color: var(--c-heading); }  /* знаки вместо галочек, синие (№179) */
+  /* №271: по центру — четыре пункта в ряд, знак сверху, текст под ним; зазоры одинаковые */
+  .checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px clamp(20px, 3vw, 40px); max-width: 1100px; margin-inline: auto; }
+  .checks li { display: grid; justify-items: center; gap: 12px; text-align: center; font-size: var(--fs-lead); line-height: 1.4; }
+  .checks__ico { display: block; width: 34px; color: var(--c-heading); }  /* знаки вместо галочек, синие (№179) */
+  .res-note { display: grid; justify-items: center; gap: 8px; max-width: 60ch; margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-size: var(--fs-body); line-height: 1.45; }
+  .res-note .mlink { font-size: var(--fs-lead); }
   .scope__ico { display: block; width: 30px; margin-bottom: 6px; color: var(--c-heading); --icon-bg: var(--card-bg); }
 
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */
@@ -214,8 +226,9 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   /* №218: переключатель — явно нажимаемые кнопки во всю ширину: активная синяя, остальные
      с обводкой и реакцией на наведение */
   .tabs { display: none; gap: 8px; margin-bottom: clamp(20px, 2.4vw, 32px); }
-  .tabs.is-on { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .tabs button { min-height: 52px; padding: 10px 18px; border: 1.5px solid var(--line-subtle); border-radius: 999px; background: var(--c-white); color: var(--c-ink); font: inherit; font-size: 15px; font-weight: var(--w-semibold); line-height: 1.2; cursor: pointer; transition: border-color .2s, background-color .2s, color .2s; }
+  /* №273: пилюли по ширине текста, аккуратные, неактивные — с заливкой */
+  .tabs.is-on { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tabs button { min-height: 44px; padding: 8px 20px; border: 1.5px solid var(--c-band); border-radius: 999px; background: var(--c-band); color: var(--c-ink); font: inherit; font-size: 15px; font-weight: var(--w-semibold); line-height: 1.2; cursor: pointer; transition: border-color .2s, background-color .2s, color .2s; }
   .tabs button:hover { border-color: var(--c-primary); color: var(--c-primary); }
   .tabs button[aria-selected='true'] { border-color: var(--c-primary); background: var(--c-primary); color: var(--c-white); }
   .tpanel + .tpanel { margin-top: clamp(40px, 5vw, 64px); }
@@ -227,19 +240,20 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       --edge: calc(var(--hero-frame) + var(--gutter));
       margin-inline: calc(-1 * var(--edge)); padding-inline: var(--edge); scroll-padding-inline: var(--edge); }
     .tabs::-webkit-scrollbar { display: none; }
-    .tabs button { flex: none; white-space: nowrap; border-color: var(--c-band); background: var(--c-band); }
+    .tabs button { flex: none; white-space: nowrap; }
   }
   .tables { display: grid; gap: clamp(48px, 6vw, 72px); margin-top: clamp(48px, 6vw, 80px); }
 
-  .note-link { margin: 12px 0 0 46px; font-size: var(--fs-lead); }
 
   /* доп. услуги — плашками, цена синим (№179) */
   .more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+  @media (min-width: 1101px) { .more { grid-template-columns: repeat(4, minmax(0, 1fr)); } }  /* 8 плашек — две ровные строки, без дыры (№274) */
   .more li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 14px; align-items: start; padding: var(--card-pad); border-radius: var(--r-lg); background: var(--card-bg); }
   .more__ico { padding-top: 0.15em; color: var(--c-heading); --icon-bg: var(--card-bg); }
-  .more__body { display: grid; }
+  .more__body { align-self: stretch; display: flex; flex-direction: column; }
+  .more__foot { margin-top: auto; padding-top: 16px; }
   .more h3 { font-family: var(--ff-body); font-weight: var(--w-semibold); font-size: var(--fs-lead); line-height: 1.35; letter-spacing: 0; }
-  .more__price { margin-top: 6px; font-size: var(--fs-h5); font-weight: var(--w-semibold); line-height: 1.25; }  /* чёрным (№244) */
+  .more__price { margin-top: 0; font-size: var(--fs-h5); font-weight: var(--w-semibold); line-height: 1.25; }  /* чёрным (№244) */
   .more__per, .more__unit { font-size: var(--fs-small); font-weight: var(--w-body); }
   .more__unit { margin-top: 2px; }
   .more__split { display: grid; gap: 0; }  /* «без НДС / с НДС» — плотно друг под другом (№101) */
@@ -249,6 +263,9 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     .tcards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 860px) {
+    .checks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 480px) {
     .checks { grid-template-columns: minmax(0, 1fr); }
     .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }

@@ -27,7 +27,7 @@ import { u } from '../../lib/url';
     <!-- кнопка под шагами, а не рядом с заголовком (как в «Типичных ситуациях», №33) -->
     <a class="btn proc__cta" href="#zayavka">{typo(proc.cta)}</a>
 
-    <div class="proc__guarantee">
+    <div class="proc__guarantee" data-reveal>
       <span class="proc__shield"><OfficeIcon name="shield" /></span>
       <h3>{typo(proc.guarantee.title)}</h3>
       <p>{typo(proc.guarantee.text)}</p>
@@ -75,8 +75,22 @@ import { u } from '../../lib/url';
     text-align: center;  /* по центру (№235) */
     margin-top: clamp(40px, 5vw, 64px);  /* без линии сверху (правка №84) */
     /* отдельный блок — не сливается со следующей секцией («Параметры сопровождения», «Тарифы») (№253) */
-    padding-top: clamp(16px, 2vw, 24px);
     margin-bottom: clamp(48px, 6vw, 88px);
+    /* №268: на своём фоне — голубая плашка, как у кейсов */
+    padding: clamp(36px, 5vw, 72px) var(--card-px, 28px);
+    border-radius: var(--r-xl);
+    background: var(--c-hero);
+  }
+  @media (max-width: 560px) { .proc__guarantee { margin-inline: calc(-1 * var(--gutter)); } }  /* в 6 px от края, как плашки */
+  /* появление при прокрутке (№268): плашка выезжает снизу, щит «впрыгивает», заголовок и текст —
+     следом. Без JS и при «меньше движения» — сразу видно (скрипт в Base.astro ставит .is-in) */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .proc__guarantee { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+    .proc__guarantee > * { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); }
+    .proc__guarantee .proc__shield { transform: scale(.4) rotate(-12deg); transition: opacity .5s ease .25s, transform .7s cubic-bezier(.3, 1.6, .5, 1) .25s; }
+    .proc__guarantee h3 { transition-delay: .45s; }
+    .proc__guarantee p { transition-delay: .6s; }
+    .proc__guarantee:global(.is-in), .proc__guarantee:global(.is-in) > * { opacity: 1; transform: none; }
   }
   /* щит — внутри заголовка, на уровне текста: высотой со строчную, перед первым словом (№123) */
   /* щит над заголовком, текст под заголовком — левый край ровный (№159) */

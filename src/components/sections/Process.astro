@@ -18,7 +18,7 @@ import { u } from '../../lib/url';
         <li>
           <h3>{`${i + 1}. `}{typo(s.title)}</h3>  <!-- «N. Заголовок» (№214) -->
           <p>{typo(s.text)}</p>
-          <img class="proc__art" src={u(`/images/ill/step-${i + 1}.webp`)} alt="" width="480" height="480" loading="lazy" decoding="async" />
+          <img class="proc__art" style={`--i:${i}`} src={u(`/images/ill/step-${i + 1}.webp`)} alt="" width="480" height="480" loading="lazy" decoding="async" />
         </li>
       ))}
     </ol>
@@ -66,6 +66,11 @@ import { u } from '../../lib/url';
   .proc__art { display: block; width: 78%; max-width: 200px; height: auto; margin: 8px auto -6px; align-self: end;
     /* картинка на своём тёмном фоне (почти цвет плашки), края мягко гаснут — без вырезки (№257) */
     -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
+  /* №280: акцент свода движения — картинки шагов медленно «дышат», по очереди */
+  @media (prefers-reduced-motion: no-preference) {
+    .proc__art { animation: proc-float 4.8s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -0.9s); }
+  }
+  @keyframes proc-float { from { transform: translateY(0) rotate(-1.2deg); } to { transform: translateY(-9px) rotate(1.2deg); } }
   /* номер шага — цифрой прямо в заголовке, без слова «Шаг» (правка №128) */
   /* стрелки на стыке карточек сняты (№264; были с №187) */
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }

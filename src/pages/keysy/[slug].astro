@@ -29,12 +29,10 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
     <PageHero
       title={c.title}
     >
-      <p class="tags">{typo(c.tags.join(' · '))}</p>
+      {c.tags.length > 0 && <p class="tags">{typo(c.tags.join(' · '))}</p>}
     </PageHero>
 
-    <!-- «Главное в цифрах», «Что показали цифры» и выводы под слайдами сняты (№180, Вадим 02.11.2026:
-         «оставить тот объём, который я прописал», ИИ «излишне накидывает»). Данные figures /
-         charts / mark / result остались в cases.ts, на страницу не выводятся. -->
+    <!-- цифры, графики, маркеры и выводы под слайдами сняты (№180) и удалены из данных (№292) -->
     <Sec white>
       <div class="case">
         <div class="case__body">
@@ -67,7 +65,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
 
     <Sec title="Материалы проекта">
       <div class={`gallery ${c.images.length === 2 ? 'gallery--two' : ''}`}>
-        {c.images.map((im) => <MarkedImage im={{ ...im, mark: undefined, result: undefined }} />)}
+        {c.images.map((im) => <MarkedImage im={im} />)}
       </div>
     </Sec>
 

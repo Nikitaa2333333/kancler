@@ -270,7 +270,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     .checks { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-inline: 0; }
     .checks li { grid-template-columns: 30px minmax(0, 1fr); justify-items: start; gap: 16px; text-align: left; }
     .checks__ico { width: 30px; padding-top: 0.1em; }
-    .res-note { justify-items: start; margin-inline: 0; text-align: left; }
+    .res-note { justify-items: start; margin: 20px 0 0; text-align: left; }  /* без дыры после списка (№284) */
     .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {

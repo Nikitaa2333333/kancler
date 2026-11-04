@@ -205,17 +205,17 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 /* ДВИЖЕНИЕ — СВОД (№280). Одно правило на весь сайт, вместо разных приёмов (обводка №239,
    подъём на 8 px №266, увеличение картинки кейса):
    1. Наведение — карточка, на которую можно нажать или которую выбирают (услуги, кейсы, тарифы,
-      пакеты, бухсопровождение казначейства, «Для кого», шаги «Как начинаем работу» — №286), одинаково приподнимается на 4 px.
+      пакеты, бухсопровождение казначейства, «Для кого», шаги «Как начинаем работу» — №286, «Что входит в сопровождение» — №291), одинаково приподнимается на 4 px.
       Без обводки, без теней, без увеличения картинок. Только на компьютере.
    2. Акцент — картинки «Как начинаем работу» медленно «дышат» (Process.astro).
    3. Появление при прокрутке — только у акцентных блоков: плашка гарантии, плитки ситуаций.
    При «меньше движения» — ничего не движется. Новое движение — только по этим трём пунктам. */
 :root { --move-lift: -4px; --move-dur: .3s; --move-ease: cubic-bezier(.2, .7, .2, 1); }
 @media (hover: hover) and (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-  .svc__card, .cc__link, .aud__grid li, .proc__grid li, .tariff, .pack, .acc__card, .tcard {
+  .svc__card, .cc__link, .aud__grid li, .proc__grid li, .scope__item, .tariff, .pack, .acc__card, .tcard {
     transition: transform var(--move-dur) var(--move-ease);
   }
-  .svc__card:hover, .cc__link:hover, .aud__grid li:hover, .proc__grid li:hover, .tariff:hover, .pack:hover, .acc__card:hover, .tcard:hover {
+  .svc__card:hover, .cc__link:hover, .aud__grid li:hover, .proc__grid li:hover, .scope__item:hover, .tariff:hover, .pack:hover, .acc__card:hover, .tcard:hover {
     transform: translateY(var(--move-lift));
   }
 }

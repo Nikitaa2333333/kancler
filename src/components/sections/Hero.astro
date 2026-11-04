@@ -85,12 +85,12 @@ import { u } from '../../lib/url';
      плавно уходит в фон страницы, текст ниже на фоне. Компьютер не трогаем (утверждён). */
   /* знаки без плашек, крупно, с градиентом (№191) */
   /* №259: крупнее, антиквой, с тонкими линиями между пунктами (между, не над первым) */
-  .hero__facts { display: grid; grid-template-columns: repeat(3, max-content); margin-top: clamp(20px, 2.4vw, 32px); }
-  .hero__facts li { display: grid; align-content: center; padding: 4px clamp(16px, 2vw, 28px); }
-  .hero__facts li:first-child { padding-left: 0; }
-  .hero__facts li + li { border-left: 1px solid var(--line-subtle); }
+  /* столбиком в ширину текста, линии между строками — не заходят на картинку (№263) */
+  .hero__facts { display: grid; width: min(100%, 440px); margin-top: clamp(20px, 2.4vw, 32px); }
+  .hero__facts li { padding: 10px 0; }
+  .hero__facts li + li { border-top: 1px solid var(--line-subtle); }
   /* №233: иконки сняты — три пункта текстом, крупно; что поставить вместо иконок — решим позже */
-  .hero__ftext { font-family: var(--ff-display); font-weight: var(--w-display); font-size: clamp(19px, 1.6vw, 24px); line-height: 1.2; letter-spacing: var(--tr-h5); color: var(--c-title); }
+  .hero__ftext { font-family: var(--ff-display); font-weight: var(--w-display); font-size: clamp(19px, 1.5vw, 22px); line-height: 1.2; letter-spacing: var(--tr-h5); color: var(--c-title); }
   @media (max-width: 760px) {
     .hero { padding: var(--hdr-h) 0 0; }
     .hero__frame { display: block; aspect-ratio: auto; border-radius: 0; background: var(--c-paper); overflow: visible; min-height: 0; }
@@ -103,10 +103,9 @@ import { u } from '../../lib/url';
     .hero__copy { position: relative; z-index: 1; max-width: none; margin-top: -24px; padding: 0 var(--gutter) 8px; }
     .hero__actions { width: calc(100% + 2 * (var(--gutter) - var(--hero-frame))); margin-inline: calc(var(--hero-frame) - var(--gutter)); }  /* до 6 px от края, как плашки (№258) */
     /* столбиком, каждый пункт в одну строку (№233), линии между строками (№259) */
-    .hero__facts { grid-template-columns: minmax(0, 1fr); width: 100%; margin-top: 20px; }
-    .hero__facts li, .hero__facts li:first-child { padding: 12px 0; }
+    .hero__facts { width: 100%; margin-top: 20px; }
+    .hero__facts li { padding: 12px 0; }
     .hero__ftext { font-size: 21px; }
-    .hero__facts li + li { border-left: 0; border-top: 1px solid var(--line-subtle); }
     .hero__actions .btn { flex: 1 1 100%; }
   }
 </style>

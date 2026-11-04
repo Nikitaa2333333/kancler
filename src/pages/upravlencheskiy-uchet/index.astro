@@ -54,7 +54,6 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
               ))}
             </ol>
             <!-- картинка внизу карточки — вместо пустоты (№213) -->
-            <img class="seq__art" src={u(`/images/ill/seq-${k + 1}.webp`)} alt="" width="560" height="560" loading="lazy" decoding="async" />
           </div>
         ))}
       </div>
@@ -94,11 +93,10 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .blk p { line-height: 1.45; }
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
-  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: stretch; }
-  .seq { display: grid; grid-template-rows: auto auto 1fr; padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
+  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: start; }  /* каждая по своей высоте, без пустоты (№265) */
+  .seq { display: grid; grid-template-rows: auto 1fr;  /* без картинок (№265) */ padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   .seq h3 { margin-bottom: 8px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; align-content: start; }
-  .seq__art { display: block; align-self: end; justify-self: center; width: min(220px, 70%); height: auto; margin-top: 12px; mix-blend-mode: multiply;  /* картинка на белом фоне растворяется в цвете плашки — без вырезки (№257) */ }
   .seq li { display: grid; padding: 10px 0; }
   .seq li + li { border-top: 1px solid var(--line-subtle); }
   /* номер внутри заголовка «1. …», заголовок плотнее, отступ до описания больше (№133) */
@@ -118,6 +116,5 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
     /* телефон: карточки друг под другом, без ленты вбок и без картинок — не растягиваются (№251) */
     .seqs { grid-template-columns: minmax(0, 1fr); }
     .seq { grid-template-rows: auto; }
-    .seq__art { display: none; }
-  }
+    }
 </style>

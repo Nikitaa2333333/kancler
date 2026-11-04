@@ -108,8 +108,10 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 4vw, 64px); align-items: start; }
   .about h2 { max-width: 14ch; }
   .about__text { display: grid; gap: 16px; max-width: var(--measure-text); }
-  .about__text p:first-child { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
-  @media (max-width: 860px) { .about { grid-template-columns: minmax(0, 1fr); } .about h2 { max-width: none; } }
+  .about__text p { text-wrap: pretty; }  /* ровнее правый край (№285) */
+  @media (min-width: 861px) { .about__text p:first-child { font-family: var(--ff-display); font-weight: var(--w-display); font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); } }  /* крупно антиквой — только ПК; на телефоне оба абзаца одним текстом (№285) */
+  @media (max-width: 860px) { .about { gap: 14px; }
+    .about { grid-template-columns: minmax(0, 1fr); } .about h2 { max-width: none; } }
 
   @media (max-width: 1100px) { .blocks { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 860px) {

@@ -44,7 +44,9 @@ const { items } = Astro.props;
 
 <style>
   /* №202: как у Яндекса 360 — каждый вопрос отдельной плашкой, плюс в белом квадратике */
-  .faq { display: grid; gap: 8px; max-width: 920px; margin-inline: auto; }  /* по центру (№275); на телефоне и так во всю ширину */
+  .faq { display: grid; gap: 8px; max-width: 920px; }
+  /* по центру — только на ПК (№275); на телефоне плашки до края экрана через .bleed (№283) */
+  @media (min-width: 761px) { .faq { margin-inline: auto; } }
   details { padding: 0 var(--card-px); border-radius: var(--r-xl); background: var(--c-band); }  /* единые поля (№206) */
   summary {
     list-style: none;

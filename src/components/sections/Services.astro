@@ -44,9 +44,7 @@ const tones = ['blue', 'sand', 'sky'];
     padding: var(--card-pad);
     border-radius: var(--r-xl);
     background: var(--tone);
-    transition: transform .3s var(--ease, ease);
-  }
-  .svc__card:hover { transform: translateY(-4px); }
+  }  /* наведение — по своду движения в global.css (№280) */
   .svc__card--blue { --tone: var(--c-tone-blue); }
   .svc__card--sand { --tone: var(--c-tone-sand); }
   .svc__card--sky { --tone: var(--c-tone-sky); }

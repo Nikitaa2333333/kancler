@@ -202,19 +202,20 @@ mark { background: var(--c-tint); color: var(--c-ink); padding: 0 0.12em; border
 /* на синих плашках (форма, подвал) заголовки — цветом текста плашки, не синим (№168) */
 .req :is(h1, h2, h3, h4), .ftr :is(h1, h2, h3, h4, p) { color: inherit; }
 
-/* №239: карточки с ценой (тарифы, пакеты, услуги) на компьютере подсвечиваются при наведении —
-   синяя рамка и подъём, чтобы было видно «выбранную» */
-@media (hover: hover) and (min-width: 761px) {
-  .tariff, .pack, .acc__card, .tcard {
-    transition: transform .25s var(--ease, ease), box-shadow .25s var(--ease, ease);
+/* ДВИЖЕНИЕ — СВОД (№280). Одно правило на весь сайт, вместо разных приёмов (обводка №239,
+   подъём на 8 px №266, увеличение картинки кейса):
+   1. Наведение — карточка, на которую можно нажать или которую выбирают (услуги, кейсы, тарифы,
+      пакеты, бухсопровождение казначейства, «Для кого»), одинаково приподнимается на 4 px.
+      Без обводки, без теней, без увеличения картинок. Только на компьютере.
+   2. Акцент — картинки «Как начинаем работу» медленно «дышат» (Process.astro).
+   3. Появление при прокрутке — только у акцентных блоков: плашка гарантии, плитки ситуаций.
+   При «меньше движения» — ничего не движется. Новое движение — только по этим трём пунктам. */
+:root { --move-lift: -4px; --move-dur: .3s; --move-ease: cubic-bezier(.2, .7, .2, 1); }
+@media (hover: hover) and (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .svc__card, .cc__link, .aud__grid li, .tariff, .pack, .acc__card, .tcard {
+    transition: transform var(--move-dur) var(--move-ease);
   }
-  .tariff:hover, .pack:hover, .acc__card:hover, .tcard:hover {
-    transform: translateY(-4px);
-    box-shadow: inset 0 0 0 2px var(--c-primary);
+  .svc__card:hover, .cc__link:hover, .aud__grid li:hover, .tariff:hover, .pack:hover, .acc__card:hover, .tcard:hover {
+    transform: translateY(var(--move-lift));
   }
-}
-/* №266: карточки «Работаем со строительными компаниями» — при наведении приподнимаются */
-@media (hover: hover) and (min-width: 761px) {
-  .aud__grid li { transition: transform .3s var(--ease, ease); }
-  .aud__grid li:hover { transform: translateY(-8px); }
 }

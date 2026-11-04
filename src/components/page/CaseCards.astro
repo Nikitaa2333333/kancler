@@ -5,11 +5,12 @@ import { u } from '../../lib/url';
 
 /* Карточки кейсов: 3D-иллюстрация кейса сверху (№212), заголовок, строка результата.
    Используется на главной, в списке кейсов и внизу страниц услуг. */
-interface Props { items: Case[] }
-const { items } = Astro.props;
+/** cols — три столбика: картинка сверху, текст под ней (список кейсов, главная — №267) */
+interface Props { items: Case[]; cols?: boolean }
+const { items, cols = false } = Astro.props;
 ---
 
-<ul class="cc bleed">
+<ul class={`cc bleed ${cols ? 'cc--cols' : ''}`}>
   {items.map((c) => (
     <li class="cc__card">
       <a class="cc__link" href={u(`/keysy/${c.slug}/`)}>
@@ -40,6 +41,14 @@ const { items } = Astro.props;
   .cc__body h3 { max-width: 26ch; font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); transition: color .2s; }
   .cc__body p { max-width: 48ch; font-size: var(--fs-lead); line-height: 1.45; }
   .cc__link:hover h3 { color: var(--c-primary); }
+  /* три столбика на компьютере (№267) */
+  @media (min-width: 981px) {
+    .cc--cols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cc--cols .cc__link { grid-template-columns: minmax(0, 1fr); align-items: start; align-content: start; gap: 16px; }
+    .cc--cols .cc__img { aspect-ratio: 4 / 3; }
+    .cc--cols .cc__body h3 { font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: var(--tr-h4); }
+    .cc--cols .cc__body p { font-size: var(--fs-body); }
+  }
   @media (max-width: 760px) {
     .cc__link { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .cc__img { aspect-ratio: 16 / 10; }

@@ -26,12 +26,15 @@ import { u } from '../../lib/url';
     <p class="proc__note">{typo(proc.footnote)}</p>
     <!-- кнопка под шагами, а не рядом с заголовком (как в «Типичных ситуациях», №33) -->
     <a class="btn proc__cta" href="#zayavka">{typo(proc.cta)}</a>
+  </div>
+</section>
 
-    <div class="proc__guarantee">
-      <span class="proc__shield"><OfficeIcon name="shield" /></span>
-      <h3>{typo(proc.guarantee.title)}</h3>
-      <p>{typo(proc.guarantee.text)}</p>
-    </div>
+<!-- №268: гарантия — отдельная полоса во всю ширину страницы, тёмно-синяя, с появлением при прокрутке -->
+<section class="proc__guarantee" data-reveal aria-labelledby="guar-title">
+  <div class="proc__guar-in">
+    <span class="proc__shield"><OfficeIcon name="shield" /></span>
+    <h2 id="guar-title">{typo(proc.guarantee.title)}</h2>
+    <p>{typo(proc.guarantee.text)}</p>
   </div>
 </section>
 
@@ -67,23 +70,22 @@ import { u } from '../../lib/url';
   /* стрелки на стыке карточек сняты (№264; были с №187) */
   .proc__grid h3 { font-size: var(--fs-h6); font-weight: var(--w-display-sm); line-height: var(--lh-h6); letter-spacing: var(--tr-h6); }
   /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46, вернули в №60, перерисован в стиле знаков услуг — №79) */
-  .proc__guarantee {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-    justify-items: center;
-    text-align: center;  /* по центру (№235) */
-    margin-top: clamp(40px, 5vw, 64px);  /* без линии сверху (правка №84) */
-    /* отдельный блок — не сливается со следующей секцией («Параметры сопровождения», «Тарифы») (№253) */
-    padding-top: clamp(16px, 2vw, 24px);
-    margin-bottom: clamp(48px, 6vw, 88px);
+  /* №268: полоса во всю ширину страницы, тёмно-синяя (--c-night, как шаги), отступы умеренные */
+  .proc__guarantee { margin-top: var(--block-gap); padding: clamp(36px, 4.5vw, 64px) var(--gutter); background: var(--c-night); color: var(--c-white); }
+  .proc__guar-in { display: grid; justify-items: center; gap: 14px; max-width: 900px; margin-inline: auto; text-align: center; }  /* по центру (№235) */
+  .proc__shield { display: block; width: clamp(44px, 4vw, 56px); color: var(--c-white); --icon-bg: var(--c-night); }
+  .proc__guarantee h2 { color: var(--c-white); font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 24ch; }
+  .proc__guarantee p { color: var(--c-white); font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 56ch; }
+  /* появление при прокрутке: полоса проявляется, щит «впрыгивает», заголовок и текст — следом.
+     Без JS и при «меньше движения» — сразу видно (скрипт в Base.astro ставит .is-in) */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .proc__guarantee { transition: background-color .8s ease; }
+    .proc__guar-in > * { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); }
+    .proc__guarantee .proc__shield { transform: scale(.4) rotate(-12deg); transition: opacity .5s ease .1s, transform .7s cubic-bezier(.3, 1.6, .5, 1) .1s; }
+    .proc__guarantee h2 { transition-delay: .3s; }
+    .proc__guarantee p { transition-delay: .45s; }
+    .proc__guarantee:global(.is-in) .proc__guar-in > * { opacity: 1; transform: none; }
   }
-  /* щит — внутри заголовка, на уровне текста: высотой со строчную, перед первым словом (№123) */
-  /* щит над заголовком, текст под заголовком — левый край ровный (№159) */
-  .proc__shield { display: block; width: clamp(44px, 4vw, 56px); color: var(--c-heading); }
-  .proc__guarantee h3 { font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 24ch; }
-  .proc__guarantee p { font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 56ch; }
-  @media (max-width: 860px) { .proc__guarantee { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 16px; } }
   .proc__note { margin-top: 12px; max-width: var(--measure-text); font-size: var(--fs-body); line-height: 1.4; }  /* обычный кегль, прижата к карточкам (№158) */  /* плотнее (правка №58) */
   .proc__cta { margin-top: 20px; }
   /* телефон — шаги лентой с горизонтальной прокруткой, уходят за край экрана (правка №29) */

@@ -61,14 +61,12 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
 
     <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead} center>
       <!-- №271: по центру, четыре пункта в ряд со знаком сверху, равные зазоры -->
-      <ul class="checks">
-        {buh.result.items.map((it, i) => <li><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'chart', 'check'][i % 4]} /></span><span>{typo(it)}</span></li>)}
+      <ul class="checks" data-reveal>
+        {buh.result.items.map((it, i) => <li style={`--i:${i}`}><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'chart', 'check'][i % 4]} /></span><span>{typo(it)}</span></li>)}
       </ul>
       <!-- оговорка — не пункт списка: отдельной строкой под ним, со ссылкой (правка №93, №271) -->
-      <div class="res-note">
-        <p>{typo(buh.result.note)}</p>
-        <a class="mlink" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a>
-      </div>
+      <!-- оговорка и ссылка — одной строкой (№290, просьба пользователя; ссылка после фразы, не внутри) -->
+      <p class="res-note" data-design-ok>{typo(buh.result.note)} <a class="mlink" href={u(buh.result.noteLink.href)}>{typo(buh.result.noteLink.label)}</a></p>
     </Sec>
 
     <Support />
@@ -195,14 +193,20 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px clamp(20px, 3vw, 40px); max-width: 1100px; margin-inline: auto; }
   .checks li { display: grid; justify-items: center; align-content: start; gap: 12px; text-align: center; font-size: var(--fs-lead); line-height: 1.4; }
   /* №287: блок — тёмно-синей плашкой, как «Компенсируем штраф» (--c-night), текст и знаки белые */
-  :global(#rezultat) { background: var(--c-night); color: var(--c-white); padding-block: clamp(40px, 5vw, 72px); }
+  :global(#rezultat) { background: var(--c-night); color: var(--c-white); padding-block: clamp(40px, 5vw, 72px); margin-bottom: var(--section-gap); }  /* следующий блок не прилипает (№289) */
   :global(#rezultat h2), :global(#rezultat .sx__lead) { color: var(--c-white); }
   :global(#rezultat) .checks__ico { color: var(--c-white); --icon-bg: var(--c-night); }
   :global(#rezultat) .res-note .mlink { color: var(--c-white); }
   :global(#rezultat) .res-note .mlink:hover { color: var(--c-tint); }
+  /* №289: появление при прокрутке, как плашка гарантии — знак «впрыгивает», текст следом, пункты по очереди */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .checks li > * { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * .12s + .2s); }
+    .checks .checks__ico { transform: scale(.4) rotate(-12deg); transition: opacity .5s ease, transform .7s cubic-bezier(.3, 1.6, .5, 1); transition-delay: calc(var(--i, 0) * .12s); }
+    .checks:global(.is-in) li > * { opacity: 1; transform: none; }
+  }
   .checks__ico { display: block; width: 34px; color: var(--c-heading); }  /* знаки вместо галочек, синие (№179) */
-  .res-note { display: grid; justify-items: center; gap: 8px; max-width: 60ch; margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-size: var(--fs-lead); line-height: 1.45; }
-  .res-note .mlink { font-size: inherit; }  /* текст и ссылка одного размера (№288) */
+  .res-note { max-width: 1200px; margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-size: var(--fs-lead); line-height: 1.45; }
+  .res-note .mlink { font-size: inherit; margin-left: 6px; white-space: nowrap; }  /* текст и ссылка одного размера (№288) */
   .scope__ico { display: block; width: 30px; margin-bottom: 6px; color: var(--c-heading); --icon-bg: var(--card-bg); }
 
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */
@@ -276,7 +280,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     .checks { grid-template-columns: minmax(0, 1fr); gap: 14px; margin-inline: 0; }
     .checks li { grid-template-columns: 30px minmax(0, 1fr); justify-items: start; gap: 16px; text-align: left; }
     .checks__ico { width: 30px; padding-top: 0.1em; }
-    .res-note { justify-items: start; margin: 20px 0 0; text-align: left; }  /* без дыры после списка (№284) */
+    .res-note { margin: 20px 0 0; text-align: left; }  /* без дыры после списка (№284) */
     .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {

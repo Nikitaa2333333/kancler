@@ -93,7 +93,7 @@ const related = cases.filter((c) => c.slug !== 'vozvrat-46-mln');
   .blk p { line-height: 1.45; }
   .blk__tag { font-weight: var(--w-semibold); line-height: 1.35; }  /* плотнее (№134) */
 
-  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: start; }  /* каждая по своей высоте, без пустоты (№265) */
+  .seqs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); align-items: stretch; }  /* одной высоты в ряду, как «Три направления» (№278) */
   .seq { display: grid; grid-template-rows: auto 1fr;  /* без картинок (№265) */ padding: var(--card-pad); border-radius: var(--r-xl); background: var(--card-bg); }
   .seq h3 { margin-bottom: 8px; font-size: var(--fs-h5); line-height: 1.2; letter-spacing: var(--tr-h5); }
   .seq ol { display: grid; align-content: start; }

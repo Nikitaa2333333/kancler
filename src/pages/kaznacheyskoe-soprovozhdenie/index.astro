@@ -183,6 +183,8 @@ import { u } from '../../lib/url';
       --edge: calc(var(--hero-frame) + var(--gutter)); margin-inline: calc(-1 * var(--edge)); padding-inline: var(--edge); }
     .extabs::-webkit-scrollbar { display: none; }
     .extabs button { flex: none; white-space: nowrap; }
+    .ex { justify-items: start; }
+    .ex__title { text-align: left; }  /* центр — только для ПК (№281) */
   }
   .ex { display: grid; justify-items: center; gap: 14px; }
   .ex > :global(.receipt) { width: 100%; }

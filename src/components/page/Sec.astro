@@ -48,9 +48,12 @@ const hid = id ? `${id}-title` : undefined;
   }
   .sx__head--tight { margin-bottom: clamp(16px, 1.8vw, 24px); }
   .sx__titles { display: grid; gap: 16px; }
-  .sx__head--center { justify-content: center; text-align: center; }
-  .sx__head--center .sx__titles { justify-items: center; }
-  .sx__head--center .sx__titles h2 { margin-inline: auto; }
+  /* по центру — только на компьютере; на телефоне по левому краю (№281) */
+  @media (min-width: 761px) {
+    .sx__head--center { justify-content: center; text-align: center; }
+    .sx__head--center .sx__titles { justify-items: center; }
+    .sx__head--center .sx__titles h2 { margin-inline: auto; }
+  }
   .sx__titles h2 { max-width: 30ch; }
   .sx__action { margin-top: var(--head-gap); font-size: var(--fs-lead); }
   .sx__lead { max-width: var(--measure-text); font-size: var(--fs-lead); }

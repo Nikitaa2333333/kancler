@@ -65,7 +65,7 @@ import { u } from '../lib/url';
   btn?.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
   menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
   addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
-  addEventListener('resize', () => { if (innerWidth > 1080) setOpen(false); });
+  addEventListener('resize', () => { if (innerWidth >= 1280) setOpen(false); });
 </script>
 
 <style>
@@ -105,6 +105,10 @@ import { u } from '../lib/url';
 
   .hdr__right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .hdr__phone { margin-right: 6px; white-space: nowrap; }
+  /* №282: пункты меню и кнопка в одну строку; телефону в шапке места хватает от 1400 px,
+     на экранах уже он — в меню-бургере и в подвале */
+  .hdr__links a, .hdr__right .btn { white-space: nowrap; }
+  @media (max-width: 1399px) { .hdr__phone { display: none; } }
   .hdr__chip {
     display: inline-grid; place-items: center; min-width: 36px; height: 36px; padding-inline: 8px;
     border-radius: 999px; background: var(--fill-card-strong);
@@ -144,8 +148,8 @@ import { u } from '../lib/url';
   .mmenu__social { display: flex; gap: 8px; }
   :global(html.no-scroll) { overflow: hidden; }
 
-  @media (min-width: 1081px) { .mmenu { display: none !important; } }
-  @media (max-width: 1080px) {
+  @media (min-width: 1280px) { .mmenu { display: none !important; } }
+  @media (max-width: 1279px) {  /* бургер до 1279 px — одной строке меню нужно ~1280 (№282) */
     .hdr__nav { display: none; }
     .hdr__right { margin-left: auto; }
     .hdr__burger { display: block; }

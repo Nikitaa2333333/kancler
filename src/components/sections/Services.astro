@@ -20,7 +20,7 @@ const tones = ['blue', 'sand', 'sky'];
           <h3>{typo(c.title)}</h3>
           <p class="svc__text">{typo(c.text)}</p>
           <ul class="svc__list" data-reveal>
-            {c.items.map((it, k) => <li style={`--i:${k}`}><span class="svc__ico"><OfficeIcon name={c.icons[k]} /></span><span>{typo(it)}</span></li>)}
+            {c.items.map((it, k) => <li style={`--i:${k}`} data-reveal><span class="svc__ico"><OfficeIcon name={c.icons[k]} /></span><span>{typo(it)}</span></li>)}
           </ul>
           <a class="btn" href={u(c.href)}>{services.more}</a>
         </article>
@@ -65,12 +65,17 @@ const tones = ['blue', 'sand', 'sky'];
     .svc__card .btn { margin-top: 8px; }
     .svc__text { max-width: 46ch; }
   }
-  /* №307: пункты «что входит» добавляются по одному при прокрутке — знак «впрыгивает», строка
-     выезжает слева; линии между пунктами проявляются вместе со строкой. При «меньше движения» — сразу */
-  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* №307, №309: пункты «что входит» появляются при прокрутке. Компьютер — весь список по очереди,
+     строка выезжает слева. Телефон — каждый пункт сам, когда до него дошла прокрутка, плавно снизу
+     вверх, без задержек (читать по мере листания). При «меньше движения» — сразу */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (min-width: 761px) {
     .svc__list li { opacity: 0; transform: translateX(-14px); transition: opacity .5s ease, transform .55s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * .14s + .1s); }
     .svc__list .svc__ico { display: inline-block; transform: scale(.4); transition: transform .6s cubic-bezier(.3, 1.6, .5, 1); transition-delay: calc(var(--i, 0) * .14s + .2s); }
     .svc__list:global(.is-in) li { opacity: 1; transform: none; }
     .svc__list:global(.is-in) .svc__ico { transform: none; }
+  }
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 760px) {
+    .svc__list li { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+    .svc__list li:global(.is-in) { opacity: 1; transform: none; }
   }
 </style>

@@ -62,7 +62,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
     <Sec id="rezultat" title={buh.result.title} lead={buh.result.lead} center>
       <!-- №271: по центру, четыре пункта в ряд со знаком сверху, равные зазоры -->
       <ul class="checks" data-reveal>
-        {buh.result.items.map((it, i) => <li style={`--i:${i}`}><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'chart', 'check'][i % 4]} /></span><span>{typo(it)}</span></li>)}
+        {buh.result.items.map((it, i) => <li style={`--i:${i}`} data-reveal><span class="checks__ico"><OfficeIcon name={['upload', 'folder', 'chart', 'check'][i % 4]} /></span><span>{typo(it)}</span></li>)}
       </ul>
       <!-- оговорка — не пункт списка: отдельной строкой под ним, со ссылкой (правка №93, №271) -->
       <!-- оговорка и ссылка — одной строкой (№290, просьба пользователя; ссылка после фразы, не внутри) -->
@@ -211,10 +211,15 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   :global(#rezultat) .res-note .mlink { color: var(--c-white); }
   :global(#rezultat) .res-note .mlink:hover { color: var(--c-tint); }
   /* №289: появление при прокрутке, как плашка гарантии — знак «впрыгивает», текст следом, пункты по очереди */
-  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (min-width: 761px) {
     .checks li > * { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * .12s + .2s); }
     .checks .checks__ico { transform: scale(.4) rotate(-12deg); transition: opacity .5s ease, transform .7s cubic-bezier(.3, 1.6, .5, 1); transition-delay: calc(var(--i, 0) * .12s); }
     .checks:global(.is-in) li > * { opacity: 1; transform: none; }
+  }
+  /* телефон — каждый пункт сам при прокрутке, снизу вверх, без задержек (№309) */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) and (max-width: 760px) {
+    .checks li { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+    .checks li:global(.is-in) { opacity: 1; transform: none; }
   }
   .checks__ico { display: block; width: 34px; color: var(--c-heading); }  /* знаки вместо галочек, синие (№179) */
   .res-note { max-width: 1200px; margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-size: var(--fs-lead); line-height: 1.45; }

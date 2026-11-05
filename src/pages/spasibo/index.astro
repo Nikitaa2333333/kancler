@@ -21,7 +21,10 @@ import { u } from '../../lib/url';
         <h1 id="ty-title" data-name>{typo('Заявка отправлена')}</h1>
         <p class="ty__lead">{typo(`Спасибо! Мы получили вашу заявку и свяжемся с вами в рабочее время — ${company.hours}.`)}</p>
         {company.phone && (
-          <p class="ty__phone">{typo('Если вопрос срочный — позвоните:')} <a href={`tel:${company.phoneHref}`}>{company.phone}</a></p>
+          <div class="ty__phone">
+            <p>{typo('Если вопрос срочный — позвоните')}</p>
+            <a href={`tel:${company.phoneHref}`}>{company.phone}</a>
+          </div>
         )}
         <div class="ty__actions">
           <a class="btn" href={u('/')}>На главную</a>
@@ -51,8 +54,8 @@ import { u } from '../../lib/url';
   }
   .ty h1 { color: var(--c-white); font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); max-width: 18ch; }
   .ty__lead { max-width: 46ch; font-size: var(--fs-h5); line-height: 1.45; }
-  .ty__phone { font-size: var(--fs-lead); }
-  .ty__phone a { font-family: var(--ff-display); font-weight: 700; white-space: nowrap; }
+  .ty__phone { display: grid; gap: 2px; font-size: var(--fs-lead); }
+  .ty__phone a { font-family: var(--ff-display); font-weight: 700; font-size: var(--fs-h4); white-space: nowrap; }
   .ty__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
   .ty .btn { background: var(--c-white); color: var(--c-ink); }
   .ty .btn--light { background: transparent; color: var(--c-white); box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.6); }

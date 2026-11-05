@@ -53,7 +53,11 @@ const org = {
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Канцлер" />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- фавикон: белая «К» антиквой на синем (05.11.2026); ico и png — для Яндекса и старых браузеров -->
+    <link rel="icon" href={u('/favicon.ico')} sizes="48x48" />
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={u('/apple-touch-icon.png')} />
+    <link rel="manifest" href={u('/site.webmanifest')} />
     <meta name="theme-color" content="#141414" />
     {!theme && <script type="application/ld+json" set:html={JSON.stringify(org)} />}
     {metrika && (

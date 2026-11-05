@@ -92,7 +92,9 @@ import { u } from '../lib/url';
     /* КАНЦЛЕР большими буквами — просьба клиента (Ирина, 03.11.2026); исключение из запрета капса, только логотип */
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--c-title);
+    /* №295: логотип ярче — фирменным синим (как кнопки) и жирнее, чтобы выделялся на шапке */
+    color: var(--c-primary);
+    font-weight: 700;
     text-decoration: none;
     line-height: 1;
     display: inline-flex;
@@ -105,10 +107,22 @@ import { u } from '../lib/url';
 
   .hdr__right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .hdr__phone { margin-right: 6px; white-space: nowrap; }
-  /* №282: пункты меню и кнопка в одну строку; телефону в шапке места хватает от 1400 px,
-     на экранах уже он — в меню-бургере и в подвале */
+  /* №282: пункты меню и кнопка в одну строку. №294: телефон в шапке всегда — на ПК меню
+     чуть плотнее (14 px, зазор 20), чтобы он помещался с 1280 px; с бургером — рядом с ним */
   .hdr__links a, .hdr__right .btn { white-space: nowrap; }
-  @media (max-width: 1399px) { .hdr__phone { display: none; } }
+  @media (max-width: 1439px) {
+    .hdr__bar { gap: 24px; }
+    .hdr__links { gap: 20px; }
+    .hdr__links a, .hdr__phone { font-size: 14px; }
+  }
+  @media (min-width: 1280px) and (max-width: 1365px) {
+    .hdr__bar { gap: 20px; }
+    .hdr__links { gap: 16px; }
+    .hdr__links a, .hdr__phone { font-size: 13.5px; }
+    .hdr__phone { margin-right: 0; }
+    .hdr__right { gap: 8px; }
+    .hdr__cta { padding-inline: 16px; }
+  }
   .hdr__chip {
     display: inline-grid; place-items: center; min-width: 36px; height: 36px; padding-inline: 8px;
     border-radius: 999px; background: var(--fill-card-strong);
@@ -153,7 +167,8 @@ import { u } from '../lib/url';
     .hdr__nav { display: none; }
     .hdr__right { margin-left: auto; }
     .hdr__burger { display: block; }
-    .hdr__phone { display: none; }
+    .hdr__phone { margin-right: 4px; font-size: 15px; }
   }
+  @media (max-width: 400px) { .hdr__phone { font-size: 14px; margin-right: 0; } .hdr__right { gap: 4px; } }
   @media (max-width: 560px) { .hdr__cta { display: none; } }
 </style>

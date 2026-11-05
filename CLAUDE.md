@@ -9,8 +9,13 @@
 Репозиторий: `D:\kancler` → GitHub **Nikitaa2333333/kancler** (публичный: на бесплатном
 тарифе GitHub Pages работает только из публичного репозитория; секретов в коде нет, `.env`
 в gitignore). Тестовая выкладка: https://nikitaa2333333.github.io/kancler/ — автоматически
-из `main` (`.github/workflows/pages.yml`, PUBLIC_BASE=/kancler). Боевой хостинг — SprintHost
-позже (скилл `sprinthost-deploy`); сайт там с корня, PUBLIC_BASE не задаём. Все внутренние
+из `main` (`.github/workflows/pages.yml`, PUBLIC_BASE=/kancler). Боевой сайт —
+**https://kancler-fin.ru** на SprintHost (с 05.11.2026): каждый пуш в `main` собирает сайт с
+корня и rsync'ом кладёт в `/home/kancler/domains/kancler-fin.ru/public_html/`
+(`.github/workflows/sprinthost.yml`, секреты SSH_* и DEPLOY_PATH в репо, отдельный
+deploy-ключ; сервер 141.8.192.217, логин kancler). Метрика, индексация, приёмник заявок —
+переменные репозитория `PUBLIC_METRIKA_ID`, `PUBLIC_INDEXING`, `PUBLIC_LEAD_ENDPOINT`
+(Settings → Variables), файл править не нужно. Доступы локально — `.env.deploy` (в gitignore). Все внутренние
 ссылки и пути к файлам — только через `u()` из `src/lib/url.ts`. Фаза:
 **главная собрана на Astro по ТЗ и токенам Avenir (22.10.2026), идёт доводка глазами.**
 

@@ -4,16 +4,12 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 ---
 
-<!-- Первый экран «плашкой» (решение 23.10.2026). №208 (03.11.2026): вместо стокового фото —
-     3D-иллюстрация в стиле сайта (docs/иллюстрации-стиль.md): папка, калькулятор, каска,
-     чертежи. Предметы справа, слева чистое поле того же цвета под текст — ничего не налезает.
-     На телефоне — своя обрезка (только предметы) над текстом. -->
+<!-- Первый экран «плашкой» (решение 23.10.2026). №293 (05.11.2026, просьба заказчика): вернули
+     фото со столом (вид сверху, чертежи, документы) вместо 3D-иллюстрации №208; слева под текстом
+     светлая плавная подложка. Иллюстрация лежит в public/images/hero-ill*.webp. -->
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__frame">
-    <picture>
-      <source media="(max-width: 760px)" srcset={u('/images/hero-ill-m.webp')} width="922" height="769" />
-      <img class="hero__img" src={u('/images/hero-ill.webp')} alt="" width="1536" height="864" fetchpriority="high" decoding="async" />
-    </picture>
+    <img class="hero__img" src={u('/images/hero-office-warm.jpg')} alt="" width="2560" height="1429" fetchpriority="high" decoding="async" />
     <div class="hero__shade" aria-hidden="true"></div>
 
     <div class="hero__copy">
@@ -39,12 +35,11 @@ import { u } from '../../lib/url';
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    /* плашка шире картинки: картинка прижата вправо, слева — её же фон под текст (№208) */
     min-height: clamp(560px, 48vw, 720px);
     display: flex;
     align-items: center;
     border-radius: var(--r-lg);
-    background: var(--c-hero);  /* = фон иллюстрации */
+    background: var(--c-paper);
   }
   .hero__img {
     position: absolute;
@@ -52,12 +47,11 @@ import { u } from '../../lib/url';
     z-index: -2;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: 100% 50%;
+    object-fit: cover;
+    object-position: 60% 50%;
   }
   /* светлая подложка слева под текст — плавная, по кривой */
   .hero__shade {
-    display: none;  /* фон иллюстрации ровный, подложка под текст не нужна (№208) */
     position: absolute;
     inset: 0;
     z-index: -1;
@@ -94,11 +88,10 @@ import { u } from '../../lib/url';
   @media (max-width: 760px) {
     .hero { padding: var(--hdr-h) 0 0; }
     .hero__frame { display: block; aspect-ratio: auto; border-radius: 0; background: var(--c-paper); overflow: visible; min-height: 0; }
-    .hero__img { position: relative; inset: auto; z-index: auto; height: auto; aspect-ratio: auto; object-fit: cover; }
+    .hero__img { position: relative; inset: auto; z-index: auto; height: auto; aspect-ratio: 4 / 3.6; object-fit: cover; object-position: 62% 50%; }
     .hero__shade {
-      display: block;
-      inset: 0 0 auto; z-index: 0; aspect-ratio: 922 / 769;
-      background: linear-gradient(180deg, rgb(233 241 250 / 0) 60%, var(--c-paper) 100%);
+      inset: 0 0 auto; z-index: 0; aspect-ratio: 4 / 3.6;
+      background: linear-gradient(180deg, rgb(255 255 255 / 0) 52%, rgb(255 255 255 / 0.75) 80%, var(--c-paper) 100%);
     }
     .hero__copy { position: relative; z-index: 1; max-width: none; margin-top: -24px; padding: 0 var(--gutter) 8px; }
     .hero__actions { width: calc(100% + 2 * (var(--gutter) - var(--hero-frame))); margin-inline: calc(var(--hero-frame) - var(--gutter)); }  /* до 6 px от края, как плашки (№258) */

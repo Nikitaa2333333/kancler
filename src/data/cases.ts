@@ -165,8 +165,8 @@ export const cases: Case[] = [
       },
     ],
     images: [
-      { src: '/images/cases/nds-reshenie-239.jpg', alt: 'Решение ФНС № 239 о возмещении НДС, заявленного к возмещению', w: 562, h: 793 },
-      { src: '/images/cases/nds-reshenie-261.jpg', alt: 'Решение ФНС № 261 о возмещении НДС, заявленного к возмещению', w: 595, h: 832 },
+      { src: '/images/cases/nds-reshenie-239.jpg', alt: 'Решение ФНС № 239 о возмещении НДС, заявленного к возмещению', w: 1191, h: 1664 },
+      { src: '/images/cases/nds-reshenie-261.jpg', alt: 'Решение ФНС № 261 о возмещении НДС, заявленного к возмещению', w: 1191, h: 1664 },
     ],
     service: { label: 'Бухгалтерский учёт', href: '/buhgalterskiy-uchet/' },  // кейс — про бухгалтерию, не про казначейство (№211)
   },

@@ -1,0 +1,11 @@
+# SprintHost (Apache). Один адрес сайта для поисковиков: https и без www (05.11.2026).
+# Файл лежит в public/ — Astro копирует его в корень сборки, rsync кладёт в public_html.
+RewriteEngine On
+
+# http → https, www → без www — одним 301-переходом
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://kancler-fin.ru%{REQUEST_URI} [L,R=301]
+
+# своя страница «не найдено»
+ErrorDocument 404 /404.html

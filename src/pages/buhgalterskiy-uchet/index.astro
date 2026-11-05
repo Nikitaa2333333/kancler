@@ -171,6 +171,10 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
       }
     }));
     pill.classList.add('is-on');
+    /* отметка «прибито» для белого фона за шапкой (№304) */
+    const hdrH = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hdr-h')) || 60;
+    const mark = () => pill.classList.toggle('is-stuck', pill.getBoundingClientRect().top <= hdrH() + 1 && root.getBoundingClientRect().bottom > hdrH() + pill.offsetHeight + 40);
+    addEventListener('scroll', mark, { passive: true }); mark();
     show('t0');
   });
 </script>
@@ -248,6 +252,8 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   .tabs.is-on { display: flex; flex-wrap: wrap; gap: 6px; }
   /* №298: переключатель прибит под шапкой, пока листаются тарифы этого блока */
   .tabs.is-on { position: sticky; top: var(--hdr-h); z-index: 5; padding-block: 10px; margin-top: -10px; background: var(--c-white-card); }
+  /* прибито — за полупрозрачной шапкой сплошной белый, тарифы не просвечивают (№304) */
+  .tabs.is-stuck { box-shadow: 0 0 0 100vmax var(--c-white-card); clip-path: inset(-100vh -100vmax 0 -100vmax); }
   .tabs button { min-height: 44px; padding: 8px 20px; border: 1.5px solid var(--c-band); border-radius: 999px; background: var(--c-band); color: var(--c-ink); font: inherit; font-size: 15px; font-weight: var(--w-semibold); line-height: 1.2; cursor: pointer; transition: border-color .2s, background-color .2s, color .2s; }
   .tabs button:hover { border-color: var(--c-primary); color: var(--c-primary); }
   .tabs button[aria-selected='true'] { border-color: var(--c-primary); background: var(--c-primary); color: var(--c-white); }

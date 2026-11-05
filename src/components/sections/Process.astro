@@ -62,7 +62,7 @@ import { u } from '../../lib/url';
     color: var(--c-white);
   }
   .proc__grid h3, .proc__grid p { color: var(--c-white); }
-  .proc__grid p { opacity: 1; }
+  .proc__grid p { opacity: 1; line-height: 1.35; }  /* плотнее (№301) */
   .proc__art { display: block; width: 78%; max-width: 200px; height: auto; margin: 8px auto -6px; align-self: end;
     /* картинка на своём тёмном фоне (почти цвет плашки), края мягко гаснут — без вырезки (№257) */
     -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent); mask-image: radial-gradient(closest-side, #000 72%, transparent); }
@@ -77,11 +77,12 @@ import { u } from '../../lib/url';
   /* гарантия — крупный текст без плашки, со щитом (№28; щит снимали в №46, вернули в №60, перерисован в стиле знаков услуг — №79) */
   /* №268: полоса во всю ширину страницы, тёмно-синяя (--c-night, как шаги), отступы умеренные */
   /* плашкой, как первый экран главной: поле от краёв экрана и скругление (№269) */
-  .proc__guarantee { margin: var(--block-gap) var(--hero-frame) 0; padding: clamp(36px, 4.5vw, 64px) var(--gutter); border-radius: var(--r-lg); background: var(--c-night); color: var(--c-white); }
-  .proc__guar-in { display: grid; justify-items: center; gap: 14px; max-width: 900px; margin-inline: auto; text-align: center; }  /* по центру (№235) */
-  .proc__shield { display: block; width: clamp(44px, 4vw, 56px); color: var(--c-white); --icon-bg: var(--c-night); }
-  .proc__guarantee h2 { color: var(--c-white); font-size: var(--fs-h2); font-weight: var(--w-display); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); max-width: 24ch; }
-  .proc__guarantee p { color: var(--c-white); font-size: var(--fs-lead); line-height: var(--lh-lead); max-width: 56ch; }
+  /* №300: крупнее и выше — больше фона, заголовок как H1 */
+  .proc__guarantee { margin: var(--block-gap) var(--hero-frame) 0; padding: clamp(56px, 6vw, 88px) var(--gutter); border-radius: var(--r-lg); background: var(--c-night); color: var(--c-white); }
+  .proc__guar-in { display: grid; justify-items: center; gap: clamp(16px, 2vw, 24px); max-width: 900px; margin-inline: auto; text-align: center; }  /* по центру (№235) */
+  .proc__shield { display: block; width: clamp(56px, 5vw, 72px); color: var(--c-white); --icon-bg: var(--c-night); }
+  .proc__guarantee h2 { color: var(--c-white); font-size: var(--fs-h1); font-weight: var(--w-display); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); max-width: 22ch; }
+  .proc__guarantee p { color: var(--c-white); font-size: var(--fs-h5); line-height: 1.45; max-width: 52ch; }
   /* появление при прокрутке: полоса проявляется, щит «впрыгивает», заголовок и текст — следом.
      Без JS и при «меньше движения» — сразу видно (скрипт в Base.astro ставит .is-in) */
   @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {

@@ -170,7 +170,9 @@ function audit({ vw, palette }) {
       const a = secs[i], b = secs[i + 1];
       const contentBottom = (s) => Math.max(...[...s.querySelectorAll('*')].filter(vis).map((e) => e.getBoundingClientRect().bottom), s.getBoundingClientRect().top);
       const contentTop = (s) => Math.min(...[...s.querySelectorAll('h2, h3, p, li, img, .btn, dt, dd, input, figure')].filter(vis).map((e) => e.getBoundingClientRect().top), s.getBoundingClientRect().bottom);
-      const gap = contentTop(b) - contentBottom(a);
+      // у блока со своей заливкой (тёмная плашка гарантии и т. п.) начало — край плашки, поле внутри — не дыра
+      const filled = (el) => { const c = getComputedStyle(el).backgroundColor; return c && c !== 'transparent' && !/rgba\(.*,\s*0\)$/.test(c) && c !== 'rgb(255, 255, 255)'; };
+      const gap = (filled(b) ? b.getBoundingClientRect().top : contentTop(b)) - contentBottom(a);
       if (gap > 200) add('G', b, `${Math.round(gap)} px пустоты перед блоком`);
     }
   }

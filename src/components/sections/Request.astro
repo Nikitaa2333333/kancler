@@ -66,45 +66,86 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     const phoneEl = form.elements.namedItem('phone') as HTMLInputElement;
     const consentEl = form.elements.namedItem('consent') as HTMLInputElement;
 
-    /* маска телефона +7 (999) 123-45-67; вставленный номер с 8 или +7 в начале тоже понимаем */
+    /* №306: маска телефона +7 (999) 123-45-67 — как на сайте КТМ, без выбора страны.
+       Понимает ввод, вставку и автозаполнение («8 916…», «+7 916…», «916…»), держит курсор
+       на месте, стирание через скобки и дефисы удаляет цифру, а не застревает. */
     const digits = (v: string) => {
       let d = v.replace(/\D/g, '');
-      if (v.trim().startsWith('+7')) d = d.slice(1);
-      if (d.length > 10 && (d[0] === '8' || d[0] === '7')) d = d.slice(1);
+      if (/^\s*\+7/.test(v)) d = d.slice(1);               // «+7» из маски или вставки
+      while (d.length > 10 && (d[0] === '8' || d[0] === '7')) d = d.slice(1);  // «8 916…», «7916…»
       return d.slice(0, 10);
     };
     const mask = (d: string) => {
-      if (!d) return '';
       let out = '+7 (' + d.slice(0, 3);
-      if (d.length >= 3) out += ') ' + d.slice(3, 6);
-      if (d.length >= 6) out += '-' + d.slice(6, 8);
-      if (d.length >= 8) out += '-' + d.slice(8, 10);
+      if (d.length > 3) out += ') ' + d.slice(3, 6);
+      if (d.length > 6) out += '-' + d.slice(6, 8);
+      if (d.length > 8) out += '-' + d.slice(8, 10);
       return out;
     };
-    phoneEl.addEventListener('input', () => { phoneEl.value = mask(digits(phoneEl.value)); });
-    phoneEl.addEventListener('focus', () => { if (!phoneEl.value) phoneEl.value = '+7 ('; });
-    phoneEl.addEventListener('blur', () => { if (!digits(phoneEl.value)) phoneEl.value = ''; });
+    /* позиция в строке маски после n-й цифры номера */
+    const posAfter = (masked: string, n: number) => {
+      if (n <= 0) return 4;
+      let seen = 0;
+      for (let i = 4; i < masked.length; i++) if (/\d/.test(masked[i]) && ++seen === n) return i + 1;
+      return masked.length;
+    };
+    let delBack = false;
+    phoneEl.addEventListener('beforeinput', (e) => { delBack = (e as InputEvent).inputType === 'deleteContentBackward'; });
+    phoneEl.addEventListener('input', () => {
+      const raw = phoneEl.value;
+      const caret = phoneEl.selectionStart ?? raw.length;
+      /* сколько цифр номера стоит до курсора (без «7» из префикса) */
+      let before = raw.slice(0, caret).replace(/\D/g, '').length - (raw.startsWith('+7') ? 1 : 0);
+      let d = digits(raw);
+      const prev = digits(phoneEl.dataset.prev || '');
+      /* стёрли скобку/пробел/дефис — убрать цифру перед ним */
+      if (delBack && d === prev && before > 0) { d = d.slice(0, before - 1) + d.slice(before); before -= 1; }
+      const out = d ? mask(d) : '+7 (';
+      phoneEl.value = out;
+      phoneEl.dataset.prev = out;
+      const pos = posAfter(out, Math.max(0, Math.min(before, d.length)));
+      if (document.activeElement === phoneEl) phoneEl.setSelectionRange(pos, pos);
+      delBack = false;
+    });
+    phoneEl.addEventListener('focus', () => {
+      if (!phoneEl.value) { phoneEl.value = '+7 ('; phoneEl.dataset.prev = phoneEl.value; }
+      requestAnimationFrame(() => { const l = phoneEl.value.length; phoneEl.setSelectionRange(l, l); });
+    });
 
     const rules: [HTMLInputElement, string, () => string][] = [
       [nameEl, 'name', () => (nameEl.value.trim().length < 2 ? 'Как к вам обращаться?' : '')],
-      [phoneEl, 'phone', () => (digits(phoneEl.value).length < 10 ? 'Введите номер полностью' : '')],
+      [phoneEl, 'phone', () => {
+        const d = digits(phoneEl.value);
+        if (!d) return 'Укажите телефон для связи';
+        if (d.length < 10) return 'Введите номер полностью';
+        return '';
+      }],
       [consentEl, 'consent', () => (consentEl.checked ? '' : 'Без согласия мы не сможем обработать заявку')],
     ];
     const check = (el: HTMLInputElement, key: string, fn: () => string) => {
       const msg = fn();
       form.querySelector<HTMLElement>(`[data-err="${key}"]`)!.textContent = msg;
       el.toggleAttribute('aria-invalid', !!msg);
+      if (el.type !== 'checkbox') el.toggleAttribute('data-valid', !msg);
       return !msg;
     };
-    /* подсказка появляется после первой попытки отправить и гаснет, как только поле исправлено */
-    let tried = false;
-    rules.forEach(([el, key, fn]) => el.addEventListener(el.type === 'checkbox' ? 'change' : 'input', () => { if (tried) check(el, key, fn); }));
+    /* проверка — когда человек уходит из заполненного поля и при отправке; дальше подсказка
+       обновляется по ходу ввода и гаснет, как только поле исправлено */
+    const touched = new Set<string>();
+    rules.forEach(([el, key, fn]) => {
+      if (el.type === 'checkbox') { el.addEventListener('change', () => { if (touched.has(key)) check(el, key, fn); }); return; }
+      el.addEventListener('blur', () => {
+        if (key === 'phone' && !digits(el.value)) el.value = '';
+        if (el.value.trim()) { touched.add(key); check(el, key, fn); }
+      });
+      el.addEventListener('input', () => { if (touched.has(key)) check(el, key, fn); });
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = new FormData(form);
       if (data.get('website')) return;
-      tried = true;
+      rules.forEach(([, key]) => touched.add(key));
       const bad = rules.filter(([el, key, fn]) => !check(el, key, fn));
       if (bad.length) { bad[0][0].focus(); status.textContent = ''; return; }
       const endpoint = form.dataset.endpoint;
@@ -118,7 +159,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
           body: JSON.stringify({ name: nameEl.value.trim(), phone: phoneEl.value, comment: String(data.get('comment') || '').trim(), topic: String(data.get('topic') || ''), page: location.href }),
         });
         form.reset();
-        tried = false;
+        touched.clear();
+        form.querySelectorAll('[data-valid]').forEach((el) => el.removeAttribute('data-valid'));
         status.textContent = 'Заявка отправлена. Мы свяжемся с вами.';
       } catch {
         status.textContent = 'Не получилось отправить. Попробуйте ещё раз.';
@@ -160,6 +202,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     border: 1.5px solid transparent;
     border-radius: 18px;
     background: var(--c-white-card);
+    color: var(--c-ink);  /* текст полей тёмный — иначе наследовал белый с синей плашки и «+7 (» был не виден (№306) */
     font-size: 17px;
     font-weight: var(--w-body);
     transition: border-color .2s, box-shadow .2s;
@@ -170,6 +213,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__field textarea:focus { outline: none; border-color: var(--c-ink); }
   /* ошибки на синем: красная рамка поля + белая подпись (красный текст на синем не читается) */
   .req__field input[aria-invalid] { border-color: #ff8a73; box-shadow: none; }
+  /* верно заполнено — зелёная галочка в поле (№306) */
+  .req__field input[data-valid] { padding-right: 52px; background: var(--c-white-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f9d55' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") no-repeat right 18px center / 22px; }
   .req__err { display: block; padding-left: 20px; font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--c-white); }
   .req__err:empty { display: none; }
   /* кнопка на синем — белая с тёмным текстом */

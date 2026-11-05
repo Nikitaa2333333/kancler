@@ -26,7 +26,7 @@ import { u } from '../lib/url';
       <a class="btn btn--sm hdr__cta" href="#zayavka">{typo('Оставить заявку')}</a>
 
       <button class="hdr__burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="mmenu" data-burger>
-        <span></span><span></span><span></span>
+        <span></span><span></span>
       </button>
     </div>
   </div>
@@ -91,7 +91,7 @@ import { u } from '../lib/url';
     font-size: clamp(22px, 1.9vw, 27px);
     /* КАНЦЛЕР большими буквами — просьба клиента (Ирина, 03.11.2026); исключение из запрета капса, только логотип */
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.015em;  /* плотнее (№302) */
     /* №295: логотип ярче — фирменным синим (как кнопки) и жирнее, чтобы выделялся на шапке */
     color: var(--c-primary);
     font-weight: 700;
@@ -107,6 +107,8 @@ import { u } from '../lib/url';
 
   .hdr__right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
   .hdr__phone { margin-right: 6px; white-space: nowrap; }
+  /* №302: телефон — в стиле логотипа (антиква, жирный, фирменный синий), а не как пункт меню */
+  .hdr .hdr__phone { font-family: var(--ff-display); font-weight: 700; color: var(--c-primary); letter-spacing: 0.01em; }
   /* №282: пункты меню и кнопка в одну строку. №294: телефон в шапке всегда — на ПК меню
      чуть плотнее (14 px, зазор 20), чтобы он помещался с 1280 px; с бургером — рядом с ним */
   .hdr__links a, .hdr__right .btn { white-space: nowrap; }
@@ -129,16 +131,17 @@ import { u } from '../lib/url';
     font-size: var(--fs-small); font-weight: var(--w-semibold); text-decoration: none;
   }
 
+  /* №303: бургер современнее — две линии в круглой кнопке с заливкой, при открытии — крестик */
   .hdr__burger {
-    display: none; position: relative; width: 44px; height: 44px; padding: 0 10px; border: 0; background: none; cursor: pointer;
+    display: none; position: relative; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%;
+    background: var(--c-band); cursor: pointer; transition: background-color .2s;
   }
-  .hdr__burger span { position: absolute; left: 10px; right: 10px; height: 2px; border-radius: 2px; background: var(--c-ink); transition: transform .25s, opacity .2s; }
-  .hdr__burger span:nth-child(1) { top: 14px; }
-  .hdr__burger span:nth-child(2) { top: 21px; }
-  .hdr__burger span:nth-child(3) { top: 28px; }
-  .is-open .hdr__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .is-open .hdr__burger span:nth-child(2) { opacity: 0; }
-  .is-open .hdr__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .hdr__burger:hover { background: var(--c-tint); }
+  .hdr__burger span { position: absolute; left: 13px; right: 13px; height: 2px; border-radius: 2px; background: var(--c-ink); transition: transform .25s, top .25s; }
+  .hdr__burger span:nth-child(1) { top: 18px; }
+  .hdr__burger span:nth-child(2) { top: 24px; }
+  .is-open .hdr__burger span:nth-child(1) { top: 21px; transform: rotate(45deg); }
+  .is-open .hdr__burger span:nth-child(2) { top: 21px; transform: rotate(-45deg); }
   .is-open { background: var(--c-paper); }
 
   .mmenu {

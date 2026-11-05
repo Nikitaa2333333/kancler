@@ -43,8 +43,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
       <label class="req__consent">
         <input type="checkbox" name="consent" required aria-describedby="req-err-consent" />
         <span>{typo(request.consent)}</span>
+        <span class="req__err" id="req-err-consent" data-err="consent"></span>
       </label>
-      <span class="req__err" id="req-err-consent" data-err="consent"></span>
       {(company.telegram || company.whatsapp) && (
         <div class="req__alt">
           {company.telegram && <a class="btn btn--light" href={company.telegram} rel="noopener">Telegram</a>}
@@ -117,14 +117,16 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
       [phoneEl, 'phone', () => {
         const d = digits(phoneEl.value);
         if (!d) return 'Укажите телефон для связи';
-        if (d.length < 10) return 'Введите номер полностью';
+        if (d.length < 10) return 'Введите номер телефона полностью';
         return '';
       }],
       [consentEl, 'consent', () => (consentEl.checked ? '' : 'Без согласия мы не сможем обработать заявку')],
     ];
     const check = (el: HTMLInputElement, key: string, fn: () => string) => {
       const msg = fn();
-      form.querySelector<HTMLElement>(`[data-err="${key}"]`)!.textContent = msg;
+      const tip = form.querySelector<HTMLElement>(`[data-err="${key}"]`)!;
+      if (msg) tip.textContent = msg;  // текст остаётся, пока пузырь гаснет
+      tip.classList.toggle('is-on', !!msg && showTip === key);
       el.toggleAttribute('aria-invalid', !!msg);
       if (el.type !== 'checkbox') el.toggleAttribute('data-valid', !msg);
       return !msg;
@@ -132,13 +134,18 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     /* проверка — когда человек уходит из заполненного поля и при отправке; дальше подсказка
        обновляется по ходу ввода и гаснет, как только поле исправлено */
     const touched = new Set<string>();
+    /* №308: подсказка — пузырём над полем, как у Apple; видна у одного поля за раз
+       (того, где человек сейчас, или первого неверного при отправке), поля не раздвигаются */
+    let showTip = '';
+    const hideTips = () => form.querySelectorAll('.req__err.is-on').forEach((t) => t.classList.remove('is-on'));
     rules.forEach(([el, key, fn]) => {
-      if (el.type === 'checkbox') { el.addEventListener('change', () => { if (touched.has(key)) check(el, key, fn); }); return; }
+      if (el.type === 'checkbox') { el.addEventListener('change', () => { if (touched.has(key)) { showTip = key; check(el, key, fn); } }); return; }
       el.addEventListener('blur', () => {
         if (key === 'phone' && !digits(el.value)) el.value = '';
-        if (el.value.trim()) { touched.add(key); check(el, key, fn); }
+        if (el.value.trim()) { touched.add(key); showTip = key; check(el, key, fn); }
       });
-      el.addEventListener('input', () => { if (touched.has(key)) check(el, key, fn); });
+      el.addEventListener('input', () => { if (touched.has(key)) { showTip = key; check(el, key, fn); } });
+      el.addEventListener('focus', () => { if (showTip !== key) hideTips(); });
     });
 
     form.addEventListener('submit', async (e) => {
@@ -146,8 +153,10 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
       const data = new FormData(form);
       if (data.get('website')) return;
       rules.forEach(([, key]) => touched.add(key));
+      hideTips();
+      showTip = rules.find(([, , fn]) => fn())?.[1] ?? '';
       const bad = rules.filter(([el, key, fn]) => !check(el, key, fn));
-      if (bad.length) { bad[0][0].focus(); status.textContent = ''; return; }
+      if (bad.length) { const first = bad[0][0]; first.focus({ preventScroll: true }); first.scrollIntoView({ block: 'center', behavior: 'smooth' }); status.textContent = ''; return; }
       const endpoint = form.dataset.endpoint;
       if (!endpoint) { status.textContent = 'Приём заявок пока не подключён.'; return; }
       btn.disabled = true;
@@ -160,6 +169,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
         });
         form.reset();
         touched.clear();
+        hideTips();
         form.querySelectorAll('[data-valid]').forEach((el) => el.removeAttribute('data-valid'));
         status.textContent = 'Заявка отправлена. Мы свяжемся с вами.';
       } catch {
@@ -215,8 +225,22 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__field input[aria-invalid] { border-color: #ff8a73; box-shadow: none; }
   /* верно заполнено — зелёная галочка в поле (№306) */
   .req__field input[data-valid] { padding-right: 52px; background: var(--c-white-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f9d55' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") no-repeat right 18px center / 22px; }
-  .req__err { display: block; padding-left: 20px; font-size: var(--fs-small); font-weight: var(--w-semibold); color: var(--c-white); }
-  .req__err:empty { display: none; }
+  /* №308: подсказка пузырём над полем (как в Safari): белая плашка с хвостиком, поверх формы,
+     поля не раздвигает; проявляется и чуть всплывает */
+  .req__field, .req__consent { position: relative; }
+  .req__err {
+    position: absolute; z-index: 3; left: 50%; bottom: calc(100% + 12px);
+    width: max-content; max-width: min(320px, 92%); padding: 10px 16px; border-radius: 14px;
+    background: var(--c-white); color: var(--c-ink); box-shadow: 0 6px 24px rgb(10 20 40 / 0.22);
+    font-size: 15px; font-weight: var(--w-medium); line-height: 1.3; text-align: center;
+    opacity: 0; visibility: hidden; pointer-events: none; transform: translate(-50%, 6px) scale(.96); transform-origin: 50% 100%;
+    transition: opacity .18s ease, transform .22s cubic-bezier(.2, .7, .2, 1), visibility 0s .22s;
+  }
+  .req__err::after { content: ''; position: absolute; left: 50%; top: 100%; width: 14px; height: 14px; margin: -8px 0 0 -7px; background: inherit; border-radius: 2px; transform: rotate(45deg); }
+  .req__err.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); transition-delay: 0s; }
+  .req__consent .req__err { left: -4px; transform: translate(0, 6px) scale(.96); transform-origin: 16px 100%; text-align: left; }
+  .req__consent .req__err.is-on { transform: none; }
+  .req__consent .req__err::after { left: 14px; }
   /* кнопка на синем — белая с тёмным текстом */
   .req__submit { background: var(--c-white); color: var(--c-ink); }
   .req__submit:hover { background: var(--c-accent); color: var(--c-ink); }

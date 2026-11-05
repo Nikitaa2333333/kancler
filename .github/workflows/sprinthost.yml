@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # полная история — IndexNow сравнивает с прошлым пушем
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -43,3 +45,6 @@ jobs:
         run: |
           ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
           rsync -az --delete -e "ssh -p $PORT" dist/ "$USER@$HOST:$TARGET"
+      - name: IndexNow — изменённые страницы
+        if: ${{ vars.PUBLIC_INDEXING == 'true' }}
+        run: node scripts/indexnow.mjs --since "${{ github.event.before }}" || echo "::warning::IndexNow не принял адреса"

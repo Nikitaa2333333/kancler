@@ -4,6 +4,7 @@ import '@fontsource-variable/manrope';
 import '../styles/global.css';
 import { INDEXING } from '../lib/seo';
 import { u } from '../lib/url';
+import { company } from '../data/company';
 
 interface Props {
   title: string;
@@ -16,6 +17,20 @@ interface Props {
 const { title, description, noindex = false, theme } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const metrika = import.meta.env.PUBLIC_METRIKA_ID;
+/* schema.org: организация на каждой странице (05.11.2026). Из company.ts; пустые поля не выводим. */
+const home = new URL(import.meta.env.BASE_URL, Astro.site).href;
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'AccountingService',
+  name: company.name,
+  description: 'Бухгалтерский и управленческий учёт для строительных компаний Москвы и Московской области',
+  url: home,
+  telephone: company.phoneHref || undefined,
+  email: company.leadEmail || undefined,
+  foundingDate: String(company.since),
+  areaServed: [{ '@type': 'City', name: 'Москва' }, { '@type': 'AdministrativeArea', name: 'Московская область' }],
+  priceRange: 'от 18 000 ₽',
+};
 ---
 
 <!doctype html>
@@ -34,6 +49,7 @@ const metrika = import.meta.env.PUBLIC_METRIKA_ID;
     <meta property="og:url" content={canonical} />
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
     <meta name="theme-color" content="#141414" />
+    {!theme && <script type="application/ld+json" set:html={JSON.stringify(org)} />}
     {metrika && (
       <!-- код счётчика — как выдаёт Метрика (05.11.2026), номер из PUBLIC_METRIKA_ID -->
       <script is:inline define:vars={{ metrika }}>

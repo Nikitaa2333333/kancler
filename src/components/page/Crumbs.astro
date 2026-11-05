@@ -3,9 +3,23 @@ import { typo } from '../../lib/typo';
 import { u } from '../../lib/url';
 
 /* Хлебные крошки — внизу страницы, над подвалом, а не в первом экране (правка №61, 30.10). */
-interface Props { items: { label: string; href?: string }[] }
-const { items } = Astro.props;
+interface Props { items: { label: string; href?: string }[]; current?: string }  /* current — название страницы только для разметки */
+const { items, current } = Astro.props;
+/* schema.org BreadcrumbList — для навигационной цепочки в выдаче (05.11.2026) */
+const abs = (p: string) => new URL(u(p), Astro.site).href;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ label: 'Главная', href: '/' }, ...items, ...(current ? [{ label: current }] : [])].map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    item: c.href ? abs(c.href) : new URL(Astro.url.pathname, Astro.site).href,
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />
 
 <nav class="crumbs wrap" aria-label="Навигационная цепочка">
   <ol>

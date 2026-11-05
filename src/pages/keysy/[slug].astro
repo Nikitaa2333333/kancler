@@ -20,10 +20,9 @@ interface Props { c: Case }
 const { c } = Astro.props;
 const others = cases.filter((x) => x.slug !== c.slug);
 let step = 0;
-const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\S*$/, '')}…` : c.intro[0];
 ---
 
-<Base title={`${c.title} — кейс «Канцлера»`} description={desc}>
+<Base title={c.seo.title} description={c.seo.description}>
   <Header />
   <main>
     <PageHero
@@ -75,7 +74,7 @@ const desc = c.intro[0].length > 180 ? `${c.intro[0].slice(0, 177).replace(/\s+\
 
     <Request topic={`Кейс: ${c.title}`} />
   </main>
-  <Crumbs items={[{ label: 'Кейсы', href: '/keysy/' }]} />
+  <Crumbs items={[{ label: 'Кейсы', href: '/keysy/' }]} current={c.title} />
   <Footer />
 </Base>
 

@@ -47,6 +47,12 @@ const org = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <!-- обложка для превью ссылок в мессенджерах — кадр первого экрана (05.11.2026) -->
+    <meta property="og:image" content={new URL(u('/og.jpg'), Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Канцлер" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
     <meta name="theme-color" content="#141414" />
     {!theme && <script type="application/ld+json" set:html={JSON.stringify(org)} />}

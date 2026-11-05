@@ -34,7 +34,7 @@ const BASE = (args.find((a) => a.startsWith('http')) ?? 'http://127.0.0.1:4340')
 const only = args.filter((a) => a.startsWith('/'));
 const PAGES = only.length ? only : [
   '/', '/buhgalterskiy-uchet/', '/upravlencheskiy-uchet/', '/kaznacheyskoe-soprovozhdenie/',
-  '/keysy/', '/keysy/finansovyy-analiz-gk/', '/keysy/shtrafstoyanka/', '/keysy/vozvrat-46-mln/', '/kontakty/', '/spasibo/',
+  '/keysy/', '/keysy/finansovyy-analiz-gk/', '/keysy/shtrafstoyanka/', '/keysy/vozvrat-46-mln/', '/kontakty/', '/spasibo/', '/politika/',
 ];
 
 function loadPlaywright() {

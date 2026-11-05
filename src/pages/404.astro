@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { company } from '../data/company';
+import { typo } from '../lib/typo';
+import { u } from '../lib/url';
+/* №314: страница «не найдено» — вместо стандартной страницы хостинга */
+---
+
+<Base title="Страница не найдена — Канцлер" description="Такой страницы нет." noindex>
+  <Header />
+  <main>
+    <section class="nf" aria-labelledby="nf-title">
+      <div class="nf__frame">
+        <p class="nf__code" aria-hidden="true">404</p>
+        <h1 id="nf-title">{typo('Такой страницы нет')}</h1>
+        <p class="nf__lead">{typo('Возможно, ссылка устарела или в адресе опечатка. Начните с главной или выберите услугу.')}</p>
+        <div class="nf__actions">
+          <a class="btn" href={u('/')}>На главную</a>
+          <a class="btn btn--light" href={u('/buhgalterskiy-uchet/')}>Бухгалтерское сопровождение</a>
+        </div>
+        {company.phone && <a class="nf__phone" href={`tel:${company.phoneHref}`}>{company.phone}</a>}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .nf { padding: calc(var(--hdr-h) + 4px) var(--hero-frame) 0; }
+  .nf__frame { display: grid; justify-items: center; align-content: center; gap: clamp(12px, 1.6vw, 20px); min-height: min(70vh, 620px); padding: clamp(48px, 7vw, 96px) var(--gutter); border-radius: var(--r-lg); background: var(--c-band); text-align: center; }
+  .nf__code { font-family: var(--ff-display); font-weight: 700; font-size: clamp(72px, 12vw, 160px); line-height: 1; color: var(--c-primary); }
+  .nf h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); }
+  .nf__lead { max-width: 44ch; font-size: var(--fs-h5); line-height: 1.45; }
+  .nf__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+  .nf__phone { font-family: var(--ff-display); font-weight: 700; font-size: var(--fs-h4); color: var(--c-primary); }
+  @media (max-width: 560px) { .nf__actions, .nf__actions .btn { width: 100%; } }
+</style>

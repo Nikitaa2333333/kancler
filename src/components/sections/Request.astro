@@ -43,7 +43,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
       <button class="btn req__submit" type="submit">{request.submit}</button>
       <label class="req__consent">
         <input type="checkbox" name="consent" required aria-describedby="req-err-consent" />
-        <span>{typo(request.consent)}</span>
+        <!-- ссылка на политику — обязательна по 152-ФЗ, поэтому внутри фразы (исключение из правила №93) -->
+        <span>{typo('Согласен на ')}<a class="req__pol" href={u('/politika/')} target="_blank" rel="noopener" data-design-ok>{typo('обработку персональных данных')}</a></span>
         <span class="req__err" id="req-err-consent" data-err="consent"></span>
       </label>
       {(company.telegram || company.whatsapp) && (
@@ -280,6 +281,8 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
   .req__submit.is-shake { animation: req-shake .45s; }
   @keyframes req-shake { 0%, 100% { translate: 0; } 20% { translate: -7px; } 40% { translate: 6px; } 60% { translate: -4px; } 80% { translate: 2px; } }
   @media (prefers-reduced-motion: reduce) { .req__submit.is-shake, .req__consent input[aria-invalid] { animation: none; } }
+  .req__pol { color: inherit; text-decoration: underline; text-decoration-color: rgb(255 255 255 / 0.5); text-underline-offset: 3px; }
+  .req__pol:hover { text-decoration-color: currentColor; }
   .req__alt { display: flex; flex-wrap: wrap; gap: 10px; }
   .req__status { font-size: var(--fs-small); font-weight: var(--w-medium); }
   .req__status:empty { display: none; }

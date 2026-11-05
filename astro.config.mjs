@@ -18,5 +18,5 @@ export default defineConfig({
   base: BASE,
   build: { format: 'directory' },
   // черновые варианты главной в карту сайта не попадают
-  integrations: [sitemap({ filter: (page) => !page.includes('/variant-') })],
+  integrations: [sitemap({ filter: (page) => !/\/(variant-|spasibo|politika)/.test(page) })],
 });

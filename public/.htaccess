@@ -2,8 +2,10 @@
 # Файл лежит в public/ — Astro копирует его в корень сборки, rsync кладёт в public_html.
 RewriteEngine On
 
-# http → https, www → без www — одним 301-переходом
-RewriteCond %{HTTPS} off [OR]
+# http → https, www → без www — одним 301-переходом.
+# HTTPS принимает фронт SprintHost, до Apache запрос доходит как http — поэтому %{HTTPS}
+# всегда off (давало бесконечный редирект); протокол смотрим в X-Forwarded-Proto.
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^ https://kancler-fin.ru%{REQUEST_URI} [L,R=301]
 

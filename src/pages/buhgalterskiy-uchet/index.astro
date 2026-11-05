@@ -206,7 +206,7 @@ const related = cases.filter((c) => c.slug === 'vozvrat-46-mln');
   }
   .checks__ico { display: block; width: 34px; color: var(--c-heading); }  /* знаки вместо галочек, синие (№179) */
   .res-note { max-width: 1200px; margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-size: var(--fs-lead); line-height: 1.45; }
-  .res-note .mlink { font-size: inherit; margin-left: 6px; white-space: nowrap; }  /* текст и ссылка одного размера (№288) */
+  .res-note .mlink { font-size: inherit; white-space: nowrap; }  /* без отступа слева — при переносе на телефоне ссылка встаёт ровно по краю (№297) */  /* текст и ссылка одного размера (№288) */
   .scope__ico { display: block; width: 30px; margin-bottom: 6px; color: var(--c-heading); --icon-bg: var(--card-bg); }
 
   /* тарифы: карточки одного вида — название, цена, «для кого», объём (№68) */

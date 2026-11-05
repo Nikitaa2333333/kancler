@@ -1,0 +1,66 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { company } from '../../data/company';
+import { typo } from '../../lib/typo';
+import { u } from '../../lib/url';
+
+/* №312: страница после отправки заявки. Адрес /spasibo/ — цель «посещение страницы» в Метрике
+   (и цель-событие lead из формы). Закрыта от индексации. */
+---
+
+<Base title="Заявка отправлена — Канцлер" description="Спасибо! Заявка отправлена, мы свяжемся с вами." noindex>
+  <Header />
+  <main>
+    <section class="ty" aria-labelledby="ty-title">
+      <div class="ty__frame">
+        <span class="ty__mark" aria-hidden="true">
+          <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" /><path d="M15 27l7.5 7.5L38 19" /></svg>
+        </span>
+        <h1 id="ty-title" data-name>{typo('Заявка отправлена')}</h1>
+        <p class="ty__lead">{typo(`Спасибо! Мы получили вашу заявку и свяжемся с вами в рабочее время — ${company.hours}.`)}</p>
+        {company.phone && (
+          <p class="ty__phone">{typo('Если вопрос срочный — позвоните:')} <a href={`tel:${company.phoneHref}`}>{company.phone}</a></p>
+        )}
+        <div class="ty__actions">
+          <a class="btn" href={u('/')}>На главную</a>
+          <a class="btn btn--light" href={u('/keysy/')}>Смотреть кейсы</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  /* обращение по имени, если человек его указал */
+  try {
+    const n = sessionStorage.getItem('lead-name');
+    const h = document.querySelector('[data-name]');
+    if (n && h) h.textContent = `${n}, заявка отправлена`;
+  } catch {}
+</script>
+
+<style>
+  .ty { padding: calc(var(--hdr-h) + 4px) var(--hero-frame) 0; }
+  .ty__frame {
+    display: grid; justify-items: center; gap: clamp(14px, 1.8vw, 22px);
+    min-height: min(72vh, 640px); align-content: center; text-align: center;
+    padding: clamp(48px, 7vw, 96px) var(--gutter); border-radius: var(--r-lg); background: var(--c-night); color: var(--c-white);
+  }
+  .ty h1 { color: var(--c-white); font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); max-width: 18ch; }
+  .ty__lead { max-width: 46ch; font-size: var(--fs-h5); line-height: 1.45; }
+  .ty__phone { font-size: var(--fs-lead); }
+  .ty__phone a { font-family: var(--ff-display); font-weight: 700; white-space: nowrap; }
+  .ty__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+  .ty .btn { background: var(--c-white); color: var(--c-ink); }
+  .ty .btn--light { background: transparent; color: var(--c-white); box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.6); }
+  .ty__mark { width: clamp(64px, 7vw, 84px); }
+  .ty__mark svg { width: 100%; fill: none; stroke: var(--c-white); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .ty__mark circle { stroke-dasharray: 151; stroke-dashoffset: 151; animation: ty-draw .7s ease forwards; }
+  .ty__mark path { stroke-dasharray: 36; stroke-dashoffset: 36; animation: ty-draw .4s ease .55s forwards; }
+  @keyframes ty-draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .ty__mark circle, .ty__mark path { animation: none; stroke-dashoffset: 0; } }
+  @media (max-width: 560px) { .ty__actions, .ty__actions .btn { width: 100%; } }
+</style>

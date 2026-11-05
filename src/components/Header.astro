@@ -170,8 +170,9 @@ import { u } from '../lib/url';
     .hdr__nav { display: none; }
     .hdr__right { margin-left: auto; }
     .hdr__burger { display: block; }
-    .hdr__phone { margin-right: 4px; font-size: 15px; }
+    .hdr__phone { margin-right: 14px; font-size: 15px; }  /* воздух до кнопки меню (№305) */
   }
-  @media (max-width: 400px) { .hdr__phone { font-size: 14px; margin-right: 0; } .hdr__right { gap: 4px; } }
+  @media (max-width: 400px) { .hdr__phone { font-size: 14px; margin-right: 12px; } .hdr__right { gap: 4px; } }
+  @media (max-width: 350px) { .hdr__logo { font-size: 18px; } .hdr__phone { font-size: 13px; margin-right: 8px; } .hdr__bar { gap: 12px; } }
   @media (max-width: 560px) { .hdr__cta { display: none; } }
 </style>

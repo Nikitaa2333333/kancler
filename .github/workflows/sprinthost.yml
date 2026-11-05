@@ -1,0 +1,45 @@
+# Боевая выкладка на SprintHost: https://kancler-fin.ru (скилл sprinthost-deploy, 05.11.2026).
+# Каждый пуш в main собирает сайт с корня домена (PUBLIC_BASE не задан) и rsync'ом
+# кладёт dist/ в public_html. --delete убирает с хостинга файлы, которых нет в сборке.
+# Метрика и индексация — через переменные репозитория (Settings → Variables), без правки файла.
+name: Выкладка на SprintHost
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: sprinthost
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Сборка
+        run: npm run build
+        env:
+          PUBLIC_SITE: https://kancler-fin.ru
+          PUBLIC_INDEXING: ${{ vars.PUBLIC_INDEXING || 'false' }}
+          PUBLIC_METRIKA_ID: ${{ vars.PUBLIC_METRIKA_ID }}
+          PUBLIC_LEAD_ENDPOINT: ${{ vars.PUBLIC_LEAD_ENDPOINT }}
+      - name: Ключ SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Выкладка на SprintHost
+        env:
+          HOST: ${{ secrets.SSH_HOST }}
+          USER: ${{ secrets.SSH_USER }}
+          PORT: ${{ secrets.SSH_PORT || '22' }}
+          TARGET: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
+          rsync -az --delete -e "ssh -p $PORT" dist/ "$USER@$HOST:$TARGET"

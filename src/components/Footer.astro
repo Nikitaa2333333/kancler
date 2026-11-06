@@ -54,7 +54,10 @@ const more = nav.filter((n) => !services.includes(n));
           {company.inn && <span> · ИНН {company.inn}</span>}
           {company.ogrn && <span> · ОГРН {company.ogrn}</span>}
         </p>
-        <a href={u('/politika/')}>Политика конфиденциальности</a>
+        <span class="ftr__legal">
+          <a href={u('/politika/')}>Политика конфиденциальности</a>
+          <a href={u('/soglasie/')}>Согласие на обработку данных</a>
+        </span>
       </div>
     </div>
     <p class="ftr__word" aria-hidden="true">{company.name}</p>
@@ -95,6 +98,7 @@ const more = nav.filter((n) => !services.includes(n));
     border-top: 1px solid rgb(255 255 255 / 0.2);
     font-size: var(--fs-small); opacity: 0.8;
   }
+  .ftr__legal { display: flex; flex-wrap: wrap; gap: 8px 24px; }
   .ftr__word {
     margin: clamp(8px, 2vw, 24px) 0 clamp(-24px, -2.4vw, -8px);
     font-family: var(--ff-display); font-weight: var(--w-display);

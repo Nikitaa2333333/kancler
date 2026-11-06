@@ -44,7 +44,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
       <label class="req__consent">
         <input type="checkbox" name="consent" required aria-describedby="req-err-consent" />
         <!-- ссылка на политику — обязательна по 152-ФЗ, поэтому внутри фразы (исключение из правила №93) -->
-        <span>{typo('Согласен на ')}<a class="req__pol" href={u('/politika/')} target="_blank" rel="noopener" data-design-ok>{typo('обработку персональных данных')}</a></span>
+        <span>{typo('Согласен на ')}<a class="req__pol" href={u('/soglasie/')} target="_blank" rel="noopener" data-design-ok>{typo('обработку персональных данных')}</a></span>
         <span class="req__err" id="req-err-consent" data-err="consent"></span>
       </label>
       {(company.telegram || company.whatsapp) && (

@@ -7,24 +7,24 @@ import { typo } from '../../lib/typo';
 <!-- №224: подписи внизу карточек (списки, гарантия, мессенджеры) сняты — были разные по виду.
      На компьютере — шахматка 3×2 (№172: стрелки прокрутки были неочевидны); на телефоне —
      лента с листанием вбок. Плашка основателя снята (№170: компания — команда, не личный бренд). -->
-<section class="sec sec--block sec--white adv" id="preimushchestva" aria-labelledby="adv-title">
+<section class="sec sec--block sec--white why" id="preimushchestva" aria-labelledby="why-title">
   <div class="wrap">
-    <div class="adv__head">
-      <div class="adv__title">
-        <h2 id="adv-title">{typo(advantages.title)}</h2>
-        <p class="adv__lead">{typo(advantages.lead)}</p>
+    <div class="why__head">
+      <div class="why__title">
+        <h2 id="why-title">{typo(advantages.title)}</h2>
+        <p class="why__lead">{typo(advantages.lead)}</p>
       </div>
-      <div class="adv__nav">
-        <button class="adv__arrow" type="button" data-dir="-1" aria-label="Назад">←</button>
-        <button class="adv__arrow" type="button" data-dir="1" aria-label="Вперёд">→</button>
+      <div class="why__nav">
+        <button class="why__arrow" type="button" data-dir="-1" aria-label="Назад">←</button>
+        <button class="why__arrow" type="button" data-dir="1" aria-label="Вперёд">→</button>
       </div>
     </div>
 
-    <ul class="adv__track" data-track>
+    <ul class="why__track" data-track>
       {advantages.items.map((it) => (
         <li>
           <h3>{typo(it.title)}</h3>
-          <p class="adv__text">{typo(it.text)}</p>
+          <p class="why__text">{typo(it.text)}</p>
         </li>
       ))}
     </ul>
@@ -33,7 +33,7 @@ import { typo } from '../../lib/typo';
 
 <script>
   const track = document.querySelector<HTMLElement>('[data-track]');
-  document.querySelectorAll<HTMLButtonElement>('.adv__arrow').forEach((b) =>
+  document.querySelectorAll<HTMLButtonElement>('.why__arrow').forEach((b) =>
     b.addEventListener('click', () => {
       if (!track) return;
       const card = track.firstElementChild as HTMLElement | null;
@@ -44,17 +44,17 @@ import { typo } from '../../lib/typo';
 </script>
 
 <style>
-  .adv__head {
+  .why__head {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--head-gap);
     margin-bottom: var(--head-gap);
   }
-  .adv__title { display: grid; gap: 16px; }
-  .adv__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: 1.45; }
-  .adv__nav { display: flex; gap: 8px; flex: none; }
-  .adv__arrow {
+  .why__title { display: grid; gap: 16px; }
+  .why__lead { max-width: var(--measure-lead); font-size: var(--fs-lead); line-height: 1.45; }
+  .why__nav { display: flex; gap: 8px; flex: none; }
+  .why__arrow {
     width: 48px;
     height: 48px;
     border: 0;
@@ -65,11 +65,11 @@ import { typo } from '../../lib/typo';
     cursor: pointer;
     transition: background-color .2s, color .2s;
   }
-  .adv__arrow:hover { background: var(--c-ink); color: var(--c-white); }
+  .why__arrow:hover { background: var(--c-ink); color: var(--c-white); }
 
   /* лента уходит за край экрана, а не обрезается полями блока (правка №8, 28.10):
      растягиваем на всю ширину окна, а отступ слева/справа возвращаем паддингом */
-  .adv__track {
+  .why__track {
     display: flex;
     gap: var(--card-gap);
     overflow-x: auto;
@@ -84,8 +84,8 @@ import { typo } from '../../lib/typo';
     padding-bottom: 8px;
     scrollbar-width: none;
   }
-  .adv__track::-webkit-scrollbar { display: none; }
-  .adv__track > li {
+  .why__track::-webkit-scrollbar { display: none; }
+  .why__track > li {
     flex: 0 0 clamp(310px, 30vw, 400px);
     min-height: clamp(380px, 32vw, 440px);  /* крупнее (№126), компактнее внутри (№139) */  /* карточки вытянуты в высоту, крупнее (правка №54); на телефоне — по содержимому */
     scroll-snap-align: start;
@@ -96,16 +96,16 @@ import { typo } from '../../lib/typo';
     border-radius: var(--r-lg);
     background: var(--card-bg, var(--c-white-card));
   }
-  .adv__track h3 { font-size: clamp(22px, 1.95vw, 26px); font-weight: var(--w-display-sm); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
-  .adv__text { font-size: var(--fs-lead); line-height: 1.4; }
+  .why__track h3 { font-size: clamp(22px, 1.95vw, 26px); font-weight: var(--w-display-sm); line-height: var(--lh-h3); letter-spacing: var(--tr-h3); }
+  .why__text { font-size: var(--fs-lead); line-height: 1.4; }
   /* шахматка: каждая вторая карточка синяя (№172) */
-  .adv__track > li:nth-child(even) { background: var(--c-primary); color: var(--c-white); }
-  .adv__track > li:nth-child(even) h3 { color: var(--c-white); }
+  .why__track > li:nth-child(even) { background: var(--c-primary); color: var(--c-white); }
+  .why__track > li:nth-child(even) h3 { color: var(--c-white); }
   @media (min-width: 761px) {
-    .adv__nav { display: none; }
-    .adv__track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding: 0; }
-    .adv__track > li { min-height: clamp(180px, 15vw, 220px); }
+    .why__nav { display: none; }
+    .why__track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding: 0; }
+    .why__track > li { min-height: clamp(180px, 15vw, 220px); }
   }
-  @media (max-width: 760px) { .adv__nav { display: none; } .adv__head { display: block; } .adv__track > li { min-height: 0; } }  /* низ карточки прижат к низу и на телефоне (№97) */
-  @media (max-width: 760px) { .adv__track, .scope { --pad: var(--hero-frame); } }
+  @media (max-width: 760px) { .why__nav { display: none; } .why__head { display: block; } .why__track > li { min-height: 0; } }  /* низ карточки прижат к низу и на телефоне (№97) */
+  @media (max-width: 760px) { .why__track, .scope { --pad: var(--hero-frame); } }
 </style>

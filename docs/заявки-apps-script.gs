@@ -18,7 +18,7 @@
  *     → Deploy → скопировать адрес, оканчивающийся на /exec, и прислать разработчику.
  *  После любой правки кода: Deploy → Manage deployments → карандаш → Version: New version.
  *
- * Сайт шлёт JSON: { name, phone, comment, topic, page }.
+ * Сайт шлёт JSON: { name, phone, email, comment, topic, page } (email — по желанию, с 06.11.2026).
  */
 
 function doPost(e) {
@@ -32,6 +32,7 @@ function doPost(e) {
 function leadText(d) {
   return 'Имя: ' + (d.name || '') + '\n' +
     'Телефон: ' + (d.phone || '') + '\n' +
+    (d.email ? 'Почта: ' + d.email + '\n' : '') +
     (d.comment ? 'Комментарий: ' + d.comment + '\n' : '') +
     'Форма: ' + (d.topic || '') + '\n' +
     'Страница: ' + (d.page || '');
@@ -71,11 +72,12 @@ function notifyTelegram(d) {
 
 function appendRow(d) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-  if (sheet.getLastRow() === 0) sheet.appendRow(['Дата', 'Имя', 'Телефон', 'Комментарий', 'Форма', 'Страница']);
+  if (sheet.getLastRow() === 0) sheet.appendRow(['Дата', 'Имя', 'Телефон', 'Почта', 'Комментарий', 'Форма', 'Страница']);
   sheet.appendRow([
     new Date(),
     d.name || '',
     "'" + (d.phone || ''),   // апостроф — чтобы «+7…» не стал формулой/числом
+    d.email || '',
     d.comment || '',
     d.topic || '',
     d.page || ''

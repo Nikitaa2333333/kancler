@@ -34,6 +34,12 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
         <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required aria-describedby="req-err-phone" />
         <span class="req__err" id="req-err-phone" data-err="phone"></span>
       </label>
+      <!-- почта — по желанию: она указана в согласии клиента (06.11.2026), обязательным остаётся телефон -->
+      <label class="req__field">
+        <span class="sr-only">Электронная почта</span>
+        <input type="email" name="email" autocomplete="email" inputmode="email" placeholder="Почта (по желанию)" aria-describedby="req-err-email" />
+        <span class="req__err" id="req-err-email" data-err="email"></span>
+      </label>
       <label class="req__field">
         <span class="sr-only">{request.fields.comment}</span>
         <textarea name="comment" rows="3" placeholder="Коротко о задаче"></textarea>
@@ -67,6 +73,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
     const nameEl = form.elements.namedItem('name') as HTMLInputElement;
     const phoneEl = form.elements.namedItem('phone') as HTMLInputElement;
     const consentEl = form.elements.namedItem('consent') as HTMLInputElement;
+    const emailEl = form.elements.namedItem('email') as HTMLInputElement;
 
     /* №306: маска телефона +7 (999) 123-45-67 — как на сайте КТМ, без выбора страны.
        Понимает ввод, вставку и автозаполнение («8 916…», «+7 916…», «916…»), держит курсор
@@ -122,6 +129,10 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
         if (d.length < 10) return 'Введите номер телефона полностью';
         return '';
       }],
+      [emailEl, 'email', () => {
+        const v = emailEl.value.trim();
+        return v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? 'Проверьте адрес почты' : '';
+      }],
       [consentEl, 'consent', () => (consentEl.checked ? '' : 'Без согласия мы не сможем обработать заявку')],
     ];
     const check = (el: HTMLInputElement, key: string, fn: () => string) => {
@@ -170,7 +181,7 @@ const endpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT || '';
         await fetch(endpoint, {
           method: 'POST', mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ name: nameEl.value.trim(), phone: phoneEl.value, comment: String(data.get('comment') || '').trim(), topic: String(data.get('topic') || ''), page: location.href }),
+          body: JSON.stringify({ name: nameEl.value.trim(), phone: phoneEl.value, email: emailEl.value.trim(), comment: String(data.get('comment') || '').trim(), topic: String(data.get('topic') || ''), page: location.href }),
         });
         /* №312: после отправки — отдельная страница «Спасибо» (цель Метрики по адресу /spasibo/) */
         try { sessionStorage.setItem('lead-name', nameEl.value.trim()); } catch {}

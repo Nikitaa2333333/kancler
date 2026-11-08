@@ -84,6 +84,21 @@ function appendRow(d) {
   ]);
 }
 
+/** Узнать id чата: добавить бота в группу, написать в группе любое сообщение,
+ *  запустить эту функцию — id групп и личных чатов появятся в «Журнале выполнения».
+ *  У группы id отрицательный (-100…), его целиком — в TELEGRAM_CHAT_IDS. */
+function findChatIds() {
+  var token = PropertiesService.getScriptProperties().getProperty('TELEGRAM_BOT_TOKEN');
+  if (!token) { console.log('Сначала добавьте свойство TELEGRAM_BOT_TOKEN'); return; }
+  var res = JSON.parse(UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/getUpdates', { muteHttpExceptions: true }).getContentText());
+  var seen = {};
+  (res.result || []).forEach(function (u) {
+    var m = u.message || u.my_chat_member || u.channel_post;
+    if (m && m.chat && !seen[m.chat.id]) { seen[m.chat.id] = 1; console.log(m.chat.id + '  —  ' + (m.chat.title || m.chat.first_name || '')); }
+  });
+  if (!Object.keys(seen).length) console.log('Пусто: напишите сообщение в группе с ботом и запустите ещё раз. ' + (res.description || ''));
+}
+
 /** Запустить один раз кнопкой «Выполнить»: выдаёт разрешения и шлёт проверочное письмо/сообщение. */
 function authorize() {
   var test = { name: 'Проверка связи', phone: '—', topic: 'authorize()', page: '' };

@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import PageHero from '../../components/page/PageHero.astro';
 import Crumbs from '../../components/page/Crumbs.astro';
 import Request from '../../components/sections/Request.astro';
+import MaxIcon from '../../components/MaxIcon.astro';
 import { company } from '../../data/company';
 
 ---
@@ -12,6 +13,7 @@ import { company } from '../../data/company';
 <Base
   title="Контакты — Канцлер, бухгалтерский и управленческий учёт для строительных компаний"
   description={`Контакты «Канцлера»: ${company.leadEmail}, ${company.hours}. ${company.region}, работаем дистанционно.`}
+  writeUs={false}
 >
   <Header />
   <main>
@@ -19,8 +21,43 @@ import { company } from '../../data/company';
       title="Контакты"
       lead={`${company.remote}. ${company.region}, ${company.hours}.`}
     />
+    {/* Макс — блоком на странице вместо плавающей кнопки (10.11.2026, пользователь) */}
+    {company.max && (
+      <section class="sec mx" aria-labelledby="mx-title">
+        <div class="wrap mx__row">
+          <span class="mx__mark"><MaxIcon /></span>
+          <h2 id="mx-title" class="mx__title">Напишите нам в&nbsp;Максе</h2>
+          <a class="btn mx__btn" href={company.max} target="_blank" rel="noopener">Написать в&nbsp;Максе</a>
+        </div>
+      </section>
+    )}
     <Request topic="Контакты" />
   </main>
   <Crumbs items={[{ label: 'Контакты' }]} />
   <Footer />
 </Base>
+
+<style>
+  .mx__row { display: flex; align-items: center; gap: clamp(16px, 2vw, 24px); }
+  .mx__mark {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    background: var(--c-primary);
+    color: var(--c-white);
+  }
+  .mx__mark :global(svg) { width: 34px; height: 34px; }
+  .mx__title { margin: 0; }
+  .mx__btn { margin-left: auto; }
+  @media (max-width: 640px) {
+    .mx__row { flex-wrap: wrap; }
+    .mx__mark { width: 52px; height: 52px; }
+    .mx__mark :global(svg) { width: 28px; height: 28px; }
+    .mx__title { flex: 1; }
+    .mx__btn { width: 100%; margin-left: 0; }
+  }
+</style>

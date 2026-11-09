@@ -15,8 +15,10 @@ interface Props {
   noindex?: boolean;
   /* класс темы на <body>: страница-вариант подключает свой файл темы и ставит его класс */
   theme?: string;
+  /* плавающая кнопка «Написать нам»; на «Контактах» выключена — там свой блок Макса */
+  writeUs?: boolean;
 }
-const { title, description, noindex = false, theme } = Astro.props;
+const { title, description, noindex = false, theme, writeUs = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const metrika = import.meta.env.PUBLIC_METRIKA_ID;
 /* schema.org: организация на каждой странице (05.11.2026). Из company.ts; пустые поля не выводим. */
@@ -78,7 +80,7 @@ const org = {
   <body class={theme}>
     {metrika && <noscript><div><img src={`https://mc.yandex.ru/watch/${metrika}`} style="position:absolute; left:-9999px;" alt="" /></div></noscript>}
     <slot />
-    <WriteUs />
+    {writeUs && <WriteUs />}
     <CookieNotice />
     <script>
       // .sec--stack: блок прилипает, только когда показан до конца (высокий не прячется)

@@ -25,9 +25,10 @@ import { company } from '../../data/company';
     {company.max && (
       <section class="sec mx" aria-labelledby="mx-title">
         <div class="wrap mx__row">
-          <span class="mx__mark"><MaxIcon /></span>
           <h2 id="mx-title" class="mx__title">Напишите нам в&nbsp;Максе</h2>
-          <a class="btn mx__btn" href={company.max} target="_blank" rel="noopener">Написать в&nbsp;Максе</a>
+          <a class="btn mx__btn" href={company.max} target="_blank" rel="noopener">
+            <span class="mx__ic"><MaxIcon /></span>Написать в&nbsp;Максе
+          </a>
         </div>
       </section>
     )}
@@ -38,26 +39,24 @@ import { company } from '../../data/company';
 </Base>
 
 <style>
-  .mx__row { display: flex; align-items: center; gap: clamp(16px, 2vw, 24px); }
-  .mx__mark {
+  .mx__row { display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; }
+  .mx__title { margin: 0; }
+  .mx__btn { gap: 12px; padding-left: 8px; }
+  .mx__ic {
     flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 64px;
-    height: 64px;
+    width: 40px;
+    height: 40px;
     border-radius: 999px;
-    background: var(--c-primary);
-    color: var(--c-white);
+    background: var(--c-white);
+    color: var(--c-primary);
   }
-  .mx__mark :global(svg) { width: 34px; height: 34px; }
-  .mx__title { margin: 0; }
-  .mx__btn { margin-left: auto; }
+  .mx__ic :global(svg) { width: 22px; height: 22px; }
   @media (max-width: 640px) {
-    .mx__row { flex-wrap: wrap; }
-    .mx__mark { width: 52px; height: 52px; }
-    .mx__mark :global(svg) { width: 28px; height: 28px; }
-    .mx__title { flex: 1; }
-    .mx__btn { width: 100%; margin-left: 0; }
+    .mx__row { flex-direction: column; align-items: stretch; }
+    /* кнопка по краям плашек (6 px от экрана), а не во всю ширину */
+    .mx__row .mx__btn { width: calc(100% + 2 * var(--gutter) - 2 * var(--hero-frame)); margin-inline: calc(var(--hero-frame) - var(--gutter)); }
   }
 </style>

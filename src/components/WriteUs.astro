@@ -78,11 +78,11 @@ import MaxIcon from './MaxIcon.astro';
     background: var(--c-white);
     color: var(--c-primary);
   }
-  .wu__ic svg { width: 24px; height: 24px; }
+  .wu__ic :global(svg) { width: 24px; height: 24px; }
   @media (max-width: 640px) {
     .wu { right: 16px; min-height: 52px; padding: 6px 6px 6px 18px; gap: 10px; font-size: 15px; }
     .wu__ic { width: 40px; height: 40px; }
-    .wu__ic svg { width: 22px; height: 22px; }
+    .wu__ic :global(svg) { width: 22px; height: 22px; }
   }
   /* «уменьшить движение» в системе — без сдвига, только проявление */
   @media (prefers-reduced-motion: reduce) {

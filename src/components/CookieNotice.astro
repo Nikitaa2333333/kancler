@@ -23,10 +23,16 @@ import { typo } from '../lib/typo';
   };
   if (box && !seen()) {
     box.hidden = false;
+    // высота полосы — для плавающей кнопки «Написать нам», чтобы встала над полосой
+    const root = document.documentElement;
+    const setH = () => root.style.setProperty('--cc-h', box.hidden ? '0px' : `${box.offsetHeight}px`);
+    setH();
+    addEventListener('resize', setH);
     requestAnimationFrame(() => box.classList.add('is-on'));
     box.querySelector('[data-cc-ok]')?.addEventListener('click', () => {
       try { localStorage.setItem(KEY, String(Date.now())); } catch {}
       box.classList.remove('is-on');
+      root.style.setProperty('--cc-h', '0px');
       setTimeout(() => { box.hidden = true; }, 300);
     });
   }

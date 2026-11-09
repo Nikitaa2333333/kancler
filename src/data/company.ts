@@ -16,6 +16,7 @@ export const company = {
   phoneHref: '+79164879608',
   telegram: '', // https://t.me/…
   whatsapp: '', // https://wa.me/…
+  max: 'https://max.ru/u/f9LHodD0cOJi22K8Xa3I6SiDiz0i2yIlEQK34ClWYLdpqgrC9pYM0itfkqc', // QR профиля в Максе от клиента (09.11.2026) — кнопка «Написать нам»
 
   /* Реквизиты — карточка «Реквизиты ООО Канцлер.docx» и согласие от клиента (06.11.2026) */
   legalName: 'ООО «Канцлер»',

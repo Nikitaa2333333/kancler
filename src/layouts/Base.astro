@@ -1,5 +1,6 @@
 ---
 import CookieNotice from '../components/CookieNotice.astro';
+import WriteUs from '../components/WriteUs.astro';
 import '@fontsource-variable/lora';
 import '@fontsource-variable/manrope';
 import '../styles/global.css';
@@ -77,6 +78,7 @@ const org = {
   <body class={theme}>
     {metrika && <noscript><div><img src={`https://mc.yandex.ru/watch/${metrika}`} style="position:absolute; left:-9999px;" alt="" /></div></noscript>}
     <slot />
+    <WriteUs />
     <CookieNotice />
     <script>
       // .sec--stack: блок прилипает, только когда показан до конца (высокий не прячется)
